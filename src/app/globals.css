@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --page-bg: #FAF8F5;
+  --page-alt: #F2EDE6;
+  --card-bg: #FFFFFF;
+  --card-border: #E8E2DB;
+  --amber: #D97706;
+  --amber-light: rgba(217,119,6,0.1);
+  --amber-border: rgba(217,119,6,0.2);
+  --text-primary: #1C1A18;
+  --text-secondary: #6B6560;
+  --text-muted: #9C9590;
+  --footer-bg: #18140F;
+  --dark-section: #1C1A18;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page-bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ── Utility classes ───────────────────────────────────── */
+
+.card-base {
+  background: #FFFFFF;
+  border: 1px solid #E8E2DB;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(28,26,24,0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card-base:hover {
+  border-color: rgba(217,119,6,0.3);
+  box-shadow: 0 6px 28px rgba(28,26,24,0.10);
+}
+
+.amber-icon {
+  background: rgba(217,119,6,0.1);
+  border: 1px solid rgba(217,119,6,0.22);
+  border-radius: 12px;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  background: rgba(217,119,6,0.1);
+  border: 1px solid rgba(217,119,6,0.22);
+  color: #D97706;
+}
+
+.amber-link {
+  color: #D97706; font-weight: 600; font-size: 14px;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: color 0.2s;
+}
+.amber-link:hover { color: #B45309; }
+
+/* Dark overlay sections (page heroes, feature panels) */
+.dark-section { background: #1C1A18; color: #FAF8F5; }
+.dark-dot-pattern {
+  background-image: radial-gradient(rgba(250,248,245,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Animations ────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+.animate-float      { animation: float 4s ease-in-out infinite; }
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F2EDE6; }
+::-webkit-scrollbar-thumb { background: rgba(217,119,6,0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(217,119,6,0.5); }

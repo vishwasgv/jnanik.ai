@@ -1,0 +1,33 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Teal circle (matches original brand colour, muted for premium feel) -->
+  <circle cx="24" cy="24" r="23" fill="#0F766E"/>
+
+  <!-- Brain silhouette: two-lobe top, smooth sides, flat base -->
+  <path d="
+    M 24 37
+    C 18 37 12 34 10 28
+    C 8 23 9 18 12 15
+    C 13 12 16 10 18 10
+    C 17 8 15 5 18 4
+    C 20 3 23 5 24 8
+    C 25 5 28 3 30 4
+    C 33 5 31 8 30 10
+    C 32 10 35 12 36 15
+    C 39 18 40 23 38 28
+    C 36 34 30 37 24 37 Z
+  " fill="white"/>
+
+  <!-- Longitudinal fissure (centre divide) -->
+  <path d="M 24 8 L 24 37" stroke="#0F766E" stroke-width="0.9" stroke-opacity="0.4" fill="none"/>
+
+  <!-- Left hemisphere gyri (fold lines) -->
+  <path d="M 13 19 C 15 17 18 18 18 22" stroke="#0F766E" stroke-width="0.9" stroke-opacity="0.35" fill="none" stroke-linecap="round"/>
+  <path d="M 12 27 C 14 25 17 26 17 30" stroke="#0F766E" stroke-width="0.9" stroke-opacity="0.35" fill="none" stroke-linecap="round"/>
+
+  <!-- Right hemisphere gyri (mirrored) -->
+  <path d="M 35 19 C 33 17 30 18 30 22" stroke="#0F766E" stroke-width="0.9" stroke-opacity="0.35" fill="none" stroke-linecap="round"/>
+  <path d="M 36 27 C 34 25 31 26 31 30" stroke="#0F766E" stroke-width="0.9" stroke-opacity="0.35" fill="none" stroke-linecap="round"/>
+
+  <!-- Amber neural node — the single accent, centre of intelligence -->
+  <circle cx="24" cy="23" r="2.5" fill="#D97706"/>
+</svg>
