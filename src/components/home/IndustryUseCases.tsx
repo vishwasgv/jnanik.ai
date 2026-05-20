@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 const cases = [
   {
@@ -64,35 +62,35 @@ const cases = [
 
 export default function IndustryUseCases() {
   return (
-    <section className="py-32" style={{ background: "#FAF8F5" }}>
+    <section className="py-20 sm:py-32" style={{ background: "#070F1D" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="border-t mb-20" style={{ borderColor: "#E8E2DB" }} />
+        <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-12 sm:mb-16"
         >
-          <div className="section-label mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+          <div className="section-label mb-5 sm:mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
             Industries We Serve
           </div>
           <h2
             className="font-serif font-bold leading-tight"
-            style={{ fontSize: "clamp(2rem,4vw,3.25rem)", color: "#1C1A18" }}
+            style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "#EEF2FF" }}
           >
             Real outcomes across<br />real industries.
           </h2>
-          <p className="text-lg mt-4 max-w-2xl" style={{ color: "#6B6560" }}>
+          <p className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "#94A3B8" }}>
             We work where complexity is high, margins matter, and generic AI tools fall short.
           </p>
         </motion.div>
 
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-          style={{ gridAutoRows: "270px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+          style={{ gridAutoRows: "260px" }}
         >
           {cases.map((c, i) => (
             <motion.div
@@ -102,26 +100,26 @@ export default function IndustryUseCases() {
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: i * 0.07 }}
               className={`group relative overflow-hidden rounded-2xl ${c.span}`}
-              style={{ minHeight: c.tall ? "550px" : "270px" }}
+              style={{ minHeight: c.tall ? "530px" : "260px" }}
             >
               <Image
                 src={c.image} alt={c.title} fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
               />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(28,26,24,0.97) 0%, rgba(28,26,24,0.5) 50%, rgba(28,26,24,0.1) 100%)" }} />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "rgba(217,119,6,0.07)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,15,29,0.97) 0%, rgba(7,15,29,0.55) 50%, rgba(7,15,29,0.12) 100%)" }} />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "rgba(59,130,246,0.07)" }} />
 
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5" style={{ color: "#FCD34D" }}>{c.sub}</p>
-                <h3 className="font-extrabold text-xl mb-1.5" style={{ color: "#FAF8F5" }}>{c.title}</h3>
-                <p className="text-xs leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-500" style={{ color: "#D1C9C0" }}>
+              <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5" style={{ color: "#60A5FA" }}>{c.sub}</p>
+                <h3 className="font-extrabold text-lg sm:text-xl mb-1.5" style={{ color: "#EEF2FF" }}>{c.title}</h3>
+                <p className="text-xs leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-500" style={{ color: "#94A3B8" }}>
                   {c.desc}
                 </p>
                 <div className="flex gap-2 flex-wrap">
                   {c.metrics.map((m) => (
                     <span key={m} className="px-2.5 py-1 text-[10px] font-bold rounded-full"
-                      style={{ background: "rgba(217,119,6,0.22)", border: "1px solid rgba(217,119,6,0.35)", color: "#FAF8F5" }}>
+                      style={{ background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}>
                       {m}
                     </span>
                   ))}
@@ -130,17 +128,6 @@ export default function IndustryUseCases() {
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-12 text-center"
-        >
-          <Link href="/services"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm transition-all hover:-translate-y-0.5"
-            style={{ background: "#FFFFFF", border: "1.5px solid #E8E2DB", color: "#1C1A18", boxShadow: "0 2px 12px rgba(28,26,24,0.07)" }}>
-            See All Services <ArrowRight size={15} />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

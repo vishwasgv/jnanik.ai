@@ -2,94 +2,104 @@
 
 import { motion } from "framer-motion";
 import { Cpu, Shield, Award, Unlock, TrendingDown, Layers } from "lucide-react";
-import Image from "next/image";
 
 const features = [
-  { icon: Cpu,        title: "Built for your domain, not everyone's", desc: "We don't adapt templates. Every system is designed around your actual data, workflows, and constraints." },
-  { icon: Shield,     title: "Your data never leaves your control",    desc: "On-prem and VPC-isolated deployments — with full data sovereignty and complete audit trails." },
-  { icon: Award,      title: "Engineering, not just consulting",       desc: "We build and deliver working systems. Our ex-AWS and ex-Bosch engineers have shipped production AI at scale." },
-  { icon: Unlock,     title: "No lock-in, no black boxes",             desc: "Open-source foundations, transparent architectures, portable across clouds and infrastructure." },
-  { icon: TrendingDown, title: "AI that's cost-efficient to operate", desc: "SLM-first architecture means you don't pay cloud-LLM prices at scale. We design for sustainable unit economics." },
-  { icon: Layers,     title: "Grows with your organisation",           desc: "From a single use case to enterprise-wide deployment. Built to scale from the start." },
+  { icon: Cpu,         title: "Built for your domain, not everyone's", desc: "We don't adapt templates. Every system is designed around your actual data, workflows, and constraints." },
+  { icon: Shield,      title: "Your data never leaves your control",    desc: "On-prem and VPC-isolated deployments — with full data sovereignty and complete audit trails." },
+  { icon: Award,       title: "Engineering, not just consulting",       desc: "We build and deliver working systems. Our ex-AWS and ex-Bosch engineers have shipped production AI at scale." },
+  { icon: Unlock,      title: "No lock-in, no black boxes",             desc: "Open-source foundations, transparent architectures, portable across clouds and infrastructure." },
+  { icon: TrendingDown, title: "AI that's cost-efficient to operate",  desc: "SLM-first architecture means you don't pay cloud-LLM prices at scale. We design for sustainable unit economics." },
+  { icon: Layers,      title: "Grows with your organisation",           desc: "From a single use case to enterprise-wide deployment. Built to scale from the start." },
 ];
 
 const imageStats = [
-  { value: "10×",    label: "Faster answers from institutional knowledge" },
-  { value: "60–80%", label: "Lower AI cost vs. cloud LLM APIs" },
-  { value: "100%",   label: "Data stays on your infrastructure" },
+  { value: "2021", label: "Founded in Bengaluru" },
+  { value: "6",    label: "Core AI services delivered" },
+  { value: "3+",   label: "Industries served" },
 ];
 
 export default function WhyJnanik() {
   return (
-    <section className="py-32" style={{ background: "#F2EDE6" }}>
+    <section className="py-20 sm:py-32" style={{ background: "#0A1629" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="border-t mb-20" style={{ borderColor: "#E8E2DB" }} />
+        <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-12 sm:mb-16"
         >
-          <div className="section-label mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+          <div className="section-label mb-5 sm:mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
             Why Jnanik AI
           </div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
             <h2
               className="font-serif font-bold leading-tight max-w-xl"
-              style={{ fontSize: "clamp(2rem,4vw,3.25rem)", color: "#1C1A18" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "#EEF2FF" }}
             >
               We deliver outcomes,<br />not just implementations.
             </h2>
-            <p className="text-lg max-w-lg" style={{ color: "#6B6560" }}>
+            <p className="text-base sm:text-lg max-w-lg" style={{ color: "#94A3B8" }}>
               Most AI projects fail because they're built on generic tools and hopeful assumptions. We start with your constraints and work backwards to what will actually work.
             </p>
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-6 items-start">
-          {/* Left: image */}
+        <div className="grid lg:grid-cols-5 gap-5 sm:gap-6 items-start">
+          {/* Stats panel */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-2 relative rounded-2xl overflow-hidden"
-            style={{ minHeight: "480px" }}
+            className="lg:col-span-2 rounded-2xl p-7 sm:p-8 flex flex-col justify-between gap-8"
+            style={{
+              background: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(99,102,241,0.07) 100%)",
+              border: "1px solid rgba(59,130,246,0.22)",
+              minHeight: "340px",
+            }}
           >
-            <Image
-              src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=85"
-              alt="Consultants working through a strategy session"
-              fill
-              className="object-cover"
-              sizes="(max-width:1024px) 100vw, 40vw"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(to top, rgba(28,26,24,0.97) 0%, rgba(28,26,24,0.45) 55%, rgba(28,26,24,0.1) 100%)" }}
-            />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#60A5FA" }}>
+                Our track record
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
+                Small team, sharp focus, real production deployments across manufacturing, finance, and professional services.
+              </p>
+            </div>
 
-            <div className="absolute bottom-0 left-0 right-0 p-7 space-y-4">
+            <div className="space-y-5">
               {imageStats.map((s, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                  className="flex items-baseline gap-3"
+                  className="flex items-baseline gap-4"
                 >
-                  <span className="text-2xl font-extrabold shrink-0" style={{ color: "#FCD34D", fontFamily: "var(--font-playfair)" }}>{s.value}</span>
-                  <span className="text-xs leading-tight" style={{ color: "#D1C9C0" }}>{s.label}</span>
+                  <span
+                    className="text-3xl sm:text-4xl font-extrabold shrink-0"
+                    style={{ color: "#60A5FA", fontFamily: "var(--font-playfair)" }}
+                  >
+                    {s.value}
+                  </span>
+                  <span className="text-sm leading-tight" style={{ color: "#94A3B8" }}>{s.label}</span>
                 </motion.div>
               ))}
             </div>
+
+            <div
+              className="h-px w-full"
+              style={{ background: "linear-gradient(to right, #3B82F6, transparent)" }}
+            />
           </motion.div>
 
-          {/* Right: features */}
-          <div className="lg:col-span-3 grid sm:grid-cols-2 gap-4">
+          {/* Features grid */}
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {features.map((f, i) => (
               <motion.div
                 key={i}
@@ -97,14 +107,14 @@ export default function WhyJnanik() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="card-base p-6 flex flex-col gap-4"
+                className="card-base p-5 sm:p-6 flex flex-col gap-4"
               >
-                <div className="amber-icon shrink-0">
-                  <f.icon size={18} style={{ color: "#D97706" }} />
+                <div className="blue-icon shrink-0">
+                  <f.icon size={18} style={{ color: "#60A5FA" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "#1C1A18" }}>{f.title}</h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "#6B6560" }}>{f.desc}</p>
+                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "#EEF2FF" }}>{f.title}</h3>
+                  <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{f.desc}</p>
                 </div>
               </motion.div>
             ))}

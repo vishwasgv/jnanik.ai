@@ -1,100 +1,140 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Calendar } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+const SECTIONS = ["home", "services", "about", "careers", "contact"];
+
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/careers", label: "Careers" },
-  { href: "/contact", label: "Contact" },
+  { id: "home",     label: "Home" },
+  { id: "services", label: "Services" },
+  { id: "about",    label: "About" },
+  { id: "careers",  label: "Careers" },
+  { id: "contact",  label: "Contact" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled,    setScrolled]    = useState(false);
+  const [mobileOpen,  setMobileOpen]  = useState(false);
+  const [activeSection, setActive]    = useState("home");
   const pathname = usePathname();
+  const isHome = pathname === "/";
 
+  /* scroll shadow */
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 16);
+    const handler = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  /* close mobile on route change */
   useEffect(() => { setMobileOpen(false); }, [pathname]);
+
+  /* intersection observer — only wires up when sections exist in DOM */
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    SECTIONS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActive(id); },
+        { rootMargin: "-35% 0px -35% 0px", threshold: 0 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, [pathname]);
+
+  const href = useCallback(
+    (id: string) => (isHome ? `#${id}` : `/#${id}`),
+    [isHome]
+  );
+
+  const isActive = useCallback(
+    (id: string) => isHome ? activeSection === id : false,
+    [isHome, activeSection]
+  );
 
   return (
     <>
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "backdrop-blur-xl border-b shadow-sm"
-            : "bg-transparent"
+          scrolled ? "backdrop-blur-xl border-b" : "bg-transparent"
         )}
-        style={scrolled ? { background: "rgba(250,248,245,0.95)", borderColor: "#E8E2DB" } : {}}
+        style={scrolled
+          ? { background: "rgba(7,15,29,0.92)", borderColor: "rgba(255,255,255,0.08)" }
+          : {}}
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          <a href={href("home")} className="flex items-center gap-2 shrink-0">
             <Image
               src="/logo-ja4-transparent.png"
-              alt="Jnanik AI mark"
-              width={100}
-              height={67}
-              className="object-contain"
+              alt="Jnanik AI"
+              width={80}
+              height={54}
+              className="object-contain w-14 sm:w-20"
               priority
             />
-            <span className="font-serif font-bold text-xl tracking-tight leading-none">
-              <span style={{ color: "#1C1A18" }}>JNANIK</span>
-              <span style={{ color: "#D97706" }}> AI</span>
+            <span className="font-serif font-bold text-lg sm:text-xl tracking-tight leading-none">
+              <span style={{ color: "#EEF2FF" }}>JNANIK</span>
+              <span style={{ color: "#3B82F6" }}> AI</span>
             </span>
-          </Link>
+          </a>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
+              <a
+                key={link.id}
+                href={href(link.id)}
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
-                  pathname === link.href
-                    ? "font-semibold"
-                    : "hover:bg-black/5"
+                  "relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
+                  isActive(link.id) ? "font-semibold" : "hover:bg-white/5"
                 )}
-                style={{
-                  color: pathname === link.href ? "#D97706" : "#6B6560",
-                }}
+                style={{ color: isActive(link.id) ? "#60A5FA" : "#94A3B8" }}
               >
                 {link.label}
-              </Link>
+                {isActive(link.id) && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-lg"
+                    style={{ background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.22)" }}
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </a>
             ))}
           </div>
 
-          {/* CTA */}
+          {/* Desktop CTA */}
           <div className="hidden md:flex items-center">
-            <a
+            <motion.a
+              whileHover={{ scale: 1.04, boxShadow: "0 8px 28px rgba(59,130,246,0.45)" }}
+              whileTap={{ scale: 0.97 }}
               href="https://calendly.com/contact-jnanikai"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:-translate-y-0.5"
-              style={{ background: "#D97706", color: "#FFFFFF", boxShadow: "0 4px 16px rgba(217,119,6,0.28)" }}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold"
+              style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 4px 16px rgba(59,130,246,0.35)" }}
             >
               <Calendar size={14} />
               Book Consultation
-            </a>
+            </motion.a>
           </div>
 
           {/* Mobile hamburger */}
           <button
             className="md:hidden p-2 rounded-lg transition-colors"
-            style={{ color: "#6B6560" }}
+            style={{ color: "#94A3B8" }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -103,39 +143,54 @@ export default function Navbar() {
         </nav>
       </header>
 
-      {/* Mobile menu */}
-      <div className={cn("fixed inset-0 z-40 md:hidden transition-all duration-300", mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")}>
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-        <div
-          className={cn("absolute top-16 left-0 right-0 border-b transition-all duration-300", mobileOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0")}
-          style={{ background: "#FAF8F5", borderColor: "#E8E2DB" }}
-        >
-          <div className="px-4 py-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn("px-4 py-3 rounded-xl text-sm font-medium transition-colors")}
-                style={{ color: pathname === link.href ? "#D97706" : "#6B6560" }}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #E8E2DB" }}>
-              <a
-                href="https://calendly.com/contact-jnanikai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl text-sm font-bold transition-colors"
-                style={{ background: "#D97706", color: "#FFFFFF" }}
-              >
-                <Calendar size={14} />
-                Book Consultation
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 md:hidden bg-black/40 backdrop-blur-sm"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.22 }}
+              className="fixed top-20 sm:top-24 left-0 right-0 z-40 md:hidden border-b"
+              style={{ background: "rgba(7,15,29,0.97)", borderColor: "rgba(255,255,255,0.08)" }}
+            >
+              <div className="px-4 py-5 flex flex-col gap-1 max-w-7xl mx-auto">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.id}
+                    href={href(link.id)}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-4 py-3.5 rounded-xl text-sm font-medium transition-colors"
+                    style={{
+                      color: isActive(link.id) ? "#60A5FA" : "#94A3B8",
+                      background: isActive(link.id) ? "rgba(59,130,246,0.1)" : "transparent",
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+                <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                  <a
+                    href="https://calendly.com/contact-jnanikai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl text-sm font-bold"
+                    style={{ background: "#3B82F6", color: "#fff" }}
+                  >
+                    <Calendar size={14} />
+                    Book a Consultation
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -2,12 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Calendar, ArrowRight, BookOpen, Shield, Zap } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 
 const metrics = [
-  { icon: BookOpen, value: "10×", label: "Faster knowledge retrieval" },
-  { icon: Shield,   value: "100%", label: "On-prem deployable" },
+  { icon: BookOpen, value: "10×",    label: "Faster knowledge retrieval" },
+  { icon: Shield,   value: "100%",   label: "On-prem deployable" },
   { icon: Zap,      value: "60–80%", label: "Lower AI cost vs cloud" },
 ];
 
@@ -18,139 +16,225 @@ const badges = [
   "No generic SaaS",
 ];
 
+const words = ["Your", "business", "runs", "on", "knowledge."];
+
 export default function HeroSection() {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{ background: "#FAF8F5", minHeight: "100vh" }}
+      className="relative overflow-hidden flex items-center"
+      style={{ background: "#070F1D", minHeight: "100svh" }}
     >
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(28,26,24,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(28,26,24,0.04) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+      {/* Floating orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute animate-orb1"
+          style={{
+            width: "clamp(300px,50vw,640px)", height: "clamp(300px,50vw,640px)",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)",
+            top: "-10%", right: "-10%", filter: "blur(60px)",
+          }}
+        />
+        <div
+          className="absolute animate-orb2"
+          style={{
+            width: "clamp(200px,35vw,480px)", height: "clamp(200px,35vw,480px)",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+            bottom: "5%", left: "-5%", filter: "blur(60px)",
+          }}
+        />
+        {/* Grid */}
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-28 sm:py-36">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
           {/* LEFT */}
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="section-label mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="section-label mb-6 sm:mb-8"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse-glow" />
               Enterprise AI Solutions
-            </div>
+            </motion.div>
 
             <h1
-              className="font-serif font-bold leading-[1.08] tracking-tight mb-6"
-              style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", color: "#1C1A18" }}
+              className="font-serif font-bold leading-[1.08] tracking-tight mb-5 sm:mb-6"
+              style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.75rem)", color: "#EEF2FF" }}
             >
-              Your business runs<br />
-              on knowledge.<br />
-              <span style={{ color: "#D97706" }}>We help it act on it.</span>
+              {words.map((word, i) => (
+                <motion.span
+                  key={i}
+                  className="inline-block mr-[0.25em]"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+                >
+                  {word}
+                </motion.span>
+              ))}
+              <br />
+              <motion.span
+                className="shimmer-text"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.65 }}
+              >
+                We help it act on it.
+              </motion.span>
             </h1>
 
-            <p className="text-lg leading-relaxed mb-10 max-w-md" style={{ color: "#6B6560" }}>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.75 }}
+              className="text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-md"
+              style={{ color: "#94A3B8" }}
+            >
               Jnanik AI builds custom AI systems — Knowledge Hubs, AI agents, and secure on-prem deployments — for businesses that need AI that works in the real world, not just in demos.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap gap-4 mb-12">
-              <a
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.88 }}
+              className="flex flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-12"
+            >
+              <motion.a
+                whileHover={{ scale: 1.04, boxShadow: "0 10px 36px rgba(59,130,246,0.5)" }}
+                whileTap={{ scale: 0.97 }}
                 href="https://calendly.com/contact-jnanikai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 px-7 py-4 rounded-xl font-bold text-sm transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: "#D97706", color: "#FFFFFF", boxShadow: "0 8px 32px rgba(217,119,6,0.3)" }}
+                className="flex items-center gap-2.5 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl font-bold text-sm"
+                style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 8px 28px rgba(59,130,246,0.38)" }}
               >
                 <Calendar size={16} />
                 Talk to Our Team
-              </a>
-              <Link
-                href="/services"
-                className="flex items-center gap-2 px-7 py-4 rounded-xl font-bold text-sm transition-all duration-200 hover:-translate-y-0.5 group"
-                style={{ background: "#FFFFFF", border: "1.5px solid #E8E2DB", color: "#1C1A18", boxShadow: "0 2px 12px rgba(28,26,24,0.07)" }}
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.03, borderColor: "rgba(59,130,246,0.5)" }}
+                whileTap={{ scale: 0.97 }}
+                href="#services"
+                className="flex items-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl font-bold text-sm group transition-colors"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1.5px solid rgba(255,255,255,0.12)", color: "#EEF2FF" }}
               >
                 See Our Services
                 <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            </div>
+              </motion.a>
+            </motion.div>
 
-            <div className="flex flex-wrap gap-5">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.05 }}
+              className="flex flex-wrap gap-x-5 gap-y-2.5"
+            >
               {badges.map((b) => (
                 <div key={b} className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#D97706", opacity: 0.6 }} />
-                  <span className="text-xs font-medium" style={{ color: "#9C9590" }}>{b}</span>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#3B82F6", opacity: 0.7 }} />
+                  <span className="text-xs font-medium" style={{ color: "#64748B" }}>{b}</span>
                 </div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          {/* RIGHT — image */}
+          {/* RIGHT — metric cards */}
           <motion.div
-            initial={{ opacity: 0, x: 32 }}
+            initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
-            className="relative hidden lg:block rounded-3xl overflow-hidden"
-            style={{ height: "620px" }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex flex-col gap-4"
           >
-            <Image
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90"
-              alt="Enterprise strategy team in modern office"
-              fill
-              className="object-cover"
-              priority
-              sizes="50vw"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(135deg, rgba(217,119,6,0.1) 0%, rgba(28,26,24,0.2) 100%)" }}
-            />
-            <div
-              className="absolute bottom-0 left-0 right-0 h-40"
-              style={{ background: "linear-gradient(to top, rgba(250,248,245,0.65) 0%, transparent 100%)" }}
-            />
-
-            {/* Metric chips */}
-            <div className="absolute bottom-8 left-6 right-6 flex flex-col gap-3">
-              {metrics.map((m, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 1 + i * 0.15 }}
-                  className="flex items-center gap-3 px-4 py-3 rounded-2xl self-start"
+            {metrics.map((m, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 32 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.55 + i * 0.12 }}
+                whileHover={{ scale: 1.02, borderColor: "rgba(59,130,246,0.45)" }}
+                className="flex items-center gap-5 px-6 py-5 rounded-2xl transition-colors"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.09)",
+                  backdropFilter: "blur(12px)",
+                }}
+              >
+                <div
+                  className="shrink-0 flex items-center justify-center rounded-xl animate-float"
                   style={{
-                    background: "rgba(250,248,245,0.93)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
-                    border: "1px solid rgba(217,119,6,0.2)",
-                    boxShadow: "0 4px 20px rgba(28,26,24,0.12)",
+                    width: "48px", height: "48px",
+                    background: "rgba(59,130,246,0.14)",
+                    border: "1px solid rgba(59,130,246,0.28)",
+                    animationDelay: `${i * 0.7}s`,
                   }}
                 >
-                  <div
-                    className="shrink-0 flex items-center justify-center rounded-xl"
-                    style={{ width: "34px", height: "34px", background: "rgba(217,119,6,0.12)", border: "1px solid rgba(217,119,6,0.22)" }}
+                  <m.icon size={20} style={{ color: "#60A5FA" }} />
+                </div>
+                <div>
+                  <p
+                    className="font-extrabold text-2xl leading-none mb-1"
+                    style={{ color: "#EEF2FF", fontFamily: "var(--font-playfair)" }}
                   >
-                    <m.icon size={14} style={{ color: "#D97706" }} />
-                  </div>
-                  <div>
-                    <p className="font-extrabold text-base leading-none" style={{ color: "#1C1A18" }}>{m.value}</p>
-                    <p className="text-[10px] font-medium mt-0.5 whitespace-nowrap" style={{ color: "#6B6560" }}>{m.label}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                    {m.value}
+                  </p>
+                  <p className="text-sm" style={{ color: "#64748B" }}>{m.label}</p>
+                </div>
+                <div
+                  className="ml-auto w-1 self-stretch rounded-full"
+                  style={{ background: "linear-gradient(to bottom, #3B82F6, transparent)" }}
+                />
+              </motion.div>
+            ))}
+
+            {/* Bottom accent card */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+              className="px-6 py-5 rounded-2xl"
+              style={{
+                background: "linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(99,102,241,0.08) 100%)",
+                border: "1px solid rgba(59,130,246,0.25)",
+              }}
+            >
+              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#60A5FA" }}>
+                Deployment modes
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {["Cloud", "On-Prem", "Air-Gapped", "Hybrid"].map((mode) => (
+                  <span
+                    key={mode}
+                    className="px-3 py-1 rounded-full text-xs font-semibold"
+                    style={{ background: "rgba(255,255,255,0.07)", color: "#94A3B8", border: "1px solid rgba(255,255,255,0.09)" }}
+                  >
+                    {mode}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
         </div>
       </div>
+
+      {/* Bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, #070F1D)" }}
+      />
     </section>
   );
 }
