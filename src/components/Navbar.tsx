@@ -69,7 +69,7 @@ export default function Navbar() {
           scrolled ? "backdrop-blur-xl border-b" : "bg-transparent"
         )}
         style={scrolled
-          ? { background: "rgba(7,15,29,0.92)", borderColor: "rgba(255,255,255,0.08)" }
+          ? { background: "rgba(15,23,42,0.94)", borderColor: "rgba(255,255,255,0.08)" }
           : {}}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
@@ -157,7 +157,7 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.22 }}
               className="fixed top-20 sm:top-24 left-0 right-0 z-40 md:hidden border-b"
-              style={{ background: "rgba(7,15,29,0.97)", borderColor: "rgba(255,255,255,0.08)" }}
+              style={{ background: "rgba(15,23,42,0.97)", borderColor: "rgba(255,255,255,0.08)" }}
             >
               <div className="px-4 py-5 flex flex-col gap-1 max-w-7xl mx-auto">
                 {navLinks.map((link) => (

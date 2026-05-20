@@ -41,10 +41,10 @@ const cultureValues = [
 
 export default function CareersSection() {
   return (
-    <div style={{ background: "#070F1D" }}>
+    <div style={{ background: "var(--bg)" }}>
 
       {/* Hero */}
-      <section className="py-20 sm:py-32" style={{ background: "#0A1629" }}>
+      <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -94,7 +94,7 @@ export default function CareersSection() {
       </section>
 
       {/* Culture values */}
-      <section className="py-14 sm:py-20" style={{ background: "#070F1D" }}>
+      <section className="py-14 sm:py-20" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border-t mb-12 sm:mb-16" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
           <motion.div
@@ -132,7 +132,7 @@ export default function CareersSection() {
       </section>
 
       {/* Open positions */}
-      <section id="open-positions" className="py-14 sm:py-20" style={{ background: "#0A1629" }}>
+      <section id="open-positions" className="py-14 sm:py-20" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

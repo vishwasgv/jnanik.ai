@@ -1,18 +1,64 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
+function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const fired = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !fired.current) {
+          fired.current = true;
+          const duration = 1200;
+          const steps = 60;
+          const increment = target / steps;
+          let current = 0;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) { setCount(target); clearInterval(timer); }
+            else setCount(Math.floor(current));
+          }, duration / steps);
+        }
+      },
+      { threshold: 0.6 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
 const stats = [
-  { value: "Ex-AWS",   label: "Cloud Architecture",     sub: "Distributed systems at scale" },
-  { value: "Ex-Bosch", label: "Industrial Engineering",  sub: "Precision operations expertise" },
-  { value: "5+",       label: "Years Shipping AI",       sub: "Production systems, not demos" },
-  { value: "6",        label: "AI Services",              sub: "End-to-end, not consulting decks" },
-  { value: "3",        label: "Deployment Modes",         sub: "Cloud, on-prem, or air-gapped" },
+  { type: "text",   value: "Ex-AWS",   label: "Cloud Architecture",    sub: "Distributed systems at scale" },
+  { type: "text",   value: "Ex-Bosch", label: "Industrial Engineering", sub: "Precision operations expertise" },
+  { type: "number", value: 5, suffix: "+", label: "Years Shipping AI",  sub: "Production systems, not demos" },
+  { type: "number", value: 6, suffix: "",  label: "AI Services",        sub: "End-to-end, not consulting decks" },
+  { type: "number", value: 3, suffix: "",  label: "Deployment Modes",   sub: "Cloud, on-prem, or air-gapped" },
 ];
 
 export default function TrustedExpertise() {
   return (
-    <section style={{ background: "#0A1629", borderTop: "1px solid rgba(255,255,255,0.07)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+    <section
+      className="relative overflow-hidden"
+      style={{
+        background: "linear-gradient(180deg, #172033 0%, #1E293B 100%)",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        borderBottom: "1px solid rgba(255,255,255,0.07)",
+      }}
+    >
+      {/* Ambient shimmer line at top */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)" }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -32,23 +78,45 @@ export default function TrustedExpertise() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
               whileHover={{ y: -3 }}
-              className="flex flex-col items-center text-center px-4 sm:px-6 py-7 sm:py-8 group border-b lg:border-b-0 lg:border-r last:border-r-0"
+              className="flex flex-col items-center text-center px-4 sm:px-6 py-7 sm:py-8 group border-b lg:border-b-0 lg:border-r last:border-r-0 relative"
               style={{ borderColor: "rgba(255,255,255,0.07)" }}
             >
+              {/* Subtle hover glow bg */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg pointer-events-none"
+                style={{ background: "radial-gradient(ellipse at center, rgba(59,130,246,0.05) 0%, transparent 70%)" }}
+              />
+
               <p
-                className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-1 transition-colors duration-300"
-                style={{ color: "#EEF2FF", fontFamily: "var(--font-playfair)" }}
+                className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-1 transition-colors duration-300 group-hover:text-blue-400"
+                style={{ color: "#F1F5F9", fontFamily: "var(--font-playfair)" }}
               >
-                <span className="group-hover:text-blue-400 transition-colors duration-300">{s.value}</span>
+                {s.type === "number" ? (
+                  <Counter target={s.value as number} suffix={s.suffix} />
+                ) : (
+                  s.value as string
+                )}
               </p>
-              <p className="text-xs font-semibold mb-1" style={{ color: "#EEF2FF" }}>{s.label}</p>
+              <p className="text-xs font-semibold mb-1" style={{ color: "#CBD5E1" }}>{s.label}</p>
               <p className="text-[10px] leading-tight" style={{ color: "#64748B" }}>{s.sub}</p>
+
+              {/* Animated dot indicator */}
+              <div
+                className="absolute bottom-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "#3B82F6" }}
+              />
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Ambient shimmer line at bottom */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.3), transparent)" }}
+      />
     </section>
   );
 }

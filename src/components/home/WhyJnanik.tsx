@@ -20,7 +20,7 @@ const imageStats = [
 
 export default function WhyJnanik() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "#0A1629" }}>
+    <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
 
@@ -38,12 +38,12 @@ export default function WhyJnanik() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
             <h2
               className="font-serif font-bold leading-tight max-w-xl"
-              style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "#EEF2FF" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
             >
               We deliver outcomes,<br />not just implementations.
             </h2>
-            <p className="text-base sm:text-lg max-w-lg" style={{ color: "#94A3B8" }}>
-              Most AI projects fail because they're built on generic tools and hopeful assumptions. We start with your constraints and work backwards to what will actually work.
+            <p className="text-base sm:text-lg max-w-lg" style={{ color: "var(--text-2)" }}>
+              Most AI projects fail because they&apos;re built on generic tools and hopeful assumptions. We start with your constraints and work backwards to what will actually work.
             </p>
           </div>
         </motion.div>
@@ -66,7 +66,7 @@ export default function WhyJnanik() {
               <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#60A5FA" }}>
                 Our track record
               </p>
-              <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>
                 Small team, sharp focus, real production deployments across manufacturing, finance, and professional services.
               </p>
             </div>
@@ -87,15 +87,12 @@ export default function WhyJnanik() {
                   >
                     {s.value}
                   </span>
-                  <span className="text-sm leading-tight" style={{ color: "#94A3B8" }}>{s.label}</span>
+                  <span className="text-sm leading-tight" style={{ color: "var(--text-2)" }}>{s.label}</span>
                 </motion.div>
               ))}
             </div>
 
-            <div
-              className="h-px w-full"
-              style={{ background: "linear-gradient(to right, #3B82F6, transparent)" }}
-            />
+            <div className="h-px w-full" style={{ background: "linear-gradient(to right, #3B82F6, transparent)" }} />
           </motion.div>
 
           {/* Features grid */}
@@ -107,14 +104,14 @@ export default function WhyJnanik() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="card-base p-5 sm:p-6 flex flex-col gap-4"
+                className="card-base card-glow p-5 sm:p-6 flex flex-col gap-4"
               >
                 <div className="blue-icon shrink-0">
                   <f.icon size={18} style={{ color: "#60A5FA" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "#EEF2FF" }}>{f.title}</h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{f.desc}</p>
+                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "var(--text-1)" }}>{f.title}</h3>
+                  <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>{f.desc}</p>
                 </div>
               </motion.div>
             ))}

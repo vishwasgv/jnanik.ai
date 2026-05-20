@@ -22,10 +22,10 @@ const values = [
 
 export default function AboutSection() {
   return (
-    <div style={{ background: "#070F1D" }}>
+    <div style={{ background: "var(--bg)" }}>
 
       {/* Hero text */}
-      <section className="py-20 sm:py-32" style={{ background: "#0A1629" }}>
+      <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -84,7 +84,7 @@ export default function AboutSection() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 sm:py-28" style={{ background: "#070F1D" }}>
+      <section className="py-20 sm:py-28" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -123,7 +123,7 @@ export default function AboutSection() {
                   {/* Mobile timeline dot */}
                   <div
                     className="sm:hidden shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10 text-xs font-bold"
-                    style={{ background: "#0A1629", border: "2px solid #3B82F6", color: "#60A5FA" }}
+                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}
                   >
                     {item.year.slice(2)}
                   </div>
@@ -140,7 +140,7 @@ export default function AboutSection() {
                   {/* Desktop dot */}
                   <div
                     className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full items-center justify-center z-10 text-xs font-bold"
-                    style={{ background: "#0A1629", border: "2px solid #3B82F6", color: "#60A5FA" }}
+                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}
                   >
                     {item.year.slice(2)}
                   </div>
@@ -155,7 +155,7 @@ export default function AboutSection() {
       </section>
 
       {/* Values */}
-      <section className="py-20 sm:py-28" style={{ background: "#0A1629" }}>
+      <section className="py-20 sm:py-28" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

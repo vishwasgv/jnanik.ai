@@ -93,10 +93,10 @@ export default function ContactSection() {
   };
 
   return (
-    <div style={{ background: "#070F1D" }}>
+    <div style={{ background: "var(--bg)" }}>
 
       {/* Intro */}
-      <section className="py-20 sm:py-28" style={{ background: "#0A1629" }}>
+      <section className="py-20 sm:py-28" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -156,7 +156,7 @@ export default function ContactSection() {
       </section>
 
       {/* Calendly */}
-      <section className="py-16 sm:py-20" style={{ background: "#070F1D" }}>
+      <section className="py-16 sm:py-20" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border-t mb-12 sm:mb-16" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
           <motion.div
@@ -186,7 +186,7 @@ export default function ContactSection() {
           >
             <div
               className="calendly-inline-widget"
-              data-url="https://calendly.com/contact-jnanikai?hide_event_type_details=0&hide_gdpr_banner=1&background_color=070F1D&text_color=EEF2FF&primary_color=3B82F6"
+              data-url="https://calendly.com/contact-jnanikai?hide_event_type_details=0&hide_gdpr_banner=1&background_color=0F172A&text_color=F1F5F9&primary_color=3B82F6"
               style={{ minWidth: "320px", height: "650px" }}
             />
             <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
@@ -195,7 +195,7 @@ export default function ContactSection() {
       </section>
 
       {/* Contact form */}
-      <section className="py-16 sm:py-20" style={{ background: "#0A1629" }}>
+      <section className="py-16 sm:py-20" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -244,14 +244,14 @@ export default function ContactSection() {
               </div>
               <DarkInput value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company / Organisation" />
               <DarkSelect value={form.subject} onChange={(v) => setForm({ ...form, subject: v })}>
-                <option value="" style={{ background: "#0A1629" }}>What can we help with?</option>
-                <option value="AI Knowledge Hub" style={{ background: "#0A1629" }}>AI Knowledge Hub</option>
-                <option value="AI Strategy" style={{ background: "#0A1629" }}>AI Strategy & Consulting</option>
-                <option value="Agentic AI" style={{ background: "#0A1629" }}>Agentic AI</option>
-                <option value="Small Language Models" style={{ background: "#0A1629" }}>Small Language Models</option>
-                <option value="AI Chatbot" style={{ background: "#0A1629" }}>AI Chatbot</option>
-                <option value="Custom AI" style={{ background: "#0A1629" }}>Custom AI Solution</option>
-                <option value="Other" style={{ background: "#0A1629" }}>Something else</option>
+                <option value="" style={{ background: "var(--bg-alt)" }}>What can we help with?</option>
+                <option value="AI Knowledge Hub" style={{ background: "var(--bg-alt)" }}>AI Knowledge Hub</option>
+                <option value="AI Strategy" style={{ background: "var(--bg-alt)" }}>AI Strategy & Consulting</option>
+                <option value="Agentic AI" style={{ background: "var(--bg-alt)" }}>Agentic AI</option>
+                <option value="Small Language Models" style={{ background: "var(--bg-alt)" }}>Small Language Models</option>
+                <option value="AI Chatbot" style={{ background: "var(--bg-alt)" }}>AI Chatbot</option>
+                <option value="Custom AI" style={{ background: "var(--bg-alt)" }}>Custom AI Solution</option>
+                <option value="Other" style={{ background: "var(--bg-alt)" }}>Something else</option>
               </DarkSelect>
               <DarkTextarea value={form.message} onChange={(v) => setForm({ ...form, message: v })} placeholder="Tell us about your project, challenge, or question..." />
 

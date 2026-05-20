@@ -92,7 +92,7 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "#070F1D" }}>
+    <section className="py-20 sm:py-32" style={{ background: "var(--bg)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <motion.div

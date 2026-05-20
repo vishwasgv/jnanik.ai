@@ -8,7 +8,7 @@ const cases = [
     title: "Manufacturing & Industrial",
     sub: "Quality AI · Predictive Maintenance",
     desc: "AI inspection systems that catch defects before they leave the line. Predictive maintenance that eliminates unplanned downtime.",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1200&q=85",
     metrics: ["99.2% defect accuracy", "72% less downtime"],
     span: "lg:col-span-2 lg:row-span-2",
     tall: true,
@@ -17,7 +17,7 @@ const cases = [
     title: "Financial Services",
     sub: "Document AI · Compliance",
     desc: "Faster document review, automated compliance checks, and AI-assisted underwriting — with full audit trails.",
-    image: "https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=85",
     metrics: ["80% faster processing", "100% audit trail"],
     span: "lg:col-span-1",
     tall: false,
@@ -26,7 +26,7 @@ const cases = [
     title: "Professional Services",
     sub: "Knowledge Hub · Agentic AI",
     desc: "Consultants and analysts find answers in seconds, not hours. Client work gets done faster with less rework.",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=800&q=85",
     metrics: ["10× knowledge access", "40% less search time"],
     span: "lg:col-span-1",
     tall: false,
@@ -35,7 +35,7 @@ const cases = [
     title: "Logistics & Supply Chain",
     sub: "Agentic AI · Automation",
     desc: "Multi-step workflows — procurement, dispatch, exceptions — handled autonomously with intelligent escalation.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=800&q=85",
     metrics: ["60% automation rate", "3× faster resolution"],
     span: "lg:col-span-1",
     tall: false,
@@ -44,7 +44,7 @@ const cases = [
     title: "Healthcare & Pharma",
     sub: "On-Prem AI · Privacy-First",
     desc: "Knowledge systems for clinical staff and secure, on-prem AI that never exposes patient data.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=85",
     metrics: ["100% on-prem", "HIPAA-aligned"],
     span: "lg:col-span-1",
     tall: false,
@@ -53,7 +53,7 @@ const cases = [
     title: "Enterprise Technology",
     sub: "Custom AI · SLMs",
     desc: "Domain-specific language models and custom AI pipelines for software and technology businesses.",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
     metrics: ["60–80% cost reduction", "Tailored performance"],
     span: "lg:col-span-1",
     tall: false,
@@ -62,7 +62,7 @@ const cases = [
 
 export default function IndustryUseCases() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "#070F1D" }}>
+    <section className="py-20 sm:py-32" style={{ background: "var(--bg)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
 
@@ -79,11 +79,11 @@ export default function IndustryUseCases() {
           </div>
           <h2
             className="font-serif font-bold leading-tight"
-            style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "#EEF2FF" }}
+            style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
           >
             Real outcomes across<br />real industries.
           </h2>
-          <p className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "#94A3B8" }}>
+          <p className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "var(--text-2)" }}>
             We work where complexity is high, margins matter, and generic AI tools fall short.
           </p>
         </motion.div>
@@ -99,27 +99,41 @@ export default function IndustryUseCases() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: i * 0.07 }}
-              className={`group relative overflow-hidden rounded-2xl ${c.span}`}
+              className={`card-glow group relative overflow-hidden rounded-2xl ${c.span}`}
               style={{ minHeight: c.tall ? "530px" : "260px" }}
             >
               <Image
-                src={c.image} alt={c.title} fill
+                src={c.image}
+                alt={c.title}
+                fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
               />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,15,29,0.97) 0%, rgba(7,15,29,0.55) 50%, rgba(7,15,29,0.12) 100%)" }} />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "rgba(59,130,246,0.07)" }} />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(to top, rgba(15,23,42,0.98) 0%, rgba(15,23,42,0.55) 55%, rgba(15,23,42,0.1) 100%)" }}
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: "rgba(59,130,246,0.06)" }}
+              />
 
               <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
                 <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5" style={{ color: "#60A5FA" }}>{c.sub}</p>
-                <h3 className="font-extrabold text-lg sm:text-xl mb-1.5" style={{ color: "#EEF2FF" }}>{c.title}</h3>
-                <p className="text-xs leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-500" style={{ color: "#94A3B8" }}>
+                <h3 className="font-extrabold text-lg sm:text-xl mb-1.5" style={{ color: "var(--text-1)" }}>{c.title}</h3>
+                <p
+                  className="text-xs leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500"
+                  style={{ color: "var(--text-2)" }}
+                >
                   {c.desc}
                 </p>
                 <div className="flex gap-2 flex-wrap">
                   {c.metrics.map((m) => (
-                    <span key={m} className="px-2.5 py-1 text-[10px] font-bold rounded-full"
-                      style={{ background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}>
+                    <span
+                      key={m}
+                      className="px-2.5 py-1 text-[10px] font-bold rounded-full"
+                      style={{ background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}
+                    >
                       {m}
                     </span>
                   ))}

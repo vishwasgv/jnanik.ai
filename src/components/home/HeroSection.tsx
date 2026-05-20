@@ -1,19 +1,68 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Calendar, ArrowRight, BookOpen, Shield, Zap } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Calendar, ArrowRight, Shield, Zap, Lock } from "lucide-react";
+import { useRef } from "react";
 
-const metrics = [
-  { icon: BookOpen, value: "10×",    label: "Faster knowledge retrieval" },
-  { icon: Shield,   value: "100%",   label: "On-prem deployable" },
-  { icon: Zap,      value: "60–80%", label: "Lower AI cost vs cloud" },
+/* ── Neural network data ─────────────────────────────── */
+const NODES = [
+  { id: 0, cx: 6,  cy: 15 }, { id: 1,  cx: 20, cy: 60 },
+  { id: 2, cx: 35, cy: 22 }, { id: 3,  cx: 50, cy: 72 },
+  { id: 4, cx: 65, cy: 18 }, { id: 5,  cx: 82, cy: 55 },
+  { id: 6, cx: 12, cy: 45 }, { id: 7,  cx: 43, cy: 52 },
+  { id: 8, cx: 58, cy: 38 }, { id: 9,  cx: 76, cy: 80 },
+  { id: 10, cx: 28, cy: 10 }, { id: 11, cx: 91, cy: 25 },
+  { id: 12, cx: 4,  cy: 88 }, { id: 13, cx: 48, cy: 6 },
+  { id: 14, cx: 74, cy: 48 }, { id: 15, cx: 92, cy: 70 },
+  { id: 16, cx: 62, cy: 90 }, { id: 17, cx: 18, cy: 82 },
 ];
 
+const EDGES = NODES.flatMap((a, i) =>
+  NODES.slice(i + 1).reduce<{ from: typeof a; to: typeof a; i: number }[]>((acc, b, j) => {
+    const dist = Math.hypot(b.cx - a.cx, b.cy - a.cy);
+    if (dist < 30) acc.push({ from: a, to: b, i: i * 10 + j });
+    return acc;
+  }, [])
+);
+
+/* ── Tilt card ───────────────────────────────────────── */
+function TiltCard({ children, delay = 0, floatDelay = "0s" }: {
+  children: React.ReactNode; delay?: number; floatDelay?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-60, 60], [8, -8]), { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(useTransform(x, [-60, 60], [-8, 8]), { stiffness: 200, damping: 20 });
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current!.getBoundingClientRect();
+    x.set(e.clientX - rect.left - rect.width / 2);
+    y.set(e.clientY - rect.top - rect.height / 2);
+  };
+  const onLeave = () => { x.set(0); y.set(0); };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 32 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay }}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+      className="animate-float-card"
+      css-float-delay={floatDelay}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 const badges = [
-  "Ex-AWS engineering",
-  "Ex-Bosch industrial roots",
-  "On-prem & air-gapped ready",
-  "No generic SaaS",
+  { icon: Shield, text: "On-prem deployable" },
+  { icon: Lock,   text: "Air-gapped ready"   },
+  { icon: Zap,    text: "60–80% cost saving" },
 ];
 
 const words = ["Your", "business", "runs", "on", "knowledge."];
@@ -22,219 +71,282 @@ export default function HeroSection() {
   return (
     <section
       className="relative overflow-hidden flex items-center"
-      style={{ background: "#070F1D", minHeight: "100svh" }}
+      style={{ minHeight: "100svh", background: "#0F172A" }}
     >
-      {/* Floating orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute animate-orb1"
-          style={{
-            width: "clamp(300px,50vw,640px)", height: "clamp(300px,50vw,640px)",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)",
-            top: "-10%", right: "-10%", filter: "blur(60px)",
-          }}
-        />
-        <div
-          className="absolute animate-orb2"
-          style={{
-            width: "clamp(200px,35vw,480px)", height: "clamp(200px,35vw,480px)",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
-            bottom: "5%", left: "-5%", filter: "blur(60px)",
-          }}
-        />
-        {/* Grid */}
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
+      {/* ── Aurora gradient background ── */}
+      <div
+        className="absolute inset-0 animate-aurora pointer-events-none"
+        style={{
+          background: "linear-gradient(-45deg, #0F172A, #172554, #1E1B4B, #0F172A, #162032, #0F172A)",
+        }}
+      />
+
+      {/* ── Neural network SVG ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        <svg width="100%" height="100%" className="opacity-40">
+          <defs>
+            <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#818CF8" stopOpacity="0.3" />
+            </linearGradient>
+            <filter id="nodeGlow">
+              <feGaussianBlur stdDeviation="1.5" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+
+          {/* Edges */}
+          {EDGES.map(({ from, to, i }) => (
+            <motion.line
+              key={i}
+              x1={`${from.cx}%`} y1={`${from.cy}%`}
+              x2={`${to.cx}%`} y2={`${to.cy}%`}
+              stroke="url(#edgeGrad)"
+              strokeWidth="0.5"
+              initial={{ opacity: 0.08 }}
+              animate={{ opacity: [0.08, 0.45, 0.08] }}
+              transition={{ duration: 3 + (i % 7) * 0.6, repeat: Infinity, delay: (i % 11) * 0.28 }}
+            />
+          ))}
+
+          {/* Nodes */}
+          {NODES.map((node, i) => (
+            <g key={node.id}>
+              {/* Outer ring */}
+              <motion.circle
+                cx={`${node.cx}%`} cy={`${node.cy}%`} r="3"
+                fill="none" stroke="#3B82F6" strokeWidth="0.5" strokeOpacity="0.25"
+                animate={{ r: [3, 5, 3], strokeOpacity: [0.25, 0.05, 0.25] }}
+                transition={{ duration: 3 + i * 0.4, repeat: Infinity, delay: i * 0.3 }}
+              />
+              {/* Core dot */}
+              <motion.circle
+                cx={`${node.cx}%`} cy={`${node.cy}%`} r="1.2"
+                fill="#60A5FA" filter="url(#nodeGlow)"
+                animate={{ r: [1.2, 1.8, 1.2], fillOpacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2.5 + i * 0.35, repeat: Infinity, delay: i * 0.25 }}
+              />
+            </g>
+          ))}
+        </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-28 sm:py-36">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      {/* ── Ambient glow orbs ── */}
+      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full pointer-events-none animate-orb-a"
+        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 65%)", filter: "blur(60px)" }} />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none animate-orb-b"
+        style={{ background: "radial-gradient(circle, rgba(129,140,248,0.15) 0%, transparent 65%)", filter: "blur(60px)" }} />
+      <div className="absolute top-[40%] left-[40%] w-[300px] h-[300px] rounded-full pointer-events-none animate-orb-c"
+        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 65%)", filter: "blur(40px)" }} />
 
-          {/* LEFT */}
+      {/* ── Content ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-24 sm:py-36">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+          {/* LEFT — Text */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="section-label mb-6 sm:mb-8"
+              className="section-label mb-6 sm:mb-8 inline-flex"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse-glow" />
-              Enterprise AI Solutions
+              Enterprise AI Solutions · Bengaluru
             </motion.div>
 
+            {/* Headline — word by word */}
             <h1
-              className="font-serif font-bold leading-[1.08] tracking-tight mb-5 sm:mb-6"
-              style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.75rem)", color: "#EEF2FF" }}
+              className="font-serif font-bold leading-[1.06] tracking-tight mb-3"
+              style={{ fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)", color: "#F1F5F9" }}
             >
               {words.map((word, i) => (
                 <motion.span
                   key={i}
-                  className="inline-block mr-[0.25em]"
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+                  className="inline-block mr-[0.22em]"
+                  initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 0.55, delay: 0.15 + i * 0.09, ease: "easeOut" }}
                 >
                   {word}
                 </motion.span>
               ))}
-              <br />
-              <motion.span
-                className="shimmer-text"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.65 }}
+            </h1>
+            <motion.div
+              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.55, delay: 0.7, ease: "easeOut" }}
+            >
+              <h1
+                className="font-serif font-bold leading-[1.06] tracking-tight mb-6 sm:mb-7 shimmer-text"
+                style={{ fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)" }}
               >
                 We help it act on it.
-              </motion.span>
-            </h1>
+              </h1>
+            </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.75 }}
-              className="text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-md"
+              transition={{ duration: 0.55, delay: 0.82 }}
+              className="text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-lg"
               style={{ color: "#94A3B8" }}
             >
-              Jnanik AI builds custom AI systems — Knowledge Hubs, AI agents, and secure on-prem deployments — for businesses that need AI that works in the real world, not just in demos.
+              Custom AI systems — Knowledge Hubs, AI agents, and secure on-prem deployments — for businesses that need AI that works in the real world, not just in demos.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.88 }}
-              className="flex flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-12"
+              transition={{ duration: 0.5, delay: 0.95 }}
+              className="flex flex-wrap gap-3 sm:gap-4 mb-10"
             >
               <motion.a
-                whileHover={{ scale: 1.04, boxShadow: "0 10px 36px rgba(59,130,246,0.5)" }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.96 }}
                 href="https://calendly.com/contact-jnanikai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl font-bold text-sm"
-                style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 8px 28px rgba(59,130,246,0.38)" }}
+                target="_blank" rel="noopener noreferrer"
+                className="btn-shimmer flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm"
+                style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)", color: "#fff", boxShadow: "0 8px 32px rgba(59,130,246,0.45), 0 0 0 1px rgba(255,255,255,0.1) inset" }}
               >
                 <Calendar size={16} />
                 Talk to Our Team
               </motion.a>
               <motion.a
-                whileHover={{ scale: 1.03, borderColor: "rgba(59,130,246,0.5)" }}
+                whileHover={{ scale: 1.03, borderColor: "rgba(99,102,241,0.6)" }}
                 whileTap={{ scale: 0.97 }}
                 href="#services"
-                className="flex items-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl font-bold text-sm group transition-colors"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1.5px solid rgba(255,255,255,0.12)", color: "#EEF2FF" }}
+                className="flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm group"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", color: "#F1F5F9", backdropFilter: "blur(12px)", transition: "all 0.25s" }}
               >
                 See Our Services
-                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </motion.a>
             </motion.div>
 
+            {/* Badges */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.05 }}
-              className="flex flex-wrap gap-x-5 gap-y-2.5"
+              transition={{ duration: 0.6, delay: 1.1 }}
+              className="flex flex-wrap gap-3"
             >
-              {badges.map((b) => (
-                <div key={b} className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#3B82F6", opacity: 0.7 }} />
-                  <span className="text-xs font-medium" style={{ color: "#64748B" }}>{b}</span>
+              {badges.map((b, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium"
+                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "#94A3B8" }}
+                >
+                  <b.icon size={12} style={{ color: "#60A5FA" }} />
+                  {b.text}
                 </div>
               ))}
             </motion.div>
           </div>
 
-          {/* RIGHT — metric cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col gap-4"
-          >
-            {metrics.map((m, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 32 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.55 + i * 0.12 }}
-                whileHover={{ scale: 1.02, borderColor: "rgba(59,130,246,0.45)" }}
-                className="flex items-center gap-5 px-6 py-5 rounded-2xl transition-colors"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  backdropFilter: "blur(12px)",
-                }}
+          {/* RIGHT — 3D tilt metric cards */}
+          <div className="flex flex-col gap-4 lg:gap-5">
+            {/* Card 1: Knowledge speed */}
+            <TiltCard delay={0.55} floatDelay="0s">
+              <div
+                className="card-glow p-5 sm:p-6 rounded-2xl"
+                style={{ background: "rgba(30,41,59,0.7)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}
               >
-                <div
-                  className="shrink-0 flex items-center justify-center rounded-xl animate-float"
-                  style={{
-                    width: "48px", height: "48px",
-                    background: "rgba(59,130,246,0.14)",
-                    border: "1px solid rgba(59,130,246,0.28)",
-                    animationDelay: `${i * 0.7}s`,
-                  }}
-                >
-                  <m.icon size={20} style={{ color: "#60A5FA" }} />
-                </div>
-                <div>
-                  <p
-                    className="font-extrabold text-2xl leading-none mb-1"
-                    style={{ color: "#EEF2FF", fontFamily: "var(--font-playfair)" }}
+                <div className="flex items-center gap-5">
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                    style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(99,102,241,0.15))", border: "1px solid rgba(59,130,246,0.3)" }}
                   >
-                    {m.value}
-                  </p>
-                  <p className="text-sm" style={{ color: "#64748B" }}>{m.label}</p>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-extrabold" style={{ color: "#F1F5F9", fontFamily: "var(--font-playfair)" }}>10×</p>
+                    <p className="text-sm mt-0.5" style={{ color: "#64748B" }}>Faster knowledge retrieval</p>
+                  </div>
+                  <div className="ml-auto w-1.5 self-stretch rounded-full" style={{ background: "linear-gradient(to bottom, #3B82F6, #818CF8)" }} />
                 </div>
-                <div
-                  className="ml-auto w-1 self-stretch rounded-full"
-                  style={{ background: "linear-gradient(to bottom, #3B82F6, transparent)" }}
-                />
-              </motion.div>
-            ))}
-
-            {/* Bottom accent card */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-              className="px-6 py-5 rounded-2xl"
-              style={{
-                background: "linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(99,102,241,0.08) 100%)",
-                border: "1px solid rgba(59,130,246,0.25)",
-              }}
-            >
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#60A5FA" }}>
-                Deployment modes
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                {["Cloud", "On-Prem", "Air-Gapped", "Hybrid"].map((mode) => (
-                  <span
-                    key={mode}
-                    className="px-3 py-1 rounded-full text-xs font-semibold"
-                    style={{ background: "rgba(255,255,255,0.07)", color: "#94A3B8", border: "1px solid rgba(255,255,255,0.09)" }}
-                  >
-                    {mode}
-                  </span>
-                ))}
+                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: "linear-gradient(90deg, #3B82F6, #818CF8)" }}
+                    initial={{ width: "0%" }}
+                    animate={{ width: "90%" }}
+                    transition={{ duration: 1.2, delay: 1.3, ease: "easeOut" }}
+                  />
+                </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </TiltCard>
+
+            {/* Card 2: Cost saving */}
+            <TiltCard delay={0.7} floatDelay="1.5s">
+              <div
+                className="card-glow p-5 sm:p-6 rounded-2xl"
+                style={{ background: "rgba(30,41,59,0.7)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}
+              >
+                <div className="flex items-center gap-5">
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                    style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.15), rgba(59,130,246,0.1))", border: "1px solid rgba(34,211,238,0.25)" }}
+                  >
+                    <Zap size={22} style={{ color: "#22D3EE" }} />
+                  </div>
+                  <div>
+                    <p className="text-3xl font-extrabold" style={{ color: "#F1F5F9", fontFamily: "var(--font-playfair)" }}>60–80%</p>
+                    <p className="text-sm mt-0.5" style={{ color: "#64748B" }}>Lower AI cost vs cloud LLMs</p>
+                  </div>
+                  <div className="ml-auto w-1.5 self-stretch rounded-full" style={{ background: "linear-gradient(to bottom, #22D3EE, #3B82F6)" }} />
+                </div>
+                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: "linear-gradient(90deg, #22D3EE, #3B82F6)" }}
+                    initial={{ width: "0%" }}
+                    animate={{ width: "78%" }}
+                    transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+            </TiltCard>
+
+            {/* Card 3: Deployment modes */}
+            <TiltCard delay={0.85} floatDelay="3s">
+              <div
+                className="card-glow p-5 sm:p-6 rounded-2xl"
+                style={{ background: "rgba(30,41,59,0.7)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}
+              >
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#60A5FA" }}>
+                  Deployment modes
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["Cloud", "On-Prem", "Air-Gapped", "Hybrid VPC"].map((mode, i) => (
+                    <motion.span
+                      key={mode}
+                      initial={{ opacity: 0, scale: 0.85 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.35, delay: 1.5 + i * 0.1 }}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold"
+                      style={{ background: i === 1 ? "rgba(59,130,246,0.2)" : "rgba(255,255,255,0.07)", color: i === 1 ? "#93C5FD" : "#94A3B8", border: `1px solid ${i === 1 ? "rgba(59,130,246,0.35)" : "rgba(255,255,255,0.09)"}` }}
+                    >
+                      {mode}
+                    </motion.span>
+                  ))}
+                </div>
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full animate-pulse-glow" style={{ background: "#22D3EE" }} />
+                  <span className="text-xs" style={{ color: "#64748B" }}>All modes production-certified</span>
+                </div>
+              </div>
+            </TiltCard>
+          </div>
 
         </div>
       </div>
 
-      {/* Bottom fade */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, transparent, #070F1D)" }}
-      />
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, #0F172A)" }} />
     </section>
   );
 }

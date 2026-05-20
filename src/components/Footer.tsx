@@ -47,7 +47,7 @@ const colVariants = {
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#04090F", borderTop: "1px solid rgba(255,255,255,0.07)" }} className="relative overflow-hidden">
+    <footer style={{ background: "var(--footer)", borderTop: "1px solid rgba(255,255,255,0.07)" }} className="relative overflow-hidden">
       {/* Ambient glow */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-40 rounded-full blur-3xl pointer-events-none"
