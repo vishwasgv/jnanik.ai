@@ -75,7 +75,7 @@ export default function AboutSection() {
               style={{ height: "480px" }}
             >
               <Image
-                src="https://images.unsplash.com/photo-dZR_q_RJhrw?auto=format&fit=crop&w=900&q=85"
+                src="https://images.unsplash.com/photo-1763128516808-785e80c1dd68?auto=format&fit=crop&w=900&q=85"
                 alt="Jnanik AI engineering team — building enterprise AI systems"
                 fill
                 className="object-cover"

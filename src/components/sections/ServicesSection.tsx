@@ -8,7 +8,7 @@ const services = [
   {
     id: "knowledge-hub",
     icon: BookOpen,
-    image: "https://images.unsplash.com/photo-7PMXRBk23BI?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1741795821996-a0369f5e825e?auto=format&fit=crop&w=1200&q=85",
     title: "AI Knowledge Hub",
     tagline: "Stop Losing Time to Information That Already Exists",
     desc: "Your organisation already has the answers — in documents, manuals, tickets, emails, and the heads of experienced employees. An AI Knowledge Hub indexes everything, then makes it instantly searchable through natural language.",
@@ -23,7 +23,7 @@ const services = [
   {
     id: "ai-strategy",
     icon: Lightbulb,
-    image: "https://images.unsplash.com/photo-rgKX4o2xSqI?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1758873268998-2f77c2d38862?auto=format&fit=crop&w=1200&q=85",
     title: "AI Strategy & Consulting",
     tagline: "A Clear Plan — Before You Spend a Rupee on AI",
     desc: "Most organisations rush into AI with a tool before they have a problem. We start differently: with a rigorous AI Readiness Assessment that examines your data, workflows, team capabilities, and risk tolerance.",
@@ -38,7 +38,7 @@ const services = [
   {
     id: "agentic-ai",
     icon: Bot,
-    image: "https://images.unsplash.com/photo-EyqUxJuOb1Q?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1777383975764-bec6f5cabf00?auto=format&fit=crop&w=1200&q=85",
     title: "Agentic AI",
     tagline: "AI That Doesn't Just Answer — It Acts",
     desc: "There's a category of business processes that are too complex for simple automation but too repetitive for your best people. Agentic AI fills that gap with planning, reasoning, and end-to-end execution.",
@@ -53,7 +53,7 @@ const services = [
   {
     id: "slm",
     icon: Cpu,
-    image: "https://images.unsplash.com/photo-XLQuTdktpa8?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1766297247924-6638d54e7c89?auto=format&fit=crop&w=1200&q=85",
     title: "Small Language Models",
     tagline: "Domain Expertise Without Cloud LLM Costs",
     desc: "General LLMs are expensive and don't know your domain. We fine-tune small, domain-specific models on your data — outperforming GPT-4 on your tasks at 60–80% lower cost, fully on-prem if required.",
@@ -68,7 +68,7 @@ const services = [
   {
     id: "ai-chatbot",
     icon: MessageSquare,
-    image: "https://images.unsplash.com/photo-CaRba5ZXJTQ?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1762330465857-07e4c81c0dfa?auto=format&fit=crop&w=1200&q=85",
     title: "AI Chatbot",
     tagline: "Enterprise Chatbots That Actually Resolve Issues",
     desc: "Not an FAQ bot. Our enterprise chatbots are grounded in your real data, escalate intelligently when needed, and learn from usage — deployed on your infrastructure with full data privacy.",
@@ -83,7 +83,7 @@ const services = [
   {
     id: "custom-ai",
     icon: Wrench,
-    image: "https://images.unsplash.com/photo-FjtWczJWRlc?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1754548930550-be9fa88874f4?auto=format&fit=crop&w=1200&q=85",
     title: "Custom AI Solutions",
     tagline: "When No Off-the-Shelf Product Fits",
     desc: "Your workflow doesn't fit any product on the market. We design and build purpose-built AI systems around your exact process, data sources, and operational constraints — from prototype to production.",
@@ -135,7 +135,7 @@ export default function ServicesSection() {
           style={{ height: "280px" }}
         >
           <Image
-            src="https://images.unsplash.com/photo-CuZ8VdwRpyk?auto=format&fit=crop&w=1920&q=85"
+            src="https://images.unsplash.com/photo-1680992046626-418f7e910589?auto=format&fit=crop&w=1920&q=85"
             alt="Jnanik AI — enterprise AI systems in production"
             fill
             className="object-cover"

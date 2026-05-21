@@ -102,7 +102,7 @@ export default function CareersSection() {
               style={{ height: "400px" }}
             >
               <Image
-                src="https://images.unsplash.com/photo-_4tpElFQemQ?auto=format&fit=crop&w=900&q=85"
+                src="https://images.unsplash.com/photo-1758518731706-be5d5230e5a5?auto=format&fit=crop&w=900&q=85"
                 alt="Jnanik AI team — engineering culture"
                 fill
                 className="object-cover"
