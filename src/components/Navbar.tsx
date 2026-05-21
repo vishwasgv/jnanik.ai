@@ -77,7 +77,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href={href("home")} className="flex items-center gap-2 shrink-0">
             <Image
-              src="/logo-ja4-transparent.png"
+              src="/logo.avif"
               alt="Jnanik AI"
               width={80}
               height={54}

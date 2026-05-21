@@ -52,7 +52,7 @@ const jsonLd = {
   "@type": "Organization",
   name: "Jnanik AI",
   url: "https://jnanikai.com",
-  logo: "https://jnanikai.com/logo-ja4-transparent.png",
+  logo: "https://jnanikai.com/logo.avif",
   description:
     "Enterprise AI company specializing in Agentic AI, Manufacturing AI, RAG platforms, and on-premise AI systems.",
   address: {
