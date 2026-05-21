@@ -7,32 +7,32 @@
 
 /* ── Dark section design tokens ─────────────────────────── */
 :root {
-  --bg:        #070F1E;   /* deep navy — authority */
-  --bg-alt:    #0C1A2E;   /* slightly lighter dark */
-  --bg-raised: #111C30;   /* raised surface on dark */
-  --glass:     rgba(11,20,40,0.7);
-  --glass-bd:  rgba(255,255,255,0.09);
+  --bg:        #0F1C33;   /* midnight slate — authoritative without oppression */
+  --bg-alt:    #152540;   /* elevated dark surface */
+  --bg-raised: #1C304F;   /* card surface on dark */
+  --glass:     rgba(15,28,51,0.78);
+  --glass-bd:  rgba(255,255,255,0.10);
   --blue:      #3B82F6;
   --blue-lt:   #60A5FA;
   --indigo:    #818CF8;
   --cyan:      #22D3EE;
   --blue-dim:  rgba(59,130,246,0.12);
-  --blue-glow: rgba(59,130,246,0.25);
-  --text-1:    #FFFFFF;
-  --text-2:    #CBD5E1;
-  --text-3:    #94A3B8;
-  --text-muted:#64748B;
+  --blue-glow: rgba(59,130,246,0.22);
+  --text-1:    #EEF4FF;   /* off-white — softer than pure white */
+  --text-2:    #B8CEEA;   /* muted slate-blue */
+  --text-3:    #6E8DB0;   /* supporting text */
+  --text-muted:#445E7A;
   --bd:        rgba(255,255,255,0.08);
-  --footer:    #03080F;
+  --footer:    #060E1C;
 
   /* ── Light section design tokens ──────────────────────── */
-  --bg-light:           #EEF2F9;
-  --bg-light-alt:       #F5F7FC;
-  --text-on-light-1:    #0D1B2E;
-  --text-on-light-2:    #2D4462;
-  --text-on-light-3:    #54698A;
-  --text-on-light-muted:#8096AF;
-  --bd-light:           rgba(13,27,46,0.09);
+  --bg-light:           #FFFFFF;
+  --bg-light-alt:       #F4F8FF;
+  --text-on-light-1:    #0D1B30;
+  --text-on-light-2:    #2A3F58;
+  --text-on-light-3:    #4D6680;
+  --text-on-light-muted:#7A96B0;
+  --bd-light:           rgba(13,27,48,0.08);
 }
 
 * { box-sizing: border-box; }
@@ -54,23 +54,23 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.025;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 /* ── Glass / Card system ────────────────────────────────── */
 .card-base {
-  background: rgba(17,28,48,0.65);
+  background: rgba(22,38,64,0.62);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
-  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 .card-base:hover {
-  border-color: rgba(59,130,246,0.42);
-  box-shadow: 0 0 0 1px rgba(59,130,246,0.2), 0 8px 40px rgba(59,130,246,0.15), 0 20px 48px rgba(0,0,0,0.4);
+  border-color: rgba(59,130,246,0.35);
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.15), 0 8px 36px rgba(59,130,246,0.12), 0 16px 40px rgba(0,0,0,0.28);
 }
 
 .card-glow {
@@ -82,76 +82,63 @@ body::after {
   inset: -1px;
   border-radius: 17px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(59,130,246,0.4), rgba(129,140,248,0.4), transparent);
+  background: linear-gradient(135deg, rgba(59,130,246,0.28), rgba(129,140,248,0.18), transparent);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.4s;
 }
 .card-glow:hover::before { opacity: 1; }
 
 /* ── Light-surface card ──────────────────────────────────── */
 .card-light {
   background: #FFFFFF;
-  border: 1px solid rgba(13,27,46,0.08);
+  border: 1px solid rgba(13,27,48,0.07);
   border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(13,27,46,0.06), 0 1px 4px rgba(13,27,46,0.04);
-  transition: box-shadow 0.25s, transform 0.25s;
+  box-shadow: 0 2px 12px rgba(13,27,48,0.05), 0 1px 3px rgba(13,27,48,0.04);
+  transition: box-shadow 0.3s, transform 0.3s;
 }
 .card-light:hover {
-  box-shadow: 0 8px 36px rgba(13,27,46,0.1), 0 2px 8px rgba(13,27,46,0.06);
+  box-shadow: 0 8px 32px rgba(13,27,48,0.09), 0 2px 8px rgba(13,27,48,0.05);
 }
 
-/* ── Section label for light backgrounds ─────────────────── */
-.section-label-dark {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 4px 12px; border-radius: 999px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  background: rgba(59,130,246,0.1);
-  border: 1px solid rgba(59,130,246,0.22);
-  color: #1D4ED8;
-}
-
-/* ── Icon badge for light backgrounds ───────────────────── */
-.blue-icon-light {
-  background: rgba(59,130,246,0.09);
-  border: 1px solid rgba(59,130,246,0.2);
-  border-radius: 12px;
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-/* ── Shimmer text variant for light backgrounds ──────────── */
-.shimmer-text-dark {
-  background: linear-gradient(90deg, #1D4ED8 0%, #3B82F6 30%, #6366F1 50%, #3B82F6 70%, #1D4ED8 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 5s linear infinite;
-}
-
-/* ── Icon badges ─────────────────────────────────────────── */
-.blue-icon,
-.amber-icon {
-  background: rgba(59,130,246,0.12);
-  border: 1px solid rgba(59,130,246,0.24);
-  border-radius: 12px;
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-/* ── Labels / badges ─────────────────────────────────────── */
+/* ── Section label variants ──────────────────────────────── */
 .section-label {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 4px 12px; border-radius: 999px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
   background: rgba(59,130,246,0.1);
-  border: 1px solid rgba(59,130,246,0.26);
+  border: 1px solid rgba(59,130,246,0.24);
   color: #60A5FA;
+}
+
+.section-label-dark {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.18);
+  color: #1D4ED8;
+}
+
+/* ── Icon badges ─────────────────────────────────────────── */
+.blue-icon,
+.amber-icon {
+  background: rgba(59,130,246,0.10);
+  border: 1px solid rgba(59,130,246,0.22);
+  border-radius: 12px;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.blue-icon-light {
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.18);
+  border-radius: 12px;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
 }
 
 /* ── Links ───────────────────────────────────────────────── */
@@ -164,87 +151,21 @@ body::after {
 .blue-link:hover,
 .amber-link:hover { color: #93C5FD; }
 
-/* ── Premium animation keyframes ────────────────────────── */
-
-/* Aurora shifting gradient */
-@keyframes aurora {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Slow floating orbs */
-@keyframes orb-drift-a {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  33%       { transform: translate(40px, -30px) scale(1.06); }
-  66%       { transform: translate(-20px, 20px) scale(0.96); }
-}
-@keyframes orb-drift-b {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  33%       { transform: translate(-30px, 15px) scale(0.94); }
-  66%       { transform: translate(25px, -20px) scale(1.04); }
-}
-@keyframes orb-drift-c {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  50%       { transform: translate(15px, 25px) scale(1.03); }
-}
-
-/* Pulse glow for dots */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.55; transform: scale(1); }
-  50%       { opacity: 1;    transform: scale(1.3); }
-}
-
-/* Shimmer sweep for text/buttons */
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
-
-/* Gradient border spin */
-@keyframes border-spin {
-  to { --angle: 360deg; }
-}
-
-/* Draw line from left */
-@keyframes draw-line {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-/* Float for metric cards */
-@keyframes float-card {
-  0%, 100% { transform: translateY(0px);  }
-  50%       { transform: translateY(-8px); }
-}
-
-/* Data flow along edge (for SVG) */
-@keyframes data-flow {
-  0%   { stroke-dashoffset: 100; opacity: 0; }
-  20%  { opacity: 0.8; }
-  80%  { opacity: 0.8; }
-  100% { stroke-dashoffset: 0;   opacity: 0; }
-}
-
-.animate-aurora       { background-size: 400% 400%; animation: aurora 18s ease infinite; }
-.animate-orb-a        { animation: orb-drift-a 16s ease-in-out infinite; }
-.animate-orb-b        { animation: orb-drift-b 22s ease-in-out infinite; }
-.animate-orb-c        { animation: orb-drift-c 28s ease-in-out infinite; }
-.animate-pulse-glow   { animation: pulse-glow 2.5s ease-in-out infinite; }
-.animate-float-card   { animation: float-card 5s ease-in-out infinite; }
-.animate-draw-line    { animation: draw-line 0.8s ease-out forwards; transform-origin: left; }
-
-/* Shimmer gradient text */
+/* ── Accent headline text — static, no animation ─────────── */
 .shimmer-text {
-  background: linear-gradient(90deg, #60A5FA 0%, #818CF8 30%, #22D3EE 50%, #818CF8 70%, #60A5FA 100%);
-  background-size: 200% auto;
+  background: linear-gradient(135deg, #60A5FA 0%, #818CF8 50%, #38BDF8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 5s linear infinite;
+}
+.shimmer-text-dark {
+  background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 50%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Shimmer button sweep */
+/* ── Shimmer button sweep ────────────────────────────────── */
 .btn-shimmer {
   position: relative;
   overflow: hidden;
@@ -254,36 +175,77 @@ body::after {
   position: absolute;
   top: -50%; left: -75%;
   width: 50%; height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);
   transform: skewX(-20deg);
-  transition: left 0.55s ease;
+  transition: left 0.6s ease;
 }
 .btn-shimmer:hover::after { left: 125%; }
 
-/* ── Scan-sweep (platform card on-mount effect) ─────────── */
+/* ── Animation keyframes ─────────────────────────────────── */
+
+/* Slow ambient drift for a single hero orb */
+@keyframes orb-drift-a {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  40%       { transform: translate(28px, -20px) scale(1.04); }
+  70%       { transform: translate(-14px, 14px) scale(0.97); }
+}
+@keyframes orb-drift-b {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  35%       { transform: translate(-22px, 12px) scale(0.96); }
+  65%       { transform: translate(18px, -16px) scale(1.03); }
+}
+@keyframes orb-drift-c {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50%       { transform: translate(12px, 18px) scale(1.02); }
+}
+
+/* Pulse glow for indicator dots only */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.25); }
+}
+
+/* Draw line from left */
+@keyframes draw-line {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Scan sweep (platform card initialise effect) */
 @keyframes scan-sweep {
   0%   { transform: translateY(-100%); }
   100% { transform: translateY(600%); }
 }
-.animate-scan { animation: scan-sweep 1.1s cubic-bezier(0.76,0,0.24,1) forwards; }
 
-/* ── CTA button breathing glow ───────────────────────────── */
-@keyframes cta-breathe {
-  0%, 100% { box-shadow: 0 6px 24px rgba(59,130,246,0.38); }
-  50%       { box-shadow: 0 8px 36px rgba(59,130,246,0.58), 0 0 0 6px rgba(59,130,246,0.09); }
+/* Float for metric cards */
+@keyframes float-card {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-6px); }
 }
-.animate-cta-breathe { animation: cta-breathe 2.8s ease-in-out infinite; }
 
-/* ── Performance hints for heavily animated elements ─────── */
-.animate-aurora,
+/* Data flow along edge (for SVG connectors) */
+@keyframes data-flow {
+  0%   { stroke-dashoffset: 100; opacity: 0; }
+  20%  { opacity: 0.8; }
+  80%  { opacity: 0.8; }
+  100% { stroke-dashoffset: 0;   opacity: 0; }
+}
+
+.animate-orb-a        { animation: orb-drift-a 20s ease-in-out infinite; }
+.animate-orb-b        { animation: orb-drift-b 26s ease-in-out infinite; }
+.animate-orb-c        { animation: orb-drift-c 32s ease-in-out infinite; }
+.animate-pulse-glow   { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-float-card   { animation: float-card 6s ease-in-out infinite; }
+.animate-draw-line    { animation: draw-line 0.8s ease-out forwards; transform-origin: left; }
+.animate-scan         { animation: scan-sweep 1.1s cubic-bezier(0.76,0,0.24,1) forwards; }
+
+/* ── Performance hints ───────────────────────────────────── */
 .animate-orb-a,
 .animate-orb-b,
 .animate-orb-c { will-change: transform; }
 
 /* ── Accessibility: respect reduced-motion preference ─────── */
 @media (prefers-reduced-motion: reduce) {
-  /* Disable all CSS-driven decorative animations */
-  .animate-aurora,
   .animate-orb-a,
   .animate-orb-b,
   .animate-orb-c     { animation: none !important; }
@@ -291,26 +253,20 @@ body::after {
   .animate-float-card { animation: none !important; }
   .animate-draw-line  { animation: none !important; }
   .animate-scan       { animation: none !important; }
-  .animate-cta-breathe { animation: none !important; }
-
-  /* Shimmer text: remove animation but keep colour */
+  .btn-shimmer::after { display: none; }
   .shimmer-text, .shimmer-text-dark {
-    animation: none !important;
     background: none !important;
     -webkit-text-fill-color: currentColor !important;
   }
   .shimmer-text       { color: #60A5FA !important; }
   .shimmer-text-dark  { color: #3B82F6 !important; }
-
-  /* Button shimmer sweep: hide the pseudo-element */
-  .btn-shimmer::after { display: none; }
 }
 
 /* ── Scrollbar ─────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.4); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.65); }
+::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.35); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.55); }
 
 /* ── Scroll margin for fixed nav ─────────────────────── */
 [data-section] { scroll-margin-top: 96px; }

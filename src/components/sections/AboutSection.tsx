@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { Target, Eye, Cpu, Shield, Zap, Users, Globe2 } from "lucide-react";
+import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2 } from "lucide-react";
 
 const timeline = [
   { year: "2021", title: "Founded in Bengaluru", desc: "Jnanik AI was started with one conviction: enterprise AI should be private, practical, and built to last — not a flashy demo that never ships." },
@@ -65,39 +64,60 @@ export default function AboutSection() {
               </div>
             </motion.div>
 
-            {/* Right: image */}
+            {/* Right: credibility cards */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="relative overflow-hidden rounded-2xl"
-              style={{ height: "480px" }}
+              className="grid grid-cols-2 gap-4"
             >
-              <Image
-                src="https://images.unsplash.com/photo-1763128516808-785e80c1dd68?auto=format&fit=crop&w=900&q=85"
-                alt="Jnanik AI engineering team — building enterprise AI systems"
-                fill
-                className="object-cover"
-                sizes="(max-width:1024px) 100vw, 50vw"
-              />
-              <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(135deg, rgba(7,14,28,0.55) 0%, rgba(7,14,28,0.2) 100%)" }}
-              />
-              {/* Blue accent border */}
-              <div
-                className="absolute inset-0 rounded-2xl"
-                style={{ border: "1px solid rgba(59,130,246,0.25)" }}
-              />
-              {/* Floating badge */}
-              <div
-                className="absolute bottom-6 left-6 px-4 py-3 rounded-xl"
-                style={{ background: "rgba(7,14,28,0.85)", backdropFilter: "blur(16px)", border: "1px solid rgba(59,130,246,0.3)" }}
-              >
-                <p className="text-xs font-bold" style={{ color: "#60A5FA" }}>Ex-AWS · Ex-Bosch engineers</p>
-                <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>Production AI, not prototypes</p>
-              </div>
+              {[
+                {
+                  icon: Server,
+                  label: "Ex-AWS",
+                  title: "Cloud Architecture",
+                  body: "Designed and operated distributed systems at hyperscaler scale — reliability and security built in from day one.",
+                },
+                {
+                  icon: Factory,
+                  label: "Ex-Bosch",
+                  title: "Industrial Engineering",
+                  body: "Built production software for industrial environments where failure is measured in downtime, not bugs.",
+                },
+                {
+                  icon: Clock,
+                  label: "5+ Years",
+                  title: "AI in Production",
+                  body: "Not experimenting. Shipping. Our systems have been in production longer than most competitors have existed.",
+                },
+                {
+                  icon: Code2,
+                  label: "Open-Source First",
+                  title: "No Vendor Lock-in",
+                  body: "Everything we build runs on open foundations. You own your models, your data, and your infrastructure.",
+                },
+              ].map((card, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 + i * 0.08 }}
+                  className="card-base p-5 flex flex-col gap-3"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="blue-icon" style={{ width: "36px", height: "36px", borderRadius: "10px" }}>
+                      <card.icon size={16} style={{ color: "#60A5FA" }} />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#3B82F6" }}>{card.label}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm mb-1.5" style={{ color: "var(--text-1)" }}>{card.title}</h3>
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>{card.body}</p>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 
