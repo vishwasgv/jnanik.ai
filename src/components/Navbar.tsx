@@ -79,15 +79,11 @@ export default function Navbar() {
             <Image
               src="/logo.avif"
               alt="Jnanik AI"
-              width={80}
-              height={54}
-              className="object-contain w-14 sm:w-20"
+              width={110}
+              height={74}
+              className="object-contain w-20 sm:w-28"
               priority
             />
-            <span className="font-serif font-bold text-lg sm:text-xl tracking-tight leading-none">
-              <span style={{ color: "#EEF2FF" }}>JNANIK</span>
-              <span style={{ color: "#3B82F6" }}> AI</span>
-            </span>
           </a>
 
           {/* Desktop links */}

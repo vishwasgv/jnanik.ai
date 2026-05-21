@@ -101,11 +101,7 @@ export default function Footer() {
           {/* Brand */}
           <motion.div variants={colVariants} className="col-span-2 sm:col-span-1 lg:col-span-1">
             <a href="#home" className="flex items-center gap-2 mb-5">
-              <Image src="/logo.avif" alt="Jnanik AI" width={70} height={47} className="object-contain" />
-              <span className="font-serif font-bold text-lg tracking-tight leading-none">
-                <span style={{ color: "#EEF2FF" }}>JNANIK</span>
-                <span style={{ color: "#3B82F6" }}> AI</span>
-              </span>
+              <Image src="/logo.avif" alt="Jnanik AI" width={100} height={67} className="object-contain" />
             </a>
             <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: "#64748B" }}>
               Enterprise-grade Agentic AI, Industrial AI, and on-prem architectures engineered for scale, privacy, and reliability.
