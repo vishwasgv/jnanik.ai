@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Target, Eye, Cpu, Shield, Zap, Users, Globe2 } from "lucide-react";
 
 const timeline = [
@@ -8,7 +9,7 @@ const timeline = [
   { year: "2022", title: "First Production Deployment", desc: "Shipped our first on-premise AI Knowledge Hub for a mid-market manufacturer. 50,000+ documents. Answers in seconds instead of hours." },
   { year: "2023", title: "Agentic Systems in Production", desc: "Launched our first multi-step agentic workflow for an enterprise client — handling document routing, classification, and approval without human intervention." },
   { year: "2024", title: "SLM-First Architecture", desc: "Moved fully to a Small Language Model-first approach. Domain-specific models outperforming GPT-4 on client tasks at 80% lower cost." },
-  { year: "2025", title: "Expanding the Practice", desc: "Launched our AI Strategy practice. Now supporting enterprise AI programs across manufacturing, BFSI, and services." },
+  { year: "2025", title: "Expanding the Practice", desc: "Launched our AI Strategy practice. Now supporting enterprise AI programs across manufacturing, BFSI, and professional services." },
 ];
 
 const values = [
@@ -24,34 +25,84 @@ export default function AboutSection() {
   return (
     <div style={{ background: "var(--bg)" }}>
 
-      {/* Hero text */}
-      <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
+      {/* ── Hero — split: text left, image right ── */}
+      <section className="py-20 sm:py-32 overflow-hidden" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="max-w-3xl"
-          >
-            <div className="section-label mb-6 sm:mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-              About Jnanik AI
-            </div>
-            <h2
-              className="font-serif font-bold mb-6 leading-tight"
-              style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "#EEF2FF" }}
-            >
-              We build AI that earns<br />
-              <span className="shimmer-text">your trust through results.</span>
-            </h2>
-            <p className="text-base sm:text-xl leading-relaxed mb-8" style={{ color: "#94A3B8" }}>
-              Not a research lab. Not a software reseller. An engineering team that designs, builds, and delivers AI systems — and stays accountable for whether they actually work.
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          {/* Vision & Mission */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 sm:mt-16">
+            {/* Left: text */}
+            <motion.div
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <div className="section-label mb-6 sm:mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                About Jnanik AI
+              </div>
+              <h2
+                className="font-serif font-bold mb-6 leading-tight"
+                style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "var(--text-1)" }}
+              >
+                We build AI that earns<br />
+                <span className="shimmer-text">your trust through results.</span>
+              </h2>
+              <p className="text-base sm:text-xl leading-relaxed mb-8" style={{ color: "var(--text-2)" }}>
+                Not a research lab. Not a software reseller. An engineering team that designs, builds, and delivers AI systems — and stays accountable for whether they actually work.
+              </p>
+              <div className="flex flex-wrap gap-5">
+                {[
+                  { val: "2021", lbl: "Founded" },
+                  { val: "6", lbl: "AI Services" },
+                  { val: "3+", lbl: "Industries" },
+                ].map((s, i) => (
+                  <div key={i} className="flex flex-col">
+                    <span className="text-3xl font-extrabold" style={{ color: "#60A5FA", fontFamily: "var(--font-playfair)" }}>{s.val}</span>
+                    <span className="text-xs font-semibold mt-0.5" style={{ color: "var(--text-3)" }}>{s.lbl}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right: image */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="relative overflow-hidden rounded-2xl"
+              style={{ height: "480px" }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=85"
+                alt="Jnanik AI engineering team — building enterprise AI systems"
+                fill
+                className="object-cover"
+                sizes="(max-width:1024px) 100vw, 50vw"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(135deg, rgba(7,14,28,0.55) 0%, rgba(7,14,28,0.2) 100%)" }}
+              />
+              {/* Blue accent border */}
+              <div
+                className="absolute inset-0 rounded-2xl"
+                style={{ border: "1px solid rgba(59,130,246,0.25)" }}
+              />
+              {/* Floating badge */}
+              <div
+                className="absolute bottom-6 left-6 px-4 py-3 rounded-xl"
+                style={{ background: "rgba(7,14,28,0.85)", backdropFilter: "blur(16px)", border: "1px solid rgba(59,130,246,0.3)" }}
+              >
+                <p className="text-xs font-bold" style={{ color: "#60A5FA" }}>Ex-AWS · Ex-Bosch engineers</p>
+                <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>Production AI, not prototypes</p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Vision / Mission / Approach cards below hero */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14 sm:mt-20">
             {[
               {
                 icon: Eye, heading: "Our Vision",
@@ -75,15 +126,15 @@ export default function AboutSection() {
                 className="card-base p-6 sm:p-8"
               >
                 <div className="blue-icon mb-5"><item.icon size={20} style={{ color: "#60A5FA" }} /></div>
-                <h3 className="font-serif font-bold text-xl mb-3" style={{ color: "#EEF2FF" }}>{item.heading}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>{item.body}</p>
+                <h3 className="font-serif font-bold text-xl mb-3" style={{ color: "var(--text-1)" }}>{item.heading}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{item.body}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline */}
+      {/* ── Timeline ── */}
       <section className="py-20 sm:py-28" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -99,7 +150,7 @@ export default function AboutSection() {
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#EEF2FF" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "var(--text-1)" }}
             >
               Built steadily, shipped reliably.
             </h2>
@@ -108,7 +159,7 @@ export default function AboutSection() {
           <div className="relative">
             <div
               className="absolute left-[19px] sm:left-1/2 top-0 bottom-0 w-px"
-              style={{ background: "linear-gradient(to bottom, #3B82F6, rgba(59,130,246,0.1))" }}
+              style={{ background: "linear-gradient(to bottom, #3B82F6, rgba(59,130,246,0.08))" }}
             />
             <div className="space-y-8 sm:space-y-12">
               {timeline.map((item, i) => (
@@ -120,32 +171,21 @@ export default function AboutSection() {
                   transition={{ duration: 0.55, delay: i * 0.08 }}
                   className={`relative flex items-start gap-6 sm:gap-0 ${i % 2 === 0 ? "sm:flex-row" : "sm:flex-row-reverse"}`}
                 >
-                  {/* Mobile timeline dot */}
-                  <div
-                    className="sm:hidden shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10 text-xs font-bold"
-                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}
-                  >
+                  <div className="sm:hidden shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10 text-xs font-bold"
+                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}>
                     {item.year.slice(2)}
                   </div>
-
-                  {/* Desktop: content half */}
                   <div className={`flex-1 sm:pr-12 ${i % 2 !== 0 ? "sm:pr-0 sm:pl-12" : ""}`}>
                     <div className="card-base p-5 sm:p-6">
                       <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#3B82F6" }}>{item.year}</p>
-                      <h3 className="font-bold text-base sm:text-lg mb-2" style={{ color: "#EEF2FF" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>{item.desc}</p>
+                      <h3 className="font-bold text-base sm:text-lg mb-2" style={{ color: "var(--text-1)" }}>{item.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{item.desc}</p>
                     </div>
                   </div>
-
-                  {/* Desktop dot */}
-                  <div
-                    className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full items-center justify-center z-10 text-xs font-bold"
-                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}
-                  >
+                  <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full items-center justify-center z-10 text-xs font-bold"
+                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}>
                     {item.year.slice(2)}
                   </div>
-
-                  {/* Desktop: empty half */}
                   <div className="hidden sm:block flex-1" />
                 </motion.div>
               ))}
@@ -154,7 +194,7 @@ export default function AboutSection() {
         </div>
       </section>
 
-      {/* Values */}
+      {/* ── Values ── */}
       <section className="py-20 sm:py-28" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -170,7 +210,7 @@ export default function AboutSection() {
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#EEF2FF" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "var(--text-1)" }}
             >
               Principles that shape<br />every engagement.
             </h2>
@@ -190,8 +230,8 @@ export default function AboutSection() {
                   <v.icon size={18} style={{ color: "#60A5FA" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-2" style={{ color: "#EEF2FF" }}>{v.title}</h3>
-                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#64748B" }}>{v.desc}</p>
+                  <h3 className="font-bold text-sm mb-2" style={{ color: "var(--text-1)" }}>{v.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{v.desc}</p>
                 </div>
               </motion.div>
             ))}

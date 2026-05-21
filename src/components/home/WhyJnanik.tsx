@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Cpu, Shield, Award, Unlock, TrendingDown, Layers } from "lucide-react";
+import Image from "next/image";
 
 const features = [
   { icon: Cpu,         title: "Built for your domain, not everyone's", desc: "We don't adapt templates. Every system is designed around your actual data, workflows, and constraints." },
@@ -14,7 +15,7 @@ const features = [
 
 const imageStats = [
   { value: "2021", label: "Founded in Bengaluru" },
-  { value: "6",    label: "Core AI services delivered" },
+  { value: "6",    label: "Core AI services" },
   { value: "3+",   label: "Industries served" },
 ];
 
@@ -49,50 +50,69 @@ export default function WhyJnanik() {
         </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-5 sm:gap-6 items-start">
-          {/* Stats panel */}
+          {/* Left: Real image with stats overlay */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-2 rounded-2xl p-7 sm:p-8 flex flex-col justify-between gap-8"
-            style={{
-              background: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(99,102,241,0.07) 100%)",
-              border: "1px solid rgba(59,130,246,0.22)",
-              minHeight: "340px",
-            }}
+            className="lg:col-span-2 relative overflow-hidden rounded-2xl"
+            style={{ minHeight: "420px" }}
           >
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#60A5FA" }}>
-                Our track record
-              </p>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>
-                Small team, sharp focus, real production deployments across manufacturing, finance, and professional services.
-              </p>
-            </div>
+            <Image
+              src="https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=900&q=85"
+              alt="Industrial AI deployment — production floor with intelligent systems"
+              fill
+              className="object-cover"
+              sizes="(max-width:1024px) 100vw, 40vw"
+            />
 
-            <div className="space-y-5">
-              {imageStats.map((s, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                  className="flex items-baseline gap-4"
-                >
-                  <span
-                    className="text-3xl sm:text-4xl font-extrabold shrink-0"
-                    style={{ color: "#60A5FA", fontFamily: "var(--font-playfair)" }}
+            {/* Dark overlay */}
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(160deg, rgba(7,14,28,0.6) 0%, rgba(7,14,28,0.88) 100%)" }}
+            />
+
+            {/* Blue accent overlay */}
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.12) 0%, transparent 60%)" }}
+            />
+
+            {/* Content */}
+            <div className="absolute inset-0 p-7 sm:p-8 flex flex-col justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#60A5FA" }}>
+                  Our track record
+                </p>
+                <p className="text-sm leading-relaxed" style={{ color: "#CBD5E1" }}>
+                  Small team, sharp focus, real production deployments across manufacturing, finance, and professional services.
+                </p>
+              </div>
+
+              <div className="space-y-5">
+                {imageStats.map((s, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+                    className="flex items-baseline gap-4"
                   >
-                    {s.value}
-                  </span>
-                  <span className="text-sm leading-tight" style={{ color: "var(--text-2)" }}>{s.label}</span>
-                </motion.div>
-              ))}
-            </div>
+                    <span
+                      className="text-3xl sm:text-4xl font-extrabold shrink-0"
+                      style={{ color: "#60A5FA", fontFamily: "var(--font-playfair)" }}
+                    >
+                      {s.value}
+                    </span>
+                    <span className="text-sm leading-tight" style={{ color: "#CBD5E1" }}>{s.label}</span>
+                  </motion.div>
+                ))}
+              </div>
 
-            <div className="h-px w-full" style={{ background: "linear-gradient(to right, #3B82F6, transparent)" }} />
+              <div className="h-px w-full" style={{ background: "linear-gradient(to right, #3B82F6, transparent)" }} />
+            </div>
           </motion.div>
 
           {/* Features grid */}
@@ -110,8 +130,8 @@ export default function WhyJnanik() {
                   <f.icon size={18} style={{ color: "#60A5FA" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "var(--text-1)" }}>{f.title}</h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>{f.desc}</p>
+                  <h3 className="font-bold text-sm mb-2" style={{ color: "var(--text-1)" }}>{f.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{f.desc}</p>
                 </div>
               </motion.div>
             ))}

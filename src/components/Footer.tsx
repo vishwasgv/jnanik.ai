@@ -203,12 +203,17 @@ export default function Footer() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <p className="text-xs" style={{ color: "#334155" }}>
+        <p className="text-xs" style={{ color: "#475569" }}>
           © {new Date().getFullYear()} Jnanik AI. All rights reserved.
         </p>
-        <p className="text-xs" style={{ color: "#334155" }}>
-          Engineered in Bengaluru. Built for global enterprises.
-        </p>
+        <div className="flex items-center gap-5">
+          <a href="mailto:contact@jnanikai.com" className="text-xs hover:text-blue-400 transition-colors" style={{ color: "#475569" }}>
+            Privacy Policy
+          </a>
+          <p className="text-xs" style={{ color: "#475569" }}>
+            Engineered in Bengaluru. Built for global enterprises.
+          </p>
+        </div>
       </motion.div>
     </footer>
   );

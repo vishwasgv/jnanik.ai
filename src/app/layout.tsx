@@ -32,12 +32,46 @@ export const metadata: Metadata = {
     "AI Consulting",
     "Digital Transformation",
   ],
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Jnanik AI — Enterprise Agentic AI",
     description: "Scalable, privacy-first AI architectures built for enterprise environments.",
     siteName: "Jnanik AI",
     type: "website",
+    url: "https://jnanikai.com",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jnanik AI — Enterprise Agentic AI",
+    description: "Scalable, privacy-first AI architectures built for enterprise environments.",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Jnanik AI",
+  url: "https://jnanikai.com",
+  logo: "https://jnanikai.com/logo-ja4-transparent.png",
+  description:
+    "Enterprise AI company specializing in Agentic AI, Manufacturing AI, RAG platforms, and on-premise AI systems.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "7th Main, Bhuvaneshwari Nagar, Banashankari 3rd Stage",
+    addressLocality: "Bengaluru",
+    postalCode: "560085",
+    addressCountry: "IN",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "contact@jnanikai.com",
+    contactType: "customer service",
+  },
+  sameAs: [
+    "https://www.linkedin.com/company/jnanikai",
+    "https://x.com/jnanikai",
+    "https://www.instagram.com/jnanikai",
+  ],
 };
 
 export default function RootLayout({
@@ -48,6 +82,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

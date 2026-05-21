@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Zap, Users, BookOpen, Globe2, Shield, Coffee, MapPin, Briefcase } from "lucide-react";
 
 const perks = [
@@ -43,31 +44,80 @@ export default function CareersSection() {
   return (
     <div style={{ background: "var(--bg)" }}>
 
-      {/* Hero */}
-      <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="max-w-3xl mb-14 sm:mb-20"
-          >
-            <div className="section-label mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-              Careers at Jnanik AI
-            </div>
-            <h2
-              className="font-serif font-bold mb-5 leading-tight"
-              style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "#EEF2FF" }}
+      {/* ── Hero with background image ── */}
+      <section className="py-20 sm:py-32 relative overflow-hidden" style={{ background: "var(--bg-alt)" }}>
+        {/* Background image */}
+        <div className="absolute inset-0 pointer-events-none">
+          <Image
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80"
+            alt=""
+            fill
+            className="object-cover"
+            style={{ opacity: 0.07 }}
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-16 sm:mb-20">
+
+            {/* Left: text */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
             >
-              Build AI That Shapes<br />
-              <span className="shimmer-text">Industrial Futures</span>
-            </h2>
-            <p className="text-base sm:text-xl leading-relaxed" style={{ color: "#94A3B8" }}>
-              Join a small, exceptional team building enterprise AI systems that matter. We&apos;re looking for engineers and researchers who care about correctness, craft, and real-world impact.
-            </p>
-          </motion.div>
+              <div className="section-label mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                Careers at Jnanik AI
+              </div>
+              <h2
+                className="font-serif font-bold mb-5 leading-tight"
+                style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "var(--text-1)" }}
+              >
+                Build AI That Shapes<br />
+                <span className="shimmer-text">Industrial Futures</span>
+              </h2>
+              <p className="text-base sm:text-xl leading-relaxed mb-8" style={{ color: "var(--text-2)" }}>
+                Join a small, exceptional team building enterprise AI systems that matter. We&apos;re looking for engineers and researchers who care about correctness, craft, and real-world impact.
+              </p>
+              <motion.a
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                href="#open-positions"
+                className="btn-shimmer inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm"
+                style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)", color: "#fff", boxShadow: "0 8px 28px rgba(59,130,246,0.4)" }}
+              >
+                View open positions
+              </motion.a>
+            </motion.div>
+
+            {/* Right: image */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="relative overflow-hidden rounded-2xl hidden lg:block"
+              style={{ height: "400px" }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85"
+                alt="Jnanik AI team — engineering culture"
+                fill
+                className="object-cover"
+                sizes="50vw"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(135deg, rgba(7,14,28,0.5) 0%, rgba(7,14,28,0.2) 100%)" }}
+              />
+              <div
+                className="absolute inset-0 rounded-2xl"
+                style={{ border: "1px solid rgba(59,130,246,0.22)" }}
+              />
+            </motion.div>
+          </div>
 
           {/* Perks */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -84,8 +134,8 @@ export default function CareersSection() {
                   <p.icon size={18} style={{ color: "#60A5FA" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "#EEF2FF" }}>{p.title}</h3>
-                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#64748B" }}>{p.desc}</p>
+                  <h3 className="font-bold text-sm mb-1.5" style={{ color: "var(--text-1)" }}>{p.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{p.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -93,7 +143,7 @@ export default function CareersSection() {
         </div>
       </section>
 
-      {/* Culture values */}
+      {/* ── Culture values ── */}
       <section className="py-14 sm:py-20" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border-t mb-12 sm:mb-16" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
@@ -108,7 +158,7 @@ export default function CareersSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               How We Work
             </div>
-            <h3 className="font-serif font-bold text-2xl sm:text-3xl" style={{ color: "#EEF2FF" }}>
+            <h3 className="font-serif font-bold text-2xl sm:text-3xl" style={{ color: "var(--text-1)" }}>
               Our engineering culture in plain language.
             </h3>
           </motion.div>
@@ -124,14 +174,14 @@ export default function CareersSection() {
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
               >
                 <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{ background: "#3B82F6" }} />
-                <span className="text-sm" style={{ color: "#94A3B8" }}>{v}</span>
+                <span className="text-sm" style={{ color: "var(--text-2)" }}>{v}</span>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Open positions */}
+      {/* ── Open positions ── */}
       <section id="open-positions" className="py-14 sm:py-20" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -145,7 +195,7 @@ export default function CareersSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               Open Positions
             </div>
-            <h3 className="font-serif font-bold text-2xl sm:text-3xl" style={{ color: "#EEF2FF" }}>
+            <h3 className="font-serif font-bold text-2xl sm:text-3xl" style={{ color: "var(--text-1)" }}>
               We&apos;re hiring across engineering and research.
             </h3>
           </motion.div>
@@ -163,28 +213,30 @@ export default function CareersSection() {
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2.5 mb-3">
-                      <h3 className="font-bold text-base sm:text-lg" style={{ color: "#EEF2FF" }}>{job.title}</h3>
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
-                        style={{ background: "rgba(59,130,246,0.12)", border: "1px solid rgba(59,130,246,0.25)", color: "#60A5FA" }}>
+                      <h3 className="font-bold text-base sm:text-lg" style={{ color: "var(--text-1)" }}>{job.title}</h3>
+                      <span
+                        className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
+                        style={{ background: "rgba(59,130,246,0.12)", border: "1px solid rgba(59,130,246,0.25)", color: "#60A5FA" }}
+                      >
                         {job.team}
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-3 mb-3">
-                      <div className="flex items-center gap-1.5 text-xs" style={{ color: "#64748B" }}>
+                      <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-3)" }}>
                         <Briefcase size={12} />{job.type}
                       </div>
-                      <div className="flex items-center gap-1.5 text-xs" style={{ color: "#64748B" }}>
+                      <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-3)" }}>
                         <MapPin size={12} />{job.location}
                       </div>
                     </div>
-                    <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>{job.desc}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{job.desc}</p>
                   </div>
                   <motion.a
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
-                    href="mailto:contact@jnanikai.com"
+                    href={`mailto:careers@jnanikai.com?subject=${encodeURIComponent(`Application: ${job.title}`)}`}
                     className="shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold transition-colors"
-                    style={{ background: "#3B82F6", color: "#fff" }}
+                    style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 4px 16px rgba(59,130,246,0.35)" }}
                   >
                     Apply now
                   </motion.a>
@@ -192,6 +244,20 @@ export default function CareersSection() {
               </motion.div>
             ))}
           </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-8 text-sm text-center"
+            style={{ color: "var(--text-3)" }}
+          >
+            Don&apos;t see your role? Send us your work at{" "}
+            <a href="mailto:careers@jnanikai.com" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
+              careers@jnanikai.com
+            </a>
+          </motion.p>
         </div>
       </section>
     </div>

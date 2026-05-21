@@ -66,7 +66,7 @@ export default function TrustedExpertise() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="text-center text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-8 sm:mb-10"
-          style={{ color: "#64748B" }}
+          style={{ color: "#94A3B8" }}
         >
           Why serious enterprises choose Jnanik AI
         </motion.p>
@@ -91,7 +91,7 @@ export default function TrustedExpertise() {
 
               <p
                 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-1 transition-colors duration-300 group-hover:text-blue-400"
-                style={{ color: "#F1F5F9", fontFamily: "var(--font-playfair)" }}
+                style={{ color: "#FFFFFF", fontFamily: "var(--font-playfair)" }}
               >
                 {s.type === "number" ? (
                   <Counter target={s.value as number} suffix={s.suffix} />
@@ -100,7 +100,7 @@ export default function TrustedExpertise() {
                 )}
               </p>
               <p className="text-xs font-semibold mb-1" style={{ color: "#CBD5E1" }}>{s.label}</p>
-              <p className="text-[10px] leading-tight" style={{ color: "#64748B" }}>{s.sub}</p>
+              <p className="text-[10px] leading-tight" style={{ color: "#94A3B8" }}>{s.sub}</p>
 
               {/* Animated dot indicator */}
               <div

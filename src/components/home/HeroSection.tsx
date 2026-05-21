@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Calendar, ArrowRight, Shield, Zap, Lock } from "lucide-react";
+import Image from "next/image";
 import { useRef } from "react";
 
 /* ── Neural network data ─────────────────────────────── */
@@ -26,8 +27,8 @@ const EDGES = NODES.flatMap((a, i) =>
 );
 
 /* ── Tilt card ───────────────────────────────────────── */
-function TiltCard({ children, delay = 0, floatDelay = "0s" }: {
-  children: React.ReactNode; delay?: number; floatDelay?: string;
+function TiltCard({ children, delay = 0 }: {
+  children: React.ReactNode; delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -52,7 +53,6 @@ function TiltCard({ children, delay = 0, floatDelay = "0s" }: {
       onMouseLeave={onLeave}
       style={{ rotateX, rotateY, transformPerspective: 900 }}
       className="animate-float-card"
-      css-float-delay={floatDelay}
     >
       {children}
     </motion.div>
@@ -73,21 +73,34 @@ export default function HeroSection() {
       className="relative overflow-hidden flex items-center"
       style={{ minHeight: "100svh", background: "#0F172A" }}
     >
+      {/* ── Background photo — industrial AI facility at very low opacity ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src="https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1920&q=80"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+          style={{ opacity: 0.09 }}
+        />
+      </div>
+
       {/* ── Aurora gradient background ── */}
       <div
         className="absolute inset-0 animate-aurora pointer-events-none"
         style={{
           background: "linear-gradient(-45deg, #0F172A, #172554, #1E1B4B, #0F172A, #162032, #0F172A)",
+          opacity: 0.92,
         }}
       />
 
       {/* ── Neural network SVG ── */}
       <div className="absolute inset-0 pointer-events-none">
-        <svg width="100%" height="100%" className="opacity-40">
+        <svg width="100%" height="100%" className="opacity-45">
           <defs>
             <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#818CF8" stopOpacity="0.3" />
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#818CF8" stopOpacity="0.35" />
             </linearGradient>
             <filter id="nodeGlow">
               <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -95,35 +108,31 @@ export default function HeroSection() {
             </filter>
           </defs>
 
-          {/* Edges */}
           {EDGES.map(({ from, to, i }) => (
             <motion.line
               key={i}
               x1={`${from.cx}%`} y1={`${from.cy}%`}
               x2={`${to.cx}%`} y2={`${to.cy}%`}
               stroke="url(#edgeGrad)"
-              strokeWidth="0.5"
-              initial={{ opacity: 0.08 }}
-              animate={{ opacity: [0.08, 0.45, 0.08] }}
+              strokeWidth="0.6"
+              initial={{ opacity: 0.1 }}
+              animate={{ opacity: [0.1, 0.5, 0.1] }}
               transition={{ duration: 3 + (i % 7) * 0.6, repeat: Infinity, delay: (i % 11) * 0.28 }}
             />
           ))}
 
-          {/* Nodes */}
           {NODES.map((node, i) => (
             <g key={node.id}>
-              {/* Outer ring */}
               <motion.circle
                 cx={`${node.cx}%`} cy={`${node.cy}%`} r="3"
-                fill="none" stroke="#3B82F6" strokeWidth="0.5" strokeOpacity="0.25"
-                animate={{ r: [3, 5, 3], strokeOpacity: [0.25, 0.05, 0.25] }}
+                fill="none" stroke="#3B82F6" strokeWidth="0.5" strokeOpacity="0.3"
+                animate={{ r: [3, 5, 3], strokeOpacity: [0.3, 0.06, 0.3] }}
                 transition={{ duration: 3 + i * 0.4, repeat: Infinity, delay: i * 0.3 }}
               />
-              {/* Core dot */}
               <motion.circle
-                cx={`${node.cx}%`} cy={`${node.cy}%`} r="1.2"
+                cx={`${node.cx}%`} cy={`${node.cy}%`} r="1.4"
                 fill="#60A5FA" filter="url(#nodeGlow)"
-                animate={{ r: [1.2, 1.8, 1.2], fillOpacity: [0.7, 1, 0.7] }}
+                animate={{ r: [1.4, 2, 1.4], fillOpacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 2.5 + i * 0.35, repeat: Infinity, delay: i * 0.25 }}
               />
             </g>
@@ -132,12 +141,12 @@ export default function HeroSection() {
       </div>
 
       {/* ── Ambient glow orbs ── */}
-      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full pointer-events-none animate-orb-a"
-        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 65%)", filter: "blur(60px)" }} />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none animate-orb-b"
-        style={{ background: "radial-gradient(circle, rgba(129,140,248,0.15) 0%, transparent 65%)", filter: "blur(60px)" }} />
+      <div className="absolute top-[-10%] right-[-5%] w-[650px] h-[650px] rounded-full pointer-events-none animate-orb-a"
+        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.22) 0%, transparent 65%)", filter: "blur(70px)" }} />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[550px] h-[550px] rounded-full pointer-events-none animate-orb-b"
+        style={{ background: "radial-gradient(circle, rgba(129,140,248,0.18) 0%, transparent 65%)", filter: "blur(70px)" }} />
       <div className="absolute top-[40%] left-[40%] w-[300px] h-[300px] rounded-full pointer-events-none animate-orb-c"
-        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 65%)", filter: "blur(40px)" }} />
+        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.1) 0%, transparent 65%)", filter: "blur(40px)" }} />
 
       {/* ── Content ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-24 sm:py-36">
@@ -158,7 +167,7 @@ export default function HeroSection() {
             {/* Headline — word by word */}
             <h1
               className="font-serif font-bold leading-[1.06] tracking-tight mb-3"
-              style={{ fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)", color: "#F1F5F9" }}
+              style={{ fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)", color: "#FFFFFF" }}
             >
               {words.map((word, i) => (
                 <motion.span
@@ -190,7 +199,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.82 }}
               className="text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-lg"
-              style={{ color: "#94A3B8" }}
+              style={{ color: "#CBD5E1" }}
             >
               Custom AI systems — Knowledge Hubs, AI agents, and secure on-prem deployments — for businesses that need AI that works in the real world, not just in demos.
             </motion.p>
@@ -207,7 +216,7 @@ export default function HeroSection() {
                 href="https://calendly.com/contact-jnanikai"
                 target="_blank" rel="noopener noreferrer"
                 className="btn-shimmer flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm"
-                style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)", color: "#fff", boxShadow: "0 8px 32px rgba(59,130,246,0.45), 0 0 0 1px rgba(255,255,255,0.1) inset" }}
+                style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)", color: "#fff", boxShadow: "0 8px 32px rgba(59,130,246,0.5), 0 0 0 1px rgba(255,255,255,0.1) inset" }}
               >
                 <Calendar size={16} />
                 Talk to Our Team
@@ -217,14 +226,14 @@ export default function HeroSection() {
                 whileTap={{ scale: 0.97 }}
                 href="#services"
                 className="flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm group"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", color: "#F1F5F9", backdropFilter: "blur(12px)", transition: "all 0.25s" }}
+                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#FFFFFF", backdropFilter: "blur(12px)", transition: "all 0.25s" }}
               >
                 See Our Services
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </motion.a>
             </motion.div>
 
-            {/* Badges */}
+            {/* Trust badges */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -235,7 +244,7 @@ export default function HeroSection() {
                 <div
                   key={i}
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium"
-                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "#94A3B8" }}
+                  style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "#CBD5E1" }}
                 >
                   <b.icon size={12} style={{ color: "#60A5FA" }} />
                   {b.text}
@@ -247,27 +256,27 @@ export default function HeroSection() {
           {/* RIGHT — 3D tilt metric cards */}
           <div className="flex flex-col gap-4 lg:gap-5">
             {/* Card 1: Knowledge speed */}
-            <TiltCard delay={0.55} floatDelay="0s">
+            <TiltCard delay={0.55}>
               <div
                 className="card-glow p-5 sm:p-6 rounded-2xl"
-                style={{ background: "rgba(30,41,59,0.7)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(15,23,42,0.8)", backdropFilter: "blur(24px)", border: "1px solid rgba(255,255,255,0.12)" }}
               >
                 <div className="flex items-center gap-5">
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
-                    style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(99,102,241,0.15))", border: "1px solid rgba(59,130,246,0.3)" }}
+                    style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.25), rgba(99,102,241,0.18))", border: "1px solid rgba(59,130,246,0.35)" }}
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
                     </svg>
                   </div>
                   <div>
-                    <p className="text-3xl font-extrabold" style={{ color: "#F1F5F9", fontFamily: "var(--font-playfair)" }}>10×</p>
-                    <p className="text-sm mt-0.5" style={{ color: "#64748B" }}>Faster knowledge retrieval</p>
+                    <p className="text-3xl font-extrabold" style={{ color: "#FFFFFF", fontFamily: "var(--font-playfair)" }}>10×</p>
+                    <p className="text-sm mt-0.5" style={{ color: "#94A3B8" }}>Faster knowledge retrieval</p>
                   </div>
                   <div className="ml-auto w-1.5 self-stretch rounded-full" style={{ background: "linear-gradient(to bottom, #3B82F6, #818CF8)" }} />
                 </div>
-                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
                   <motion.div
                     className="h-full rounded-full"
                     style={{ background: "linear-gradient(90deg, #3B82F6, #818CF8)" }}
@@ -280,25 +289,25 @@ export default function HeroSection() {
             </TiltCard>
 
             {/* Card 2: Cost saving */}
-            <TiltCard delay={0.7} floatDelay="1.5s">
+            <TiltCard delay={0.7}>
               <div
                 className="card-glow p-5 sm:p-6 rounded-2xl"
-                style={{ background: "rgba(30,41,59,0.7)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(15,23,42,0.8)", backdropFilter: "blur(24px)", border: "1px solid rgba(255,255,255,0.12)" }}
               >
                 <div className="flex items-center gap-5">
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
-                    style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.15), rgba(59,130,246,0.1))", border: "1px solid rgba(34,211,238,0.25)" }}
+                    style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.18), rgba(59,130,246,0.12))", border: "1px solid rgba(34,211,238,0.3)" }}
                   >
                     <Zap size={22} style={{ color: "#22D3EE" }} />
                   </div>
                   <div>
-                    <p className="text-3xl font-extrabold" style={{ color: "#F1F5F9", fontFamily: "var(--font-playfair)" }}>60–80%</p>
-                    <p className="text-sm mt-0.5" style={{ color: "#64748B" }}>Lower AI cost vs cloud LLMs</p>
+                    <p className="text-3xl font-extrabold" style={{ color: "#FFFFFF", fontFamily: "var(--font-playfair)" }}>60–80%</p>
+                    <p className="text-sm mt-0.5" style={{ color: "#94A3B8" }}>Lower AI cost vs cloud LLMs</p>
                   </div>
                   <div className="ml-auto w-1.5 self-stretch rounded-full" style={{ background: "linear-gradient(to bottom, #22D3EE, #3B82F6)" }} />
                 </div>
-                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
                   <motion.div
                     className="h-full rounded-full"
                     style={{ background: "linear-gradient(90deg, #22D3EE, #3B82F6)" }}
@@ -311,10 +320,10 @@ export default function HeroSection() {
             </TiltCard>
 
             {/* Card 3: Deployment modes */}
-            <TiltCard delay={0.85} floatDelay="3s">
+            <TiltCard delay={0.85}>
               <div
                 className="card-glow p-5 sm:p-6 rounded-2xl"
-                style={{ background: "rgba(30,41,59,0.7)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(15,23,42,0.8)", backdropFilter: "blur(24px)", border: "1px solid rgba(255,255,255,0.12)" }}
               >
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#60A5FA" }}>
                   Deployment modes
@@ -327,7 +336,11 @@ export default function HeroSection() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.35, delay: 1.5 + i * 0.1 }}
                       className="px-3 py-1.5 rounded-lg text-xs font-semibold"
-                      style={{ background: i === 1 ? "rgba(59,130,246,0.2)" : "rgba(255,255,255,0.07)", color: i === 1 ? "#93C5FD" : "#94A3B8", border: `1px solid ${i === 1 ? "rgba(59,130,246,0.35)" : "rgba(255,255,255,0.09)"}` }}
+                      style={{
+                        background: i === 1 ? "rgba(59,130,246,0.22)" : "rgba(255,255,255,0.08)",
+                        color: i === 1 ? "#93C5FD" : "#CBD5E1",
+                        border: `1px solid ${i === 1 ? "rgba(59,130,246,0.4)" : "rgba(255,255,255,0.1)"}`,
+                      }}
                     >
                       {mode}
                     </motion.span>
@@ -335,7 +348,7 @@ export default function HeroSection() {
                 </div>
                 <div className="mt-3 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full animate-pulse-glow" style={{ background: "#22D3EE" }} />
-                  <span className="text-xs" style={{ color: "#64748B" }}>All modes production-certified</span>
+                  <span className="text-xs" style={{ color: "#94A3B8" }}>All modes production-certified</span>
                 </div>
               </div>
             </TiltCard>

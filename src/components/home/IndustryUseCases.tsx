@@ -35,7 +35,7 @@ const cases = [
     title: "Logistics & Supply Chain",
     sub: "Agentic AI · Automation",
     desc: "Multi-step workflows — procurement, dispatch, exceptions — handled autonomously with intelligent escalation.",
-    image: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=85",
     metrics: ["60% automation rate", "3× faster resolution"],
     span: "lg:col-span-1",
     tall: false,
@@ -53,7 +53,7 @@ const cases = [
     title: "Enterprise Technology",
     sub: "Custom AI · SLMs",
     desc: "Domain-specific language models and custom AI pipelines for software and technology businesses.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=85",
     metrics: ["60–80% cost reduction", "Tailored performance"],
     span: "lg:col-span-1",
     tall: false,
@@ -104,14 +104,15 @@ export default function IndustryUseCases() {
             >
               <Image
                 src={c.image}
-                alt={c.title}
+                alt={`${c.title} — ${c.sub}`}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
               />
+              {/* Strong gradient for text readability */}
               <div
                 className="absolute inset-0"
-                style={{ background: "linear-gradient(to top, rgba(15,23,42,0.98) 0%, rgba(15,23,42,0.55) 55%, rgba(15,23,42,0.1) 100%)" }}
+                style={{ background: "linear-gradient(to top, rgba(7,14,28,0.98) 0%, rgba(7,14,28,0.6) 55%, rgba(7,14,28,0.15) 100%)" }}
               />
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -120,10 +121,10 @@ export default function IndustryUseCases() {
 
               <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
                 <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5" style={{ color: "#60A5FA" }}>{c.sub}</p>
-                <h3 className="font-extrabold text-lg sm:text-xl mb-1.5" style={{ color: "var(--text-1)" }}>{c.title}</h3>
+                <h3 className="font-extrabold text-lg sm:text-xl mb-1.5" style={{ color: "#FFFFFF" }}>{c.title}</h3>
                 <p
-                  className="text-xs leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500"
-                  style={{ color: "var(--text-2)" }}
+                  className="text-xs sm:text-sm leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-24 transition-all duration-500"
+                  style={{ color: "#CBD5E1" }}
                 >
                   {c.desc}
                 </p>
@@ -132,7 +133,7 @@ export default function IndustryUseCases() {
                     <span
                       key={m}
                       className="px-2.5 py-1 text-[10px] font-bold rounded-full"
-                      style={{ background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}
+                      style={{ background: "rgba(59,130,246,0.22)", border: "1px solid rgba(59,130,246,0.4)", color: "#93C5FD" }}
                     >
                       {m}
                     </span>

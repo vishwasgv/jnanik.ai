@@ -13,60 +13,87 @@ const contactInfo = [
 
 type FormStatus = "idle" | "sending" | "sent";
 
-function DarkInput({ type = "text", value, onChange, placeholder, required }: {
-  type?: string; value: string; onChange: (v: string) => void; placeholder: string; required?: boolean;
+const inputBase: React.CSSProperties = {
+  background: "rgba(255,255,255,0.04)",
+  border: "1px solid rgba(255,255,255,0.1)",
+  color: "#FFFFFF",
+  outline: "none",
+};
+
+const inputFocused: React.CSSProperties = {
+  ...inputBase,
+  border: "1px solid rgba(59,130,246,0.55)",
+  boxShadow: "0 0 0 3px rgba(59,130,246,0.12)",
+};
+
+function FieldLabel({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) {
+  return (
+    <label htmlFor={htmlFor} className="block text-xs font-semibold mb-1.5" style={{ color: "#94A3B8" }}>
+      {children}
+    </label>
+  );
+}
+
+function DarkInput({
+  id, type = "text", value, onChange, placeholder, required,
+}: {
+  id: string; type?: string; value: string; onChange: (v: string) => void; placeholder: string; required?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
   return (
     <input
-      type={type} required={required} value={value}
+      id={id}
+      name={id}
+      type={type}
+      required={required}
+      value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       className="w-full px-4 py-3 rounded-xl text-sm transition-all"
-      style={{
-        background: "rgba(255,255,255,0.04)",
-        border: `1px solid ${focused ? "rgba(59,130,246,0.55)" : "rgba(255,255,255,0.1)"}`,
-        color: "#EEF2FF",
-        outline: "none",
-        boxShadow: focused ? "0 0 0 3px rgba(59,130,246,0.12)" : "none",
-      }}
+      style={focused ? inputFocused : inputBase}
+      aria-required={required}
     />
   );
 }
 
-function DarkSelect({ value, onChange, children }: { value: string; onChange: (v: string) => void; children: React.ReactNode }) {
+function DarkSelect({ id, value, onChange, children }: { id: string; value: string; onChange: (v: string) => void; children: React.ReactNode }) {
   const [focused, setFocused] = useState(false);
   return (
     <select
-      required value={value} onChange={(e) => onChange(e.target.value)}
-      onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+      id={id}
+      name={id}
+      required
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       className="w-full px-4 py-3 rounded-xl text-sm transition-all"
-      style={{
-        background: "rgba(255,255,255,0.04)",
-        border: `1px solid ${focused ? "rgba(59,130,246,0.55)" : "rgba(255,255,255,0.1)"}`,
-        color: value ? "#EEF2FF" : "#64748B",
-        outline: "none",
-      }}
-    >{children}</select>
+      style={focused ? { ...inputFocused, color: value ? "#FFFFFF" : "#94A3B8" } : { ...inputBase, color: value ? "#FFFFFF" : "#94A3B8" }}
+      aria-required
+    >
+      {children}
+    </select>
   );
 }
 
-function DarkTextarea({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+function DarkTextarea({ id, value, onChange, placeholder }: { id: string; value: string; onChange: (v: string) => void; placeholder: string }) {
   const [focused, setFocused] = useState(false);
   return (
     <textarea
-      required rows={5} value={value}
+      id={id}
+      name={id}
+      required
+      rows={5}
+      value={value}
       onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+      placeholder={placeholder}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       className="w-full px-4 py-3 rounded-xl text-sm transition-all resize-none"
-      style={{
-        background: "rgba(255,255,255,0.04)",
-        border: `1px solid ${focused ? "rgba(59,130,246,0.55)" : "rgba(255,255,255,0.1)"}`,
-        color: "#EEF2FF",
-        outline: "none",
-        boxShadow: focused ? "0 0 0 3px rgba(59,130,246,0.12)" : "none",
-      }}
+      style={focused ? inputFocused : inputBase}
+      aria-required
     />
   );
 }
@@ -111,17 +138,17 @@ export default function ContactSection() {
             </div>
             <h2
               className="font-serif font-bold mb-5 leading-tight"
-              style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "#EEF2FF" }}
+              style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "var(--text-1)" }}
             >
               Tell us what you&apos;re<br />
               <span className="shimmer-text">trying to solve.</span>
             </h2>
-            <p className="text-base sm:text-xl leading-relaxed" style={{ color: "#94A3B8" }}>
+            <p className="text-base sm:text-xl leading-relaxed mb-8" style={{ color: "var(--text-2)" }}>
               Whether you have a specific project or just want to understand what&apos;s possible — we give every conversation our full attention. No sales scripts. No generic pitches.
             </p>
             <div className="flex flex-wrap gap-4 mt-6">
               {["No commitment required", "Response within 1 business day", "Enterprise NDAs available"].map((item) => (
-                <div key={item} className="flex items-center gap-2 text-sm" style={{ color: "#94A3B8" }}>
+                <div key={item} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-2)" }}>
                   <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#3B82F6" }} />
                   {item}
                 </div>
@@ -141,12 +168,12 @@ export default function ContactSection() {
                 className="card-base p-5 sm:p-6"
               >
                 <div className="blue-icon mb-4"><info.icon size={16} style={{ color: "#60A5FA" }} /></div>
-                <h3 className="font-semibold text-sm mb-2" style={{ color: "#EEF2FF" }}>{info.title}</h3>
+                <h3 className="font-semibold text-sm mb-2" style={{ color: "var(--text-1)" }}>{info.title}</h3>
                 {info.lines.map((line, j) =>
                   info.link ? (
                     <a key={j} href={info.link} className="block text-sm font-semibold hover:opacity-80 transition-opacity" style={{ color: "#60A5FA" }}>{line}</a>
                   ) : (
-                    <p key={j} className="text-sm" style={{ color: "#64748B" }}>{line}</p>
+                    <p key={j} className="text-sm" style={{ color: "var(--text-2)" }}>{line}</p>
                   )
                 )}
               </motion.div>
@@ -170,8 +197,10 @@ export default function ContactSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               Book a Meeting
             </div>
-            <h3 className="font-serif font-bold text-2xl sm:text-3xl mb-3" style={{ color: "#EEF2FF" }}>Schedule a Consultation</h3>
-            <p className="text-sm sm:text-base max-w-lg mx-auto" style={{ color: "#94A3B8" }}>
+            <h3 className="font-serif font-bold text-2xl sm:text-3xl mb-3" style={{ color: "var(--text-1)" }}>
+              Schedule a Consultation
+            </h3>
+            <p className="text-sm sm:text-base max-w-lg mx-auto" style={{ color: "var(--text-2)" }}>
               Pick a time that works for you. 30-minute discovery calls or 60-minute strategy sessions.
             </p>
           </motion.div>
@@ -194,7 +223,7 @@ export default function ContactSection() {
         </div>
       </section>
 
-      {/* Contact form */}
+      {/* Contact form — with proper accessible labels */}
       <section className="py-16 sm:py-20" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -208,7 +237,7 @@ export default function ContactSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               Send a Message
             </div>
-            <h3 className="font-serif font-bold text-2xl sm:text-3xl" style={{ color: "#EEF2FF" }}>
+            <h3 className="font-serif font-bold text-2xl sm:text-3xl" style={{ color: "var(--text-1)" }}>
               Prefer to write it out?
             </h3>
           </motion.div>
@@ -226,8 +255,8 @@ export default function ContactSection() {
               >
                 <Check size={22} style={{ color: "#60A5FA" }} />
               </div>
-              <h3 className="font-serif font-bold text-2xl mb-3" style={{ color: "#EEF2FF" }}>Message sent!</h3>
-              <p style={{ color: "#94A3B8" }}>We&apos;ll get back to you within 1 business day.</p>
+              <h3 className="font-serif font-bold text-2xl mb-3" style={{ color: "var(--text-1)" }}>Message sent!</h3>
+              <p style={{ color: "var(--text-2)" }}>We&apos;ll get back to you within 1 business day.</p>
             </motion.div>
           ) : (
             <motion.form
@@ -237,23 +266,39 @@ export default function ContactSection() {
               transition={{ duration: 0.6, delay: 0.1 }}
               onSubmit={handleSubmit}
               className="space-y-4"
+              aria-label="Contact form"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <DarkInput value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Your name" required />
-                <DarkInput type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="Work email" required />
+                <div>
+                  <FieldLabel htmlFor="name">Full name *</FieldLabel>
+                  <DarkInput id="name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Your name" required />
+                </div>
+                <div>
+                  <FieldLabel htmlFor="email">Work email *</FieldLabel>
+                  <DarkInput id="email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@company.com" required />
+                </div>
               </div>
-              <DarkInput value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company / Organisation" />
-              <DarkSelect value={form.subject} onChange={(v) => setForm({ ...form, subject: v })}>
-                <option value="" style={{ background: "var(--bg-alt)" }}>What can we help with?</option>
-                <option value="AI Knowledge Hub" style={{ background: "var(--bg-alt)" }}>AI Knowledge Hub</option>
-                <option value="AI Strategy" style={{ background: "var(--bg-alt)" }}>AI Strategy & Consulting</option>
-                <option value="Agentic AI" style={{ background: "var(--bg-alt)" }}>Agentic AI</option>
-                <option value="Small Language Models" style={{ background: "var(--bg-alt)" }}>Small Language Models</option>
-                <option value="AI Chatbot" style={{ background: "var(--bg-alt)" }}>AI Chatbot</option>
-                <option value="Custom AI" style={{ background: "var(--bg-alt)" }}>Custom AI Solution</option>
-                <option value="Other" style={{ background: "var(--bg-alt)" }}>Something else</option>
-              </DarkSelect>
-              <DarkTextarea value={form.message} onChange={(v) => setForm({ ...form, message: v })} placeholder="Tell us about your project, challenge, or question..." />
+              <div>
+                <FieldLabel htmlFor="company">Company / Organisation</FieldLabel>
+                <DarkInput id="company" value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company name" />
+              </div>
+              <div>
+                <FieldLabel htmlFor="subject">What can we help with? *</FieldLabel>
+                <DarkSelect id="subject" value={form.subject} onChange={(v) => setForm({ ...form, subject: v })}>
+                  <option value="" style={{ background: "var(--bg-alt)" }}>Select a service…</option>
+                  <option value="AI Knowledge Hub" style={{ background: "var(--bg-alt)" }}>AI Knowledge Hub</option>
+                  <option value="AI Strategy" style={{ background: "var(--bg-alt)" }}>AI Strategy &amp; Consulting</option>
+                  <option value="Agentic AI" style={{ background: "var(--bg-alt)" }}>Agentic AI</option>
+                  <option value="Small Language Models" style={{ background: "var(--bg-alt)" }}>Small Language Models</option>
+                  <option value="AI Chatbot" style={{ background: "var(--bg-alt)" }}>AI Chatbot</option>
+                  <option value="Custom AI" style={{ background: "var(--bg-alt)" }}>Custom AI Solution</option>
+                  <option value="Other" style={{ background: "var(--bg-alt)" }}>Something else</option>
+                </DarkSelect>
+              </div>
+              <div>
+                <FieldLabel htmlFor="message">Your message *</FieldLabel>
+                <DarkTextarea id="message" value={form.message} onChange={(v) => setForm({ ...form, message: v })} placeholder="Tell us about your project, challenge, or question…" />
+              </div>
 
               <motion.button
                 type="submit"
@@ -264,7 +309,7 @@ export default function ContactSection() {
                 style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 4px 16px rgba(59,130,246,0.35)" }}
               >
                 {status === "sending" ? (
-                  <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Sending...</>
+                  <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Sending…</>
                 ) : (
                   <><Send size={16} />Send Message</>
                 )}
