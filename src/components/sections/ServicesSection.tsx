@@ -171,64 +171,75 @@ export default function ServicesSection() {
 
         {/* Service detail cards */}
         <div className="space-y-5 sm:space-y-6">
-          {services.map((svc, i) => (
-            <motion.div
-              key={svc.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.04 }}
-              className="card-base overflow-hidden"
-            >
-              {/* Thin image strip at top of each card */}
-              <div className="relative h-36 sm:h-44 overflow-hidden">
-                <Image
-                  src={svc.image}
-                  alt={svc.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width:768px) 100vw, 80vw"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{ background: "linear-gradient(to bottom, rgba(7,14,28,0.2) 0%, rgba(7,14,28,0.85) 100%)" }}
-                />
-                {/* Service number */}
-                <div className="absolute bottom-4 left-6 flex items-center gap-3">
-                  <div
-                    className="flex items-center justify-center rounded-xl"
-                    style={{ width: "38px", height: "38px", background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.35)" }}
-                  >
-                    <svc.icon size={17} style={{ color: "#93C5FD" }} />
-                  </div>
-                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#60A5FA" }}>
-                    0{i + 1}
-                  </span>
-                </div>
-              </div>
+          {services.map((svc, i) => {
+            const imageRight = i % 2 !== 0;
+            return (
+              <motion.div
+                key={svc.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.04 }}
+                className="card-base overflow-hidden"
+              >
+                <div className={`flex flex-col ${imageRight ? "lg:flex-row-reverse" : "lg:flex-row"}`}>
 
-              {/* Card body */}
-              <div className="p-6 sm:p-8 lg:p-10">
-                <div className="flex flex-col lg:flex-row gap-7 lg:gap-12">
-                  {/* Left */}
-                  <div className="lg:w-2/5">
-                    <h3 className="font-serif font-bold text-xl sm:text-2xl mb-2" style={{ color: "var(--text-1)" }}>
-                      {svc.title}
-                    </h3>
-                    <p className="text-sm font-semibold mb-4" style={{ color: "#60A5FA" }}>{svc.tagline}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{svc.desc}</p>
+                  {/* Image panel — full card height on desktop */}
+                  <div className="relative h-56 sm:h-72 lg:h-auto lg:w-[42%] shrink-0 overflow-hidden">
+                    <Image
+                      src={svc.image}
+                      alt={svc.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width:1024px) 100vw, 42vw"
+                    />
+                    {/* Edge fade toward content — desktop only */}
+                    <div
+                      className="absolute inset-0 hidden lg:block"
+                      style={{
+                        background: imageRight
+                          ? "linear-gradient(to left, rgba(22,38,64,0.95) 0%, rgba(22,38,64,0.3) 35%, transparent 65%)"
+                          : "linear-gradient(to right, rgba(22,38,64,0.95) 0%, rgba(22,38,64,0.3) 35%, transparent 65%)",
+                      }}
+                    />
+                    {/* Bottom fade — mobile only */}
+                    <div
+                      className="absolute inset-0 lg:hidden"
+                      style={{ background: "linear-gradient(to top, rgba(22,38,64,0.92) 0%, rgba(22,38,64,0.2) 55%, transparent 100%)" }}
+                    />
+                    {/* Service badge */}
+                    <div className="absolute top-5 left-5 flex items-center gap-2.5">
+                      <div
+                        className="flex items-center justify-center"
+                        style={{ width: "38px", height: "38px", background: "rgba(59,130,246,0.22)", border: "1px solid rgba(59,130,246,0.4)", borderRadius: "10px" }}
+                      >
+                        <svc.icon size={17} style={{ color: "#93C5FD" }} />
+                      </div>
+                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#60A5FA" }}>
+                        0{i + 1}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Right */}
-                  <div className="lg:w-3/5 flex flex-col justify-between gap-5">
+                  {/* Content panel */}
+                  <div className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col justify-center gap-6">
+                    <div>
+                      <h3 className="font-serif font-bold text-xl sm:text-2xl mb-2" style={{ color: "var(--text-1)" }}>
+                        {svc.title}
+                      </h3>
+                      <p className="text-sm font-semibold mb-4" style={{ color: "#60A5FA" }}>{svc.tagline}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{svc.desc}</p>
+                    </div>
+
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       {svc.benefits.map((b) => (
                         <li key={b} className="flex items-start gap-2.5">
-                          <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#3B82F6" }} />
+                          <Check size={13} className="shrink-0 mt-0.5" style={{ color: "#3B82F6" }} />
                           <span className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{b}</span>
                         </li>
                       ))}
                     </ul>
+
                     <div
                       className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-5 border-t"
                       style={{ borderColor: "rgba(255,255,255,0.07)" }}
@@ -252,10 +263,11 @@ export default function ServicesSection() {
                       </motion.a>
                     </div>
                   </div>
+
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
