@@ -4,187 +4,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Calendar, ArrowRight, Shield, Zap, Lock } from "lucide-react";
 import { ease, dur } from "@/lib/motionConfig";
 
-/* ── Platform Architecture Card ─────────────────────────── */
-const ROWS = [
-  {
-    label: "Your Data",
-    items: ["Documents", "Databases", "APIs & ERP"],
-    accentColor: "#6E8DB0",
-    itemBg: "rgba(255,255,255,0.04)",
-    itemBd: "rgba(255,255,255,0.08)",
-    itemText: "#B8CEEA",
-  },
-  {
-    label: "AI Engine",
-    items: ["RAG Pipeline", "AI Agents", "Custom SLMs"],
-    accentColor: "#60A5FA",
-    itemBg: "rgba(59,130,246,0.09)",
-    itemBd: "rgba(59,130,246,0.22)",
-    itemText: "#93C5FD",
-  },
-  {
-    label: "For Your Teams",
-    items: ["Instant Answers", "Automation", "Insights"],
-    accentColor: "#34D399",
-    itemBg: "rgba(52,211,153,0.07)",
-    itemBd: "rgba(52,211,153,0.18)",
-    itemText: "#6EE7B7",
-  },
-];
-
-function FlowArrow({ delay }: { delay: number }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", padding: "8px 0" }}>
-      <div style={{ flex: 1, height: "1px", background: "rgba(59,130,246,0.12)" }} />
-      <svg width="44" height="14" viewBox="0 0 44 14" fill="none" style={{ flexShrink: 0, margin: "0 8px" }}>
-        <motion.path
-          d="M2 7 L34 7 M28 2 L38 7 L28 12"
-          stroke="#3B82F6"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeDasharray="5 3"
-          animate={{ strokeDashoffset: [24, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "linear", delay }}
-        />
-      </svg>
-      <div style={{ flex: 1, height: "1px", background: "rgba(59,130,246,0.12)" }} />
-    </div>
-  );
-}
-
-function PlatformCard() {
-  const reduced = useReducedMotion();
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: dur.cinematic, delay: 0.4, ease: ease.out }}
-      style={{
-        position: "relative",
-        overflow: "hidden",
-        background: "rgba(12,22,44,0.88)",
-        border: "1px solid rgba(255,255,255,0.10)",
-        borderRadius: "20px",
-        padding: "24px",
-        backdropFilter: "blur(20px)",
-        boxShadow: "0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.08)",
-      }}
-    >
-      {/* One-time scan sweep — signals "system initialising" */}
-      {!reduced && (
-        <motion.div
-          aria-hidden
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            height: "64px",
-            background: "linear-gradient(to bottom, transparent, rgba(59,130,246,0.07), transparent)",
-            pointerEvents: "none",
-            zIndex: 10,
-          }}
-          initial={{ top: "-64px" }}
-          animate={{ top: "115%" }}
-          transition={{ duration: 1.2, delay: 1.0, ease: ease.cinematic }}
-        />
-      )}
-
-      {/* Card header */}
-      <div style={{
-        display: "flex", alignItems: "center", gap: "10px",
-        marginBottom: "20px", paddingBottom: "14px",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-      }}>
-        <motion.span
-          style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#34D399", display: "block", flexShrink: 0 }}
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2.4, repeat: Infinity }}
-        />
-        <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#60A5FA" }}>
-          Jnanik AI Platform
-        </span>
-        <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", fontWeight: 600, color: "#34D399" }}>
-          <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#34D399", display: "inline-block" }} />
-          Live
-        </span>
-      </div>
-
-      {/* Architecture rows */}
-      {ROWS.map((row, ri) => (
-        <div key={ri}>
-          {ri > 0 && <FlowArrow delay={ri * 0.5} />}
-          <div>
-            <p style={{
-              fontSize: "9px", fontWeight: 700, letterSpacing: "0.14em",
-              textTransform: "uppercase", color: row.accentColor, marginBottom: "8px",
-            }}>
-              {row.label}
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px" }}>
-              {row.items.map((item, ii) => (
-                <motion.div
-                  key={ii}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 + ri * 0.22 + ii * 0.07, duration: 0.35 }}
-                  style={{
-                    padding: "8px 6px",
-                    background: row.itemBg,
-                    border: `1px solid ${row.itemBd}`,
-                    borderRadius: "8px",
-                    fontSize: "11px",
-                    fontWeight: 500,
-                    color: row.itemText,
-                    textAlign: "center",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {item}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ))}
-
-      {/* Deployment bar */}
-      <div style={{ marginTop: "20px", paddingTop: "14px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <p style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#445E7A", marginBottom: "10px" }}>
-          Deployment Options
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "5px" }}>
-          {[
-            { label: "Cloud",   featured: false },
-            { label: "On-Prem", featured: true  },
-            { label: "Air-Gap", featured: false  },
-            { label: "Hybrid",  featured: false  },
-          ].map((mode, mi) => (
-            <motion.div
-              key={mi}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.3 + mi * 0.06 }}
-              style={{
-                padding: "5px 4px",
-                background: mode.featured ? "rgba(59,130,246,0.14)" : "rgba(255,255,255,0.04)",
-                border: `1px solid ${mode.featured ? "rgba(59,130,246,0.32)" : "rgba(255,255,255,0.07)"}`,
-                borderRadius: "6px",
-                fontSize: "10px",
-                fontWeight: 600,
-                color: mode.featured ? "#93C5FD" : "#445E7A",
-                textAlign: "center" as const,
-              }}
-            >
-              {mode.featured ? "● " : ""}{mode.label}
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 /* ── Hero Section ────────────────────────────────────────── */
 const badges = [
   { icon: Shield, text: "On-prem deployable" },
@@ -252,9 +71,7 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-24 sm:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* LEFT — Text */}
+        <div className="max-w-3xl">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -347,10 +164,6 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {/* RIGHT — Platform architecture card */}
-          <div className="hidden lg:block">
-            <PlatformCard />
-          </div>
         </div>
       </div>
     </section>
