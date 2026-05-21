@@ -199,33 +199,54 @@ export default function HeroSection() {
       className="relative overflow-hidden flex items-center"
       style={{ minHeight: "100svh", background: "#0F1C33" }}
     >
-      {/* Subtle dot grid — very low opacity */}
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ zIndex: 0 }}
+      >
+        <source src="/hero-reel.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay — keeps text readable over the video */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "rgba(8,16,34,0.72)", zIndex: 1 }}
+      />
+
+      {/* Subtle dot grid */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(rgba(59,130,246,0.14) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(rgba(59,130,246,0.12) 1px, transparent 1px)",
           backgroundSize: "36px 36px",
-          opacity: 0.35,
+          opacity: 0.28,
+          zIndex: 2,
         }}
       />
 
-      {/* Single soft ambient glow — top right, static */}
+      {/* Ambient glow — top right */}
       <div
         className="absolute top-0 right-0 w-[560px] h-[560px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 68%)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 68%)",
           filter: "blur(80px)",
           transform: "translate(20%, -25%)",
+          zIndex: 2,
         }}
       />
 
-      {/* Bottom-left accent glow — static */}
+      {/* Ambient glow — bottom left */}
       <div
         className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(99,102,241,0.09) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 65%)",
           filter: "blur(60px)",
           transform: "translate(-25%, 25%)",
+          zIndex: 2,
         }}
       />
 
