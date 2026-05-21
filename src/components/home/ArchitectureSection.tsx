@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Cloud, Server, Lock, Check } from "lucide-react";
+import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid, staggerList } from "@/lib/motionConfig";
 
 const modes = [
   {
@@ -91,39 +92,45 @@ export default function ArchitectureSection() {
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={staggerGrid(0)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
           className="mb-12 sm:mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6"
         >
           <div>
-            <div className="section-label mb-5 sm:mb-6 inline-flex">
+            <motion.div variants={fadeOnly} className="section-label mb-5 sm:mb-6 inline-flex">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               Deployment Architecture
-            </div>
-            <h2
+            </motion.div>
+            <motion.h2
+              variants={fadeUpBlur}
               className="font-serif font-bold leading-tight max-w-xl"
               style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
             >
               Three ways to deploy.<br />One consistent platform.
-            </h2>
+            </motion.h2>
           </div>
-          <p className="text-base sm:text-lg max-w-md" style={{ color: "var(--text-3)" }}>
+          <motion.p variants={fadeUp} className="text-base sm:text-lg max-w-md" style={{ color: "var(--text-3)" }}>
             Whether your data lives in the cloud or can never leave the building, we architect around your constraints — not the other way round.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Deployment mode cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+        <motion.div
+          variants={staggerGrid(0.05)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"
+        >
           {modes.map((mode, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.1 }}
+              variants={fadeUp}
               className="card-base card-glow flex flex-col relative overflow-hidden"
+              whileHover={{ y: -4 }}
+              transition={{ duration: dur.fast, ease: ease.smooth }}
             >
               {/* Featured highlight */}
               {mode.featured && (
@@ -164,19 +171,25 @@ export default function ArchitectureSection() {
                   <DeployDiagram rows={mode.diagram} color={mode.accentColor} />
                 </div>
 
-                {/* Specs */}
-                <ul className="space-y-2">
+                {/* Specs — stagger within the card */}
+                <motion.ul
+                  className="space-y-2"
+                  variants={staggerList(0.15)}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={vp}
+                >
                   {mode.specs.map((spec, si) => (
-                    <li key={si} className="flex items-center gap-2.5 text-xs" style={{ color: "var(--text-2)" }}>
+                    <motion.li key={si} variants={fadeUp} className="flex items-center gap-2.5 text-xs" style={{ color: "var(--text-2)" }}>
                       <Check size={11} style={{ color: mode.accentColor, flexShrink: 0 }} />
                       {spec}
-                    </li>
+                    </motion.li>
                   ))}
-                </ul>
+                </motion.ul>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Bottom note */}
         <motion.p

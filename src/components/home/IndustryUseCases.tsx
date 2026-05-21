@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
 
 const cases = [
   {
@@ -67,38 +68,40 @@ export default function IndustryUseCases() {
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={staggerGrid(0)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
           className="mb-12 sm:mb-16"
         >
-          <div className="section-label mb-5 sm:mb-6">
+          <motion.div variants={fadeOnly} className="section-label mb-5 sm:mb-6 inline-flex">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
             Industries We Serve
-          </div>
-          <h2
+          </motion.div>
+          <motion.h2
+            variants={fadeUpBlur}
             className="font-serif font-bold leading-tight"
             style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
           >
             Where Jnanik AI<br />delivers results.
-          </h2>
-          <p className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "var(--text-3)" }}>
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "var(--text-3)" }}>
             We work where complexity is high, margins matter, and off-the-shelf tools fall short.
-          </p>
+          </motion.p>
         </motion.div>
 
-        <div
+        <motion.div
+          variants={staggerGrid(0.05)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
           style={{ gridAutoRows: "260px" }}
         >
           {cases.map((c, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.07 }}
+              variants={fadeUp}
               className={`card-glow group relative overflow-hidden rounded-2xl ${c.span}`}
               style={{ minHeight: c.tall ? "530px" : "260px" }}
             >
@@ -142,7 +145,7 @@ export default function IndustryUseCases() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

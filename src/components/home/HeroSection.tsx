@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Calendar, ArrowRight, Shield, Zap, Lock } from "lucide-react";
+import { ease, dur } from "@/lib/motionConfig";
 
 /* ── Platform Architecture Card ─────────────────────────── */
 const ROWS = [
@@ -53,12 +54,15 @@ function FlowArrow({ delay }: { delay: number }) {
 }
 
 function PlatformCard() {
+  const reduced = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, x: 30 }}
+      initial={{ opacity: 0, x: reduced ? 0 : 30 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.7, delay: 0.35 }}
+      transition={{ duration: dur.cinematic, delay: 0.35, ease: ease.out }}
       style={{
+        position: "relative",
+        overflow: "hidden",
         background: "rgba(6,12,26,0.92)",
         border: "1px solid rgba(255,255,255,0.11)",
         borderRadius: "20px",
@@ -66,6 +70,24 @@ function PlatformCard() {
         backdropFilter: "blur(24px)",
       }}
     >
+      {/* One-time scan sweep — signals "system initialising" */}
+      {!reduced && (
+        <motion.div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            height: "72px",
+            background: "linear-gradient(to bottom, transparent, rgba(59,130,246,0.09), transparent)",
+            pointerEvents: "none",
+            zIndex: 10,
+          }}
+          initial={{ top: "-72px" }}
+          animate={{ top: "115%" }}
+          transition={{ duration: 1.1, delay: 0.9, ease: ease.cinematic }}
+        />
+      )}
       {/* Card header */}
       <div style={{
         display: "flex", alignItems: "center", gap: "10px",
@@ -171,6 +193,7 @@ const badges = [
 const words = ["Enterprise AI", "built", "for", "production."];
 
 export default function HeroSection() {
+  const reduced = useReducedMotion();
   return (
     <section
       className="relative overflow-hidden flex items-center"
@@ -225,7 +248,7 @@ export default function HeroSection() {
               Enterprise AI Solutions · Bengaluru, India
             </motion.div>
 
-            {/* Headline — word by word */}
+            {/* Headline — word by word (blur only when motion is OK) */}
             <h1
               className="font-serif font-bold leading-[1.06] tracking-tight mb-3"
               style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)", color: "#FFFFFF" }}
@@ -234,9 +257,9 @@ export default function HeroSection() {
                 <motion.span
                   key={i}
                   className="inline-block mr-[0.22em]"
-                  initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+                  initial={{ opacity: 0, y: reduced ? 0 : 22, filter: reduced ? "none" : "blur(5px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.5, delay: 0.15 + i * 0.1, ease: "easeOut" }}
+                  transition={{ duration: dur.smooth, delay: 0.15 + i * 0.1, ease: ease.out }}
                 >
                   {word}
                 </motion.span>
@@ -244,9 +267,9 @@ export default function HeroSection() {
             </h1>
 
             <motion.div
-              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+              initial={{ opacity: 0, y: reduced ? 0 : 20, filter: reduced ? "none" : "blur(5px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.5, delay: 0.65, ease: "easeOut" }}
+              transition={{ duration: dur.smooth, delay: 0.62, ease: ease.out }}
             >
               <h1
                 className="font-serif font-bold leading-[1.06] tracking-tight mb-7 shimmer-text"

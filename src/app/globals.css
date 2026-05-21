@@ -260,6 +260,52 @@ body::after {
 }
 .btn-shimmer:hover::after { left: 125%; }
 
+/* ── Scan-sweep (platform card on-mount effect) ─────────── */
+@keyframes scan-sweep {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(600%); }
+}
+.animate-scan { animation: scan-sweep 1.1s cubic-bezier(0.76,0,0.24,1) forwards; }
+
+/* ── CTA button breathing glow ───────────────────────────── */
+@keyframes cta-breathe {
+  0%, 100% { box-shadow: 0 6px 24px rgba(59,130,246,0.38); }
+  50%       { box-shadow: 0 8px 36px rgba(59,130,246,0.58), 0 0 0 6px rgba(59,130,246,0.09); }
+}
+.animate-cta-breathe { animation: cta-breathe 2.8s ease-in-out infinite; }
+
+/* ── Performance hints for heavily animated elements ─────── */
+.animate-aurora,
+.animate-orb-a,
+.animate-orb-b,
+.animate-orb-c { will-change: transform; }
+
+/* ── Accessibility: respect reduced-motion preference ─────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all CSS-driven decorative animations */
+  .animate-aurora,
+  .animate-orb-a,
+  .animate-orb-b,
+  .animate-orb-c     { animation: none !important; }
+  .animate-pulse-glow { animation: none !important; }
+  .animate-float-card { animation: none !important; }
+  .animate-draw-line  { animation: none !important; }
+  .animate-scan       { animation: none !important; }
+  .animate-cta-breathe { animation: none !important; }
+
+  /* Shimmer text: remove animation but keep colour */
+  .shimmer-text, .shimmer-text-dark {
+    animation: none !important;
+    background: none !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+  .shimmer-text       { color: #60A5FA !important; }
+  .shimmer-text-dark  { color: #3B82F6 !important; }
+
+  /* Button shimmer sweep: hide the pseudo-element */
+  .btn-shimmer::after { display: none; }
+}
+
 /* ── Scrollbar ─────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }

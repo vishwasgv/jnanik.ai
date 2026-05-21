@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Lightbulb, Bot, Cpu, MessageSquare, Wrench } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
 
 const services = [
   {
@@ -60,44 +61,48 @@ export default function ServicesPreview() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={staggerGrid(0)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 sm:mb-16"
         >
           <div>
-            <div className="section-label mb-5 sm:mb-6 inline-flex">
+            <motion.div variants={fadeOnly} className="section-label mb-5 sm:mb-6 inline-flex">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               What We Build
-            </div>
-            <h2
+            </motion.div>
+            <motion.h2
+              variants={fadeUpBlur}
               className="font-serif font-bold leading-tight"
               style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
             >
               Six AI systems.<br />One engineering team.
-            </h2>
-            <p className="text-base sm:text-lg mt-4 max-w-lg" style={{ color: "var(--text-3)" }}>
+            </motion.h2>
+            <motion.p variants={fadeUp} className="text-base sm:text-lg mt-4 max-w-lg" style={{ color: "var(--text-3)" }}>
               Every solution is built around your actual data and constraints — not adapted from a generic template.
-            </p>
+            </motion.p>
           </div>
-          <Link href="/services" className="flex items-center gap-1.5 text-sm font-semibold shrink-0 group blue-link">
-            View all services
-            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
+          <motion.div variants={fadeOnly}>
+            <Link href="/services" className="flex items-center gap-1.5 text-sm font-semibold shrink-0 group blue-link">
+              View all services
+              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </motion.div>
         </motion.div>
 
         {/* Grid: featured (2-col×2-row) + 4 smaller + 1 wide */}
-        <div
+        <motion.div
+          variants={staggerGrid(0.05)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
           style={{ gridAutoRows: "260px" }}
         >
-          {/* Featured card — spans 2 cols + 2 rows on lg */}
+          {/* Featured card — cinematic entrance (slightly longer) */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={fadeUp}
             className="card-glow group relative overflow-hidden rounded-2xl lg:col-span-2 lg:row-span-2"
             style={{ minHeight: "260px" }}
           >
@@ -153,10 +158,7 @@ export default function ServicesPreview() {
           {rest.map((svc, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: 0.08 + i * 0.07 }}
+              variants={fadeUp}
               className="card-glow group relative overflow-hidden rounded-2xl"
             >
               <Image
@@ -196,7 +198,7 @@ export default function ServicesPreview() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

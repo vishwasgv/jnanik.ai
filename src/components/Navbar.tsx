@@ -160,11 +160,14 @@ export default function Navbar() {
               style={{ background: "rgba(15,23,42,0.97)", borderColor: "rgba(255,255,255,0.08)" }}
             >
               <div className="px-4 py-5 flex flex-col gap-1 max-w-7xl mx-auto">
-                {navLinks.map((link) => (
-                  <a
+                {navLinks.map((link, idx) => (
+                  <motion.a
                     key={link.id}
                     href={href(link.id)}
                     onClick={() => setMobileOpen(false)}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.04 + idx * 0.045, duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
                     className="px-4 py-3.5 rounded-xl text-sm font-medium transition-colors"
                     style={{
                       color: isActive(link.id) ? "#60A5FA" : "#94A3B8",
@@ -172,7 +175,7 @@ export default function Navbar() {
                     }}
                   >
                     {link.label}
-                  </a>
+                  </motion.a>
                 ))}
                 <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
                   <a

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { X, Check } from "lucide-react";
+import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
 
 const comparisons = [
   {
@@ -26,6 +27,20 @@ const comparisons = [
   },
 ];
 
+/** Problem cell slides from the left, solution from the right — visual metaphor for the contrast. */
+const problemVariant = {
+  hidden: { opacity: 0, x: -16 },
+  show:   { opacity: 1, x: 0, transition: { duration: dur.smooth, ease: ease.out } },
+};
+const solutionVariant = {
+  hidden: { opacity: 0, x: 16 },
+  show:   { opacity: 1, x: 0, transition: { duration: dur.smooth, ease: ease.out } },
+};
+const rowContainer = (delay = 0) => ({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06, delayChildren: delay } },
+});
+
 export default function WhyJnanik() {
   return (
     <section className="py-20 sm:py-32" style={{ background: "var(--bg-light-alt)" }}>
@@ -33,53 +48,69 @@ export default function WhyJnanik() {
 
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={staggerGrid(0)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
           className="mb-14 sm:mb-18"
         >
-          <div className="section-label-dark mb-5 sm:mb-6 inline-flex">
+          <motion.div variants={fadeOnly} className="section-label-dark mb-5 sm:mb-6 inline-flex">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
             Why Jnanik AI
-          </div>
-          <h2
+          </motion.div>
+          <motion.h2
+            variants={fadeUpBlur}
             className="font-serif font-bold leading-tight max-w-2xl mb-5"
             style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-on-light-1)" }}
           >
             Most AI projects fail.<br />
             <span className="shimmer-text-dark">Here&apos;s what we do differently.</span>
-          </h2>
-          <p className="text-base sm:text-lg max-w-xl" style={{ color: "var(--text-on-light-3)" }}>
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-base sm:text-lg max-w-xl" style={{ color: "var(--text-on-light-3)" }}>
             The difference between a pilot that impresses and a system that delivers isn&apos;t the model — it&apos;s every decision made before the first line of code.
-          </p>
+          </motion.p>
         </motion.div>
 
-        {/* Column headers */}
+        {/* Column headers — slide in from their respective sides */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-4">
-          <div className="hidden lg:flex items-center gap-2.5 px-6 py-3 rounded-t-xl" style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.12)" }}>
+          <motion.div
+            variants={problemVariant}
+            initial="hidden"
+            whileInView="show"
+            viewport={vp}
+            className="hidden lg:flex items-center gap-2.5 px-6 py-3 rounded-t-xl"
+            style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.12)" }}
+          >
             <X size={13} className="shrink-0" style={{ color: "#EF4444" }} />
             <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#EF4444" }}>The Industry Default</span>
-          </div>
-          <div className="hidden lg:flex items-center gap-2.5 px-6 py-3 rounded-t-xl ml-3" style={{ background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.18)" }}>
+          </motion.div>
+          <motion.div
+            variants={solutionVariant}
+            initial="hidden"
+            whileInView="show"
+            viewport={vp}
+            className="hidden lg:flex items-center gap-2.5 px-6 py-3 rounded-t-xl ml-3"
+            style={{ background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.18)" }}
+          >
             <Check size={13} className="shrink-0" style={{ color: "#3B82F6" }} />
             <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3B82F6" }}>The Jnanik Approach</span>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Comparison rows */}
+        {/* Comparison rows — each row staggers its two cells from opposite sides */}
         <div className="space-y-3">
           {comparisons.map((row, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: i * 0.08 }}
+              variants={rowContainer(i * 0.04)}
+              initial="hidden"
+              whileInView="show"
+              viewport={vp}
               className="grid grid-cols-1 lg:grid-cols-2 gap-3"
             >
-              {/* Problem */}
-              <div
+              {/* Problem — enters from left */}
+              <motion.div
+                variants={problemVariant}
                 className="flex items-start gap-3.5 px-5 py-4 rounded-xl"
                 style={{ background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.1)" }}
               >
@@ -90,10 +121,11 @@ export default function WhyJnanik() {
                   <X size={10} style={{ color: "#EF4444" }} />
                 </div>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-light-3)" }}>{row.them}</p>
-              </div>
+              </motion.div>
 
-              {/* Solution */}
-              <div
+              {/* Solution — enters from right */}
+              <motion.div
+                variants={solutionVariant}
                 className="flex items-start gap-3.5 px-5 py-4 rounded-xl"
                 style={{ background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.16)" }}
               >
@@ -104,7 +136,7 @@ export default function WhyJnanik() {
                   <Check size={10} style={{ color: "#3B82F6" }} />
                 </div>
                 <p className="text-sm leading-relaxed font-medium" style={{ color: "var(--text-on-light-2)" }}>{row.us}</p>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
@@ -113,8 +145,8 @@ export default function WhyJnanik() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={vp}
+          transition={{ duration: dur.smooth, delay: 0.3, ease: ease.smooth }}
           className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-10"
           style={{ borderTop: "1px solid var(--bd-light)" }}
         >
@@ -133,7 +165,7 @@ export default function WhyJnanik() {
             ))}
           </div>
           <motion.a
-            whileHover={{ scale: 1.04 }}
+            whileHover={{ scale: 1.04, boxShadow: "0 8px 28px rgba(59,130,246,0.5)" }}
             whileTap={{ scale: 0.97 }}
             href="https://calendly.com/contact-jnanikai"
             target="_blank"

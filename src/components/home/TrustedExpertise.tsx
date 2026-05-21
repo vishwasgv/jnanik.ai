@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { ease, dur, vp, fadeUp, staggerGrid } from "@/lib/motionConfig";
 
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -55,24 +56,27 @@ export default function TrustedExpertise() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={vp}
+          transition={{ duration: dur.standard, ease: ease.smooth }}
           className="text-center text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-8 sm:mb-10"
           style={{ color: "var(--text-on-light-3)" }}
         >
           Why serious enterprises choose Jnanik AI
         </motion.p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+        <motion.div
+          variants={staggerGrid(0)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+        >
           {stats.map((s, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              variants={fadeUp}
               whileHover={{ y: -3 }}
               className="flex flex-col items-center text-center px-4 sm:px-6 py-7 sm:py-8 group border-b lg:border-b-0 lg:border-r last:border-r-0 relative"
               style={{ borderColor: "var(--bd-light)" }}
@@ -103,7 +107,7 @@ export default function TrustedExpertise() {
               />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
