@@ -27,7 +27,7 @@ const services = [
     title: "Agentic AI",
     desc: "AI agents that plan, reason, and execute complex multi-step workflows autonomously.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?auto=format&fit=crop&w=800&q=85",
+    image: "https://images.unsplash.com/photo-1698087908802-baae881e41e6?auto=format&fit=crop&w=800&q=85",
   },
   {
     icon: Cpu,
