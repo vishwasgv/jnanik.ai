@@ -1,10 +1,11 @@
-import HeroSection    from "@/components/home/HeroSection";
-import TrustedExpertise from "@/components/home/TrustedExpertise";
-import ServicesPreview  from "@/components/home/ServicesPreview";
-import WhyJnanik        from "@/components/home/WhyJnanik";
-import IndustryUseCases from "@/components/home/IndustryUseCases";
-import ProcessSection   from "@/components/home/ProcessSection";
-import CTASection       from "@/components/home/CTASection";
+import HeroSection       from "@/components/home/HeroSection";
+import TrustedExpertise  from "@/components/home/TrustedExpertise";
+import ServicesPreview   from "@/components/home/ServicesPreview";
+import WhyJnanik         from "@/components/home/WhyJnanik";
+import ArchitectureSection from "@/components/home/ArchitectureSection";
+import IndustryUseCases  from "@/components/home/IndustryUseCases";
+import ProcessSection    from "@/components/home/ProcessSection";
+import CTASection        from "@/components/home/CTASection";
 import ServicesSection  from "@/components/sections/ServicesSection";
 import AboutSection     from "@/components/sections/AboutSection";
 import CareersSection   from "@/components/sections/CareersSection";
@@ -19,6 +20,7 @@ export default function HomePage() {
         <TrustedExpertise />
         <ServicesPreview />
         <WhyJnanik />
+        <ArchitectureSection />
         <IndustryUseCases />
         <ProcessSection />
       </div>

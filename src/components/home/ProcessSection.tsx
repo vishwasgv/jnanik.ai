@@ -36,11 +36,11 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
+    <section className="py-20 sm:py-32" style={{ background: "var(--bg-light)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
+        <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "var(--bd-light)" }} />
 
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 sm:mb-20">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14 sm:mb-18">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -48,13 +48,13 @@ export default function ProcessSection() {
             transition={{ duration: 0.6 }}
             className="max-w-xl"
           >
-            <div className="section-label mb-5 sm:mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+            <div className="section-label-dark mb-5 sm:mb-6 inline-flex">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
               How We Engage
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-on-light-1)" }}
             >
               A process built for<br />enterprise reality.
             </h2>
@@ -66,7 +66,7 @@ export default function ProcessSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-base sm:text-lg max-w-md"
-            style={{ color: "var(--text-2)" }}
+            style={{ color: "var(--text-on-light-3)" }}
           >
             Every Jnanik engagement follows the same four phases — because we&apos;ve seen what happens when teams skip them.
           </motion.p>
@@ -80,16 +80,16 @@ export default function ProcessSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: i * 0.1 }}
-              className="group relative p-7 sm:p-8 hover:bg-white/[0.02] transition-colors duration-300"
+              className="group relative p-7 sm:p-8 transition-colors duration-300 hover:bg-white/60"
               style={{
-                borderRight: i < steps.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                borderRight: i < steps.length - 1 ? `1px solid var(--bd-light)` : "none",
+                borderBottom: `1px solid var(--bd-light)`,
               }}
             >
               {/* Step number watermark */}
               <div
                 className="absolute top-6 right-7 text-7xl font-extrabold select-none pointer-events-none leading-none"
-                style={{ color: "rgba(59,130,246,0.06)", fontFamily: "var(--font-playfair)" }}
+                style={{ color: "rgba(59,130,246,0.07)", fontFamily: "var(--font-playfair)" }}
               >
                 {step.num}
               </div>
@@ -97,37 +97,28 @@ export default function ProcessSection() {
               {/* Icon */}
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300"
-                style={{
-                  background: "rgba(59,130,246,0.1)",
-                  border: "1px solid rgba(59,130,246,0.22)",
-                }}
+                style={{ background: "rgba(59,130,246,0.09)", border: "1px solid rgba(59,130,246,0.2)" }}
               >
-                <step.icon size={18} style={{ color: "#60A5FA" }} />
+                <step.icon size={18} style={{ color: "#2563EB" }} />
               </div>
 
               {/* Step label */}
-              <p
-                className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3"
-                style={{ color: "#3B82F6" }}
-              >
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "#3B82F6" }}>
                 Step {step.num}
               </p>
 
-              <h3 className="font-bold text-lg mb-3" style={{ color: "var(--text-1)" }}>
+              <h3 className="font-bold text-lg mb-3" style={{ color: "var(--text-on-light-1)" }}>
                 {step.title}
               </h3>
 
-              <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-2)" }}>
+              <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-on-light-3)" }}>
                 {step.desc}
               </p>
 
               {/* Duration badge */}
               <div className="flex items-center gap-2">
-                <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse-glow"
-                  style={{ background: "#3B82F6" }}
-                />
-                <span className="text-xs font-semibold" style={{ color: "#60A5FA" }}>
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#3B82F6" }} />
+                <span className="text-xs font-semibold" style={{ color: "#3B82F6" }}>
                   {step.detail}
                 </span>
               </div>
@@ -142,9 +133,9 @@ export default function ProcessSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 sm:mt-12 pt-10 border-t flex flex-col sm:flex-row items-start sm:items-center gap-6"
-          style={{ borderColor: "rgba(255,255,255,0.06)" }}
+          style={{ borderColor: "var(--bd-light)" }}
         >
-          <p className="text-sm" style={{ color: "var(--text-3)" }}>
+          <p className="text-sm" style={{ color: "var(--text-on-light-3)" }}>
             Most engagements reach production within 12–16 weeks. We&apos;ll give you a realistic timeline in the first call.
           </p>
           <motion.a
@@ -154,11 +145,7 @@ export default function ProcessSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-shimmer shrink-0 flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm"
-            style={{
-              background: "rgba(59,130,246,0.12)",
-              border: "1px solid rgba(59,130,246,0.28)",
-              color: "#60A5FA",
-            }}
+            style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 4px 16px rgba(59,130,246,0.35)" }}
           >
             Start the conversation →
           </motion.a>

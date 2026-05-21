@@ -81,10 +81,10 @@ export default function IndustryUseCases() {
             className="font-serif font-bold leading-tight"
             style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
           >
-            Real outcomes across<br />real industries.
+            Where Jnanik AI<br />delivers results.
           </h2>
-          <p className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "var(--text-2)" }}>
-            We work where complexity is high, margins matter, and generic AI tools fall short.
+          <p className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "var(--text-3)" }}>
+            We work where complexity is high, margins matter, and off-the-shelf tools fall short.
           </p>
         </motion.div>
 

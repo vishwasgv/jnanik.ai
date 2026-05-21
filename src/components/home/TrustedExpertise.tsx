@@ -48,17 +48,11 @@ export default function TrustedExpertise() {
     <section
       className="relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, #172033 0%, #1E293B 100%)",
-        borderTop: "1px solid rgba(255,255,255,0.07)",
-        borderBottom: "1px solid rgba(255,255,255,0.07)",
+        background: "var(--bg-light)",
+        borderTop: "1px solid rgba(13,27,46,0.08)",
+        borderBottom: "1px solid rgba(13,27,46,0.08)",
       }}
     >
-      {/* Ambient shimmer line at top */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)" }}
-      />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -66,7 +60,7 @@ export default function TrustedExpertise() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="text-center text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-8 sm:mb-10"
-          style={{ color: "#94A3B8" }}
+          style={{ color: "var(--text-on-light-3)" }}
         >
           Why serious enterprises choose Jnanik AI
         </motion.p>
@@ -81,17 +75,17 @@ export default function TrustedExpertise() {
               transition={{ duration: 0.4, delay: i * 0.08 }}
               whileHover={{ y: -3 }}
               className="flex flex-col items-center text-center px-4 sm:px-6 py-7 sm:py-8 group border-b lg:border-b-0 lg:border-r last:border-r-0 relative"
-              style={{ borderColor: "rgba(255,255,255,0.07)" }}
+              style={{ borderColor: "var(--bd-light)" }}
             >
-              {/* Subtle hover glow bg */}
+              {/* Subtle hover glow */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg pointer-events-none"
-                style={{ background: "radial-gradient(ellipse at center, rgba(59,130,246,0.05) 0%, transparent 70%)" }}
+                style={{ background: "radial-gradient(ellipse at center, rgba(59,130,246,0.06) 0%, transparent 70%)" }}
               />
 
               <p
-                className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-1 transition-colors duration-300 group-hover:text-blue-400"
-                style={{ color: "#FFFFFF", fontFamily: "var(--font-playfair)" }}
+                className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-1 transition-colors duration-300 group-hover:text-blue-600"
+                style={{ color: "var(--text-on-light-1)", fontFamily: "var(--font-playfair)" }}
               >
                 {s.type === "number" ? (
                   <Counter target={s.value as number} suffix={s.suffix} />
@@ -99,10 +93,10 @@ export default function TrustedExpertise() {
                   s.value as string
                 )}
               </p>
-              <p className="text-xs font-semibold mb-1" style={{ color: "#CBD5E1" }}>{s.label}</p>
-              <p className="text-[10px] leading-tight" style={{ color: "#94A3B8" }}>{s.sub}</p>
+              <p className="text-xs font-semibold mb-1" style={{ color: "var(--text-on-light-2)" }}>{s.label}</p>
+              <p className="text-[10px] leading-tight" style={{ color: "var(--text-on-light-3)" }}>{s.sub}</p>
 
-              {/* Animated dot indicator */}
+              {/* Hover dot */}
               <div
                 className="absolute bottom-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ background: "#3B82F6" }}
@@ -111,12 +105,6 @@ export default function TrustedExpertise() {
           ))}
         </div>
       </div>
-
-      {/* Ambient shimmer line at bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.3), transparent)" }}
-      />
     </section>
   );
 }

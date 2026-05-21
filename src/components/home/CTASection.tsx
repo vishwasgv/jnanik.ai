@@ -50,11 +50,11 @@ export default function CTASection() {
               className="font-serif font-bold leading-tight mb-5"
               style={{ fontSize: "clamp(1.75rem,4.5vw,3.25rem)", color: "var(--text-1)" }}
             >
-              Your AI project deserves<br />
-              an honest conversation first.
+              Talk to our engineers.<br />
+              Not our sales team.
             </h2>
             <p className="text-base sm:text-lg leading-relaxed mb-8 sm:mb-10" style={{ color: "var(--text-2)" }}>
-              Book a 60-minute session. We&apos;ll assess your situation, tell you what&apos;s realistic, and give you a clear view of what AI could actually do for your business — no commitment, no pitch.
+              Book 60 minutes with a senior Jnanik engineer. We&apos;ll assess your data, workflows, and constraints — then tell you exactly what AI can and can&apos;t do for your business. No pitch. No commitment. No generic slides.
             </p>
 
             <div className="flex flex-wrap gap-4">

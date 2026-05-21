@@ -5,12 +5,12 @@
   --font-serif: var(--font-playfair), Georgia, serif;
 }
 
-/* ── Premium Blue-Slate Design Tokens ───────────────────── */
+/* ── Dark section design tokens ─────────────────────────── */
 :root {
-  --bg:        #0F172A;   /* slate-900 — clearly blue-grey, never black */
-  --bg-alt:    #1E293B;   /* slate-800 */
-  --bg-raised: #172033;   /* between the two */
-  --glass:     rgba(30,41,59,0.65);
+  --bg:        #070F1E;   /* deep navy — authority */
+  --bg-alt:    #0C1A2E;   /* slightly lighter dark */
+  --bg-raised: #111C30;   /* raised surface on dark */
+  --glass:     rgba(11,20,40,0.7);
   --glass-bd:  rgba(255,255,255,0.09);
   --blue:      #3B82F6;
   --blue-lt:   #60A5FA;
@@ -23,7 +23,16 @@
   --text-3:    #94A3B8;
   --text-muted:#64748B;
   --bd:        rgba(255,255,255,0.08);
-  --footer:    #060E1C;
+  --footer:    #03080F;
+
+  /* ── Light section design tokens ──────────────────────── */
+  --bg-light:           #EEF2F9;
+  --bg-light-alt:       #F5F7FC;
+  --text-on-light-1:    #0D1B2E;
+  --text-on-light-2:    #2D4462;
+  --text-on-light-3:    #54698A;
+  --text-on-light-muted:#8096AF;
+  --bd-light:           rgba(13,27,46,0.09);
 }
 
 * { box-sizing: border-box; }
@@ -51,7 +60,7 @@ body::after {
 
 /* ── Glass / Card system ────────────────────────────────── */
 .card-base {
-  background: rgba(30,41,59,0.6);
+  background: rgba(17,28,48,0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.09);
@@ -81,6 +90,48 @@ body::after {
   transition: opacity 0.3s;
 }
 .card-glow:hover::before { opacity: 1; }
+
+/* ── Light-surface card ──────────────────────────────────── */
+.card-light {
+  background: #FFFFFF;
+  border: 1px solid rgba(13,27,46,0.08);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(13,27,46,0.06), 0 1px 4px rgba(13,27,46,0.04);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.card-light:hover {
+  box-shadow: 0 8px 36px rgba(13,27,46,0.1), 0 2px 8px rgba(13,27,46,0.06);
+}
+
+/* ── Section label for light backgrounds ─────────────────── */
+.section-label-dark {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.22);
+  color: #1D4ED8;
+}
+
+/* ── Icon badge for light backgrounds ───────────────────── */
+.blue-icon-light {
+  background: rgba(59,130,246,0.09);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 12px;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Shimmer text variant for light backgrounds ──────────── */
+.shimmer-text-dark {
+  background: linear-gradient(90deg, #1D4ED8 0%, #3B82F6 30%, #6366F1 50%, #3B82F6 70%, #1D4ED8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
 
 /* ── Icon badges ─────────────────────────────────────────── */
 .blue-icon,
