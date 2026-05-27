@@ -1,7 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Zap, Users, BookOpen, Globe2, Shield, Coffee, Bell } from "lucide-react";
+import { Zap, Users, BookOpen, Globe2, Shield, Coffee, Bell, Code2, Cpu, Layers } from "lucide-react";
+import Image from "next/image";
+
+/* ─── Set image path once ready ──────────────────────────── */
+const HERO_IMAGE: string | null = null;
+// const HERO_IMAGE = "/images/careers-hero.jpg";
 
 const perks = [
   { icon: Zap,      title: "Real AI Problems",            desc: "Solve meaningful industrial AI challenges — agentic systems, knowledge retrieval, SLM optimisation, on-prem deployments." },
@@ -24,34 +29,57 @@ export default function CareersSection() {
   return (
     <div style={{ background: "var(--bg)" }}>
 
-      {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="py-20 sm:py-32 relative overflow-hidden" style={{ background: "#FFFFFF" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mb-14 sm:mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
-              <div className="section-label mb-6 inline-flex">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                Careers at Jnanik AI
-              </div>
-              <h2
-                className="font-serif font-bold mb-5 leading-tight"
-                style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "#0F172A" }}
-              >
-                Build AI that shapes<br />
-                <span className="shimmer-text">industrial futures.</span>
-              </h2>
-              <p className="text-base sm:text-xl leading-relaxed" style={{ color: "#475569" }}>
-                Join a small, exceptional team building enterprise AI systems that matter. We&apos;re looking for engineers and researchers who care about correctness, craft, and real-world impact.
-              </p>
-            </motion.div>
+      {/* ── Hero banner ───────────────────────────────────── */}
+      <section className="relative overflow-hidden" style={{ height: "420px" }}>
+        {HERO_IMAGE ? (
+          <Image src={HERO_IMAGE} alt="Engineering at Jnanik AI" fill className="object-cover" sizes="100vw" priority />
+        ) : (
+          <div className="absolute inset-0" style={{ background: "linear-gradient(145deg, #0F172A 0%, #0C1F40 45%, #0A1628 100%)" }}>
+            {/* Grid */}
+            <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
+            {/* Glows */}
+            <div className="absolute top-1/3 left-1/4 w-72 h-72 rounded-full" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%)", filter: "blur(50px)" }} />
+            <div className="absolute bottom-1/4 right-1/3 w-48 h-48 rounded-full" style={{ background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 65%)", filter: "blur(40px)" }} />
+            {/* Floating icon watermarks */}
+            <div className="absolute inset-0 overflow-hidden">
+              <Code2 size={180} className="absolute opacity-[0.04]" style={{ color: "#FFFFFF", top: "10%", right: "8%" }} />
+              <Cpu size={100} className="absolute opacity-[0.04]" style={{ color: "#FFFFFF", bottom: "15%", left: "5%" }} />
+              <Layers size={80} className="absolute opacity-[0.04]" style={{ color: "#FFFFFF", top: "20%", left: "30%" }} />
+            </div>
           </div>
+        )}
+        {/* Overlay */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.55) 100%)" }} />
+        {/* Content overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)" }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.7)" }}>Careers at Jnanik AI</span>
+            </div>
+            <h1 className="font-serif font-bold leading-tight mb-4" style={{ fontSize: "clamp(2rem,5vw,3.5rem)", color: "#FFFFFF" }}>
+              Build AI that shapes<br />industrial futures.
+            </h1>
+            <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.65)" }}>
+              A small, exceptional team. Real problems. Production-grade AI.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-          {/* Perks */}
+      {/* ── Perks ─────────────────────────────────────────── */}
+      <section className="py-20 sm:py-28" style={{ background: "#FFFFFF" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-10 sm:mb-12">
+            <div className="section-label mb-5 inline-flex">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              Why Join Us
+            </div>
+            <h2 className="font-serif font-bold leading-tight" style={{ fontSize: "clamp(1.75rem,4vw,2.75rem)", color: "#0F172A" }}>
+              What makes Jnanik AI different.
+            </h2>
+          </motion.div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {perks.map((p, i) => (
               <motion.div

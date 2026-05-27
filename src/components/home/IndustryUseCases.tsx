@@ -1,60 +1,53 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Factory, ShoppingCart, Car, Check } from "lucide-react";
+import { Factory, ShoppingCart, Car } from "lucide-react";
+import Image from "next/image";
 import { vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
+
+/* ─── Set image paths once ready ─────────────────────────── */
+const IMAGES = {
+  manufacturing: null as string | null,  // "/images/industry-manufacturing.jpg"
+  fmcg:          null as string | null,  // "/images/industry-fmcg.jpg"
+  automotive:    null as string | null,  // "/images/industry-automotive.jpg"
+};
 
 const industries = [
   {
     icon: Factory,
+    image: IMAGES.manufacturing,
     title: "Manufacturing & Industrial",
-    tagline: "Quality AI · Predictive Maintenance",
-    story: "A manufacturing line produces thousands of units an hour. One missed defect costs more than a thousand passed ones. We build AI inspection and maintenance systems that catch problems before they become recalls.",
-    outcomes: [
-      "Defect detection before the product leaves the line",
-      "Predictive maintenance — fix it before it breaks",
-      "SOPs and quality data available to every shift, instantly",
-    ],
-    metrics: ["99.2% defect accuracy", "72% less unplanned downtime"],
-    gradient: "linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%)",
-    accent: "#2563EB",
-    accentBg: "rgba(37,99,235,0.08)",
-    accentBd: "rgba(37,99,235,0.16)",
-    featured: true,
+    tagline: "AI quality control and predictive maintenance — built for the shop floor.",
+    metrics: ["99.2% defect accuracy", "72% less downtime"],
+    gradient: "linear-gradient(145deg, #0F172A 0%, #0C2340 100%)",
+    glowColor: "rgba(37,99,235,0.3)",
+    accent: "#3B82F6",
+    accentBg: "rgba(37,99,235,0.15)",
+    accentBd: "rgba(37,99,235,0.3)",
   },
   {
     icon: ShoppingCart,
+    image: IMAGES.fmcg,
     title: "FMCG",
-    tagline: "Demand Intelligence · Supply Efficiency",
-    story: "In FMCG, margins are thin and speed is everything. AI helps your teams react faster — to demand shifts, quality issues, and supply chain signals — before they become problems.",
-    outcomes: [
-      "Real-time demand signals across SKUs and regions",
-      "Automated compliance and labelling checks",
-      "Supplier and logistics intelligence in one view",
-    ],
+    tagline: "Demand intelligence and supply chain visibility — at speed.",
     metrics: ["40% faster response", "3× supply visibility"],
-    gradient: "linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)",
-    accent: "#16A34A",
-    accentBg: "rgba(22,163,74,0.08)",
-    accentBd: "rgba(22,163,74,0.16)",
-    featured: false,
+    gradient: "linear-gradient(145deg, #052E16 0%, #064E3B 100%)",
+    glowColor: "rgba(22,163,74,0.3)",
+    accent: "#22C55E",
+    accentBg: "rgba(22,163,74,0.15)",
+    accentBd: "rgba(22,163,74,0.3)",
   },
   {
     icon: Car,
+    image: IMAGES.automotive,
     title: "Automotive",
-    tagline: "Production AI · Component Intelligence",
-    story: "Automotive manufacturing demands zero-tolerance precision across thousands of components. We deploy AI that monitors assembly quality, tracks component traceability, and keeps production intelligence in the hands of your engineers.",
-    outcomes: [
-      "Component traceability across the entire production chain",
-      "Assembly quality checks with sub-millimetre precision",
-      "Engineering knowledge bases that never go home at 5 PM",
-    ],
-    metrics: ["98.7% assembly precision", "60% faster root cause analysis"],
-    gradient: "linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%)",
-    accent: "#EA580C",
-    accentBg: "rgba(234,88,12,0.08)",
-    accentBd: "rgba(234,88,12,0.16)",
-    featured: false,
+    tagline: "Assembly precision and component traceability across the production chain.",
+    metrics: ["98.7% assembly precision", "60% faster root cause"],
+    gradient: "linear-gradient(145deg, #1C0A00 0%, #431407 100%)",
+    glowColor: "rgba(234,88,12,0.3)",
+    accent: "#F97316",
+    accentBg: "rgba(234,88,12,0.15)",
+    accentBd: "rgba(234,88,12,0.3)",
   },
 ];
 
@@ -64,87 +57,76 @@ export default function IndustryUseCases() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(15,23,42,0.07)" }} />
 
-        <motion.div
-          variants={staggerGrid(0)}
-          initial="hidden"
-          whileInView="show"
-          viewport={vp}
-          className="mb-12 sm:mb-16"
-        >
+        <motion.div variants={staggerGrid(0)} initial="hidden" whileInView="show" viewport={vp} className="mb-12 sm:mb-16">
           <motion.div variants={fadeOnly} className="section-label mb-5 sm:mb-6 inline-flex">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
             Where Jnanik AI Delivers Results
           </motion.div>
-          <motion.h2
-            variants={fadeUpBlur}
-            className="font-serif font-bold leading-tight"
-            style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
-          >
+          <motion.h2 variants={fadeUpBlur} className="font-serif font-bold leading-tight" style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}>
             Built for industries where<br />precision is non-negotiable.
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-base sm:text-lg mt-4 max-w-2xl" style={{ color: "var(--text-3)" }}>
-            We work where complexity is high, margins matter, and generic AI tools fall short.
-          </motion.p>
         </motion.div>
 
-        {/* Industry cards */}
-        <motion.div
-          variants={staggerGrid(0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={vp}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6"
-        >
+        <motion.div variants={staggerGrid(0.1)} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
           {industries.map((ind, i) => (
             <motion.div
               key={i}
               variants={fadeUp}
-              whileHover={{ y: -4 }}
+              whileHover={{ y: -5 }}
               transition={{ duration: 0.25 }}
-              className="card-base overflow-hidden flex flex-col"
+              className="group relative overflow-hidden rounded-2xl flex flex-col"
+              style={{ minHeight: "360px", border: "1px solid rgba(15,23,42,0.07)", boxShadow: "0 4px 20px rgba(15,23,42,0.06)" }}
             >
-              {/* Gradient header */}
-              <div
-                className="p-7 pb-5 flex flex-col items-start gap-4"
-                style={{ background: ind.gradient }}
-              >
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                  style={{ background: "rgba(255,255,255,0.8)", border: `1px solid ${ind.accentBd}`, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
-                >
-                  <ind.icon size={22} style={{ color: ind.accent }} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: ind.accent }}>{ind.tagline}</p>
-                  <h3 className="font-bold text-xl" style={{ color: "#0F172A" }}>{ind.title}</h3>
+              {/* ── Image / gradient zone ── */}
+              <div className="relative overflow-hidden" style={{ height: "220px", flexShrink: 0 }}>
+                {ind.image ? (
+                  <Image
+                    src={ind.image}
+                    alt={ind.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width:1024px) 100vw, 33vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0" style={{ background: ind.gradient }}>
+                    {/* Grid lines */}
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+                      backgroundSize: "36px 36px",
+                    }} />
+                    {/* Centre glow */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-32 h-32 rounded-full" style={{ background: `radial-gradient(circle, ${ind.glowColor} 0%, transparent 70%)`, filter: "blur(20px)" }} />
+                    </div>
+                    {/* Large icon watermark */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                      <ind.icon size={110} style={{ color: ind.accent }} />
+                    </div>
+                  </div>
+                )}
+
+                {/* Gradient fade into card body */}
+                <div className="absolute bottom-0 left-0 right-0 h-16" style={{ background: "linear-gradient(to top, #FFFFFF, transparent)" }} />
+
+                {/* Industry icon badge */}
+                <div className="absolute top-4 left-4">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: ind.accentBg, border: `1px solid ${ind.accentBd}`, backdropFilter: "blur(8px)" }}>
+                    <ind.icon size={18} style={{ color: ind.accent }} />
+                  </div>
                 </div>
               </div>
 
-              {/* Body */}
-              <div className="p-7 pt-5 flex-1 flex flex-col gap-5">
-                <p className="text-sm leading-relaxed" style={{ color: "#475569" }}>{ind.story}</p>
+              {/* ── Content zone ── */}
+              <div className="flex-1 flex flex-col justify-between p-6 pt-4 bg-white">
+                <div>
+                  <h3 className="font-bold text-lg mb-2" style={{ color: "#0F172A" }}>{ind.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{ind.tagline}</p>
+                </div>
 
-                <ul className="space-y-2.5">
-                  {ind.outcomes.map((o, oi) => (
-                    <li key={oi} className="flex items-start gap-2.5 text-sm" style={{ color: "#334155" }}>
-                      <div
-                        className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center mt-0.5"
-                        style={{ background: ind.accentBg, border: `1px solid ${ind.accentBd}` }}
-                      >
-                        <Check size={9} style={{ color: ind.accent }} />
-                      </div>
-                      {o}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex gap-2 flex-wrap pt-2">
+                {/* Metrics */}
+                <div className="flex gap-2 flex-wrap mt-4">
                   {ind.metrics.map((m) => (
-                    <span
-                      key={m}
-                      className="px-3 py-1.5 text-[10px] font-bold rounded-full"
-                      style={{ background: ind.accentBg, border: `1px solid ${ind.accentBd}`, color: ind.accent }}
-                    >
+                    <span key={m} className="px-3 py-1.5 text-[10px] font-bold rounded-full" style={{ background: ind.accentBg, border: `1px solid ${ind.accentBd}`, color: ind.accent }}>
                       {m}
                     </span>
                   ))}

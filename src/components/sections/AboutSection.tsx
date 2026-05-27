@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2, User } from "lucide-react";
+import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2 } from "lucide-react";
 
 const timeline = [
   { year: "2021", title: "Founded in Bengaluru", desc: "Started with one conviction: enterprise AI should be private, practical, and built to last — not a flashy demo that never ships." },
@@ -23,15 +23,19 @@ const values = [
 const founders = [
   {
     name: "Pramod Kumar P",
+    initials: "PK",
     role: "Co-founder",
     bio: "Pramod brings deep expertise in industrial technology and operations management. Having spent years understanding how manufacturing floors actually work — not from a conference room, but from the ground up — he leads our industrial AI practice. His conviction: AI systems for manufacturing must be held to the same zero-tolerance standards as the operations they serve.",
     background: ["Industrial Engineering", "Manufacturing Operations", "Production AI"],
+    gradient: "linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%)",
   },
   {
     name: "Puneeth Shetty",
+    initials: "PS",
     role: "Co-founder",
     bio: "Puneeth is the architect behind Jnanik's platform and engineering organisation. With experience building large-scale enterprise data systems and cloud platforms, he ensures every Jnanik system is built to last, scale, and evolve. His focus: the gap between an AI demo and an AI system in production is an engineering problem — and engineering problems have solutions.",
     background: ["Cloud Architecture", "Distributed Systems", "Enterprise Platforms"],
+    gradient: "linear-gradient(135deg, #1A3A4A 0%, #0891B2 100%)",
   },
 ];
 
@@ -217,23 +221,38 @@ export default function AboutSection() {
                 transition={{ duration: 0.6, delay: i * 0.12 }}
                 className="card-base overflow-hidden"
               >
-                {/* Photo placeholder */}
+                {/* Founder portrait placeholder */}
                 <div
-                  className="w-full flex items-center justify-center"
+                  className="w-full relative flex items-end"
                   style={{
-                    height: "220px",
-                    background: "linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%)",
-                    borderBottom: "1px solid rgba(37,99,235,0.1)",
+                    height: "240px",
+                    background: founder.gradient,
+                    borderBottom: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  <div className="flex flex-col items-center gap-3">
-                    <div
-                      className="w-20 h-20 rounded-full flex items-center justify-center"
-                      style={{ background: "rgba(37,99,235,0.1)", border: "2px solid rgba(37,99,235,0.2)" }}
+                  {/* Subtle grid lines */}
+                  <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+                  {/* Glow */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-40 h-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)", filter: "blur(20px)" }} />
+                  </div>
+                  {/* Large initials */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span
+                      className="font-serif font-bold select-none"
+                      style={{ fontSize: "clamp(5rem,12vw,7rem)", color: "rgba(255,255,255,0.15)", letterSpacing: "-0.04em", lineHeight: 1 }}
                     >
-                      <User size={36} style={{ color: "#2563EB" }} />
+                      {founder.initials}
+                    </span>
+                  </div>
+                  {/* Foreground initials badge */}
+                  <div className="relative z-10 m-5">
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                      style={{ background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.22)", backdropFilter: "blur(8px)" }}
+                    >
+                      <span className="font-bold text-xl" style={{ color: "#FFFFFF", fontFamily: "var(--font-playfair)" }}>{founder.initials}</span>
                     </div>
-                    <p className="text-xs font-medium" style={{ color: "#64748B" }}>Photo coming soon</p>
                   </div>
                 </div>
 
