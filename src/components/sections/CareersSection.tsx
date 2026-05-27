@@ -5,8 +5,7 @@ import { Zap, Users, BookOpen, Globe2, Shield, Coffee, Bell, Code2, Cpu, Layers 
 import Image from "next/image";
 
 /* ─── Set image path once ready ──────────────────────────── */
-const HERO_IMAGE: string | null = null;
-// const HERO_IMAGE = "/images/careers-hero.jpg";
+const HERO_IMAGE: string | null = "/images/careers-hero.png";
 
 const perks = [
   { icon: Zap,      title: "Real AI Problems",            desc: "Solve meaningful industrial AI challenges — agentic systems, knowledge retrieval, SLM optimisation, on-prem deployments." },

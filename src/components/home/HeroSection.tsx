@@ -6,8 +6,7 @@ import Image from "next/image";
 import { dur, ease } from "@/lib/motionConfig";
 
 /* ─── Set this path once the image is ready ───────────────── */
-const HERO_IMAGE: string | null = null;
-// const HERO_IMAGE = "/images/hero-industry.jpg";
+const HERO_IMAGE: string | null = "/images/hero-industry.png";
 
 const badges = [
   { icon: ShieldCheck, text: "On-prem deployable" },

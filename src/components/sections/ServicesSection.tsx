@@ -6,12 +6,12 @@ import { BookOpen, Lightbulb, Bot, Cpu, MessageSquare, Wrench, Check, ArrowRight
 
 /* ─── Set image paths once ready ─────────────────────────── */
 const IMAGES = {
-  knowledgeHub: null as string | null,  // "/images/service-knowledge-hub.jpg"
-  strategy:     null as string | null,  // "/images/service-strategy.jpg"
-  agentic:      null as string | null,  // "/images/service-agentic.jpg"
-  slm:          null as string | null,  // "/images/service-slm.jpg"
-  chatbot:      null as string | null,  // "/images/service-chatbot.jpg"
-  custom:       null as string | null,  // "/images/service-custom.jpg"
+  knowledgeHub: "/images/service-knowledge-hub.png",
+  strategy:     "/images/service-strategy.png",
+  agentic:      "/images/service-agentic.png",
+  slm:          "/images/service-slm.png",
+  chatbot:      "/images/service-chatbot.png",
+  custom:       "/images/service-custom.png",
 };
 
 const services = [

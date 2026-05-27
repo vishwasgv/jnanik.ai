@@ -7,9 +7,9 @@ import { vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfi
 
 /* ─── Set image paths once ready ─────────────────────────── */
 const IMAGES = {
-  manufacturing: null as string | null,  // "/images/industry-manufacturing.jpg"
-  fmcg:          null as string | null,  // "/images/industry-fmcg.jpg"
-  automotive:    null as string | null,  // "/images/industry-automotive.jpg"
+  manufacturing: "/images/industry-manufacturing.png",
+  fmcg:          "/images/industry-fmcg.png",
+  automotive:    "/images/industry-automotive.png",
 };
 
 const industries = [
