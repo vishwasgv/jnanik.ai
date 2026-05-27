@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Factory, TrendingUp, ShieldCheck, Zap, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Factory, TrendingUp, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { dur, ease } from "@/lib/motionConfig";
 
@@ -14,129 +14,26 @@ const badges = [
   { icon: TrendingUp,  text: "60–80% cost saving" },
 ];
 
-const storyCards = [
-  {
-    industry: "Manufacturing",
-    action: "Defect detected before shipping",
-    metric: "99.2%",
-    metricLabel: "accuracy",
-    color: "#2563EB",
-    delay: 0.6,
-    top: "8%",
-    animY: [0, -8, 0],
-    duration: 6,
-  },
-  {
-    industry: "FMCG",
-    action: "Supply signal identified early",
-    metric: "3×",
-    metricLabel: "faster visibility",
-    color: "#16A34A",
-    delay: 0.85,
-    top: "42%",
-    animY: [0, -6, 0],
-    duration: 7.5,
-  },
-  {
-    industry: "Automotive",
-    action: "Assembly precision verified",
-    metric: "98.7%",
-    metricLabel: "precision rate",
-    color: "#EA580C",
-    delay: 1.1,
-    top: "72%",
-    animY: [0, -7, 0],
-    duration: 9,
-  },
-];
-
 function HeroVisual() {
   return (
     <div className="relative w-full" style={{ height: "540px", borderRadius: "24px", overflow: "hidden" }}>
 
-      {/* Background — image or industrial gradient */}
+      {/* Background — image or industrial gradient fallback */}
       {HERO_IMAGE ? (
         <Image src={HERO_IMAGE} alt="AI in industrial operations" fill className="object-cover" sizes="50vw" priority />
       ) : (
         <div className="absolute inset-0" style={{ background: "linear-gradient(145deg, #0F172A 0%, #0C2340 50%, #102444 100%)" }}>
-          {/* Grid lines */}
           <div className="absolute inset-0" style={{
             backgroundImage: "linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px)",
             backgroundSize: "44px 44px",
           }} />
-          {/* Glows */}
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%)", filter: "blur(40px)" }} />
           <div className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full" style={{ background: "radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 65%)", filter: "blur(40px)" }} />
         </div>
       )}
 
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.55) 100%)" }} />
-
-      {/* Animated vertical connector */}
-      <motion.div
-        className="absolute"
-        style={{ left: "36px", top: "14%", bottom: "20%", width: "1px", background: "linear-gradient(to bottom, transparent, rgba(59,130,246,0.4), rgba(59,130,246,0.4), transparent)" }}
-        initial={{ scaleY: 0, originY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-      />
-
-      {/* Moving dot along connector */}
-      <motion.div
-        className="absolute"
-        style={{ left: "30px", width: "14px", height: "14px", borderRadius: "50%", background: "#3B82F6", boxShadow: "0 0 12px rgba(59,130,246,0.7)" }}
-        animate={{ top: ["14%", "72%", "14%"] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Story cards */}
-      {storyCards.map((card, i) => (
-        <motion.div
-          key={i}
-          className="absolute"
-          style={{ left: "56px", right: "16px", top: card.top }}
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.55, delay: card.delay, ease: "easeOut" }}
-        >
-          <motion.div
-            animate={{ y: card.animY }}
-            transition={{ duration: card.duration, repeat: Infinity, ease: "easeInOut" }}
-            className="flex items-center gap-3 rounded-xl px-4 py-3"
-            style={{ background: "rgba(255,255,255,0.09)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.12)", maxWidth: "340px" }}
-          >
-            {/* Metric */}
-            <div
-              className="shrink-0 rounded-lg flex flex-col items-center justify-center"
-              style={{ width: "54px", height: "44px", background: `${card.color}18`, border: `1px solid ${card.color}30` }}
-            >
-              <span className="text-sm font-extrabold leading-none" style={{ color: card.color, fontFamily: "var(--font-playfair)" }}>{card.metric}</span>
-              <span className="text-[8px] font-semibold mt-0.5" style={{ color: card.color }}>{card.metricLabel}</span>
-            </div>
-            {/* Text */}
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: card.color }}>{card.industry}</p>
-              <p className="text-xs font-medium leading-snug" style={{ color: "rgba(255,255,255,0.85)" }}>{card.action}</p>
-            </div>
-            {/* Done icon */}
-            <CheckCircle2 size={14} className="ml-auto shrink-0" style={{ color: card.color }} />
-          </motion.div>
-        </motion.div>
-      ))}
-
-      {/* Bottom label */}
-      <motion.div
-        className="absolute bottom-4 left-4 right-4 flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-      >
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-          <Zap size={10} style={{ color: "#60A5FA" }} />
-          <span className="text-[10px] font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>Jnanik AI — live in production</span>
-        </div>
-      </motion.div>
+      {/* Subtle bottom vignette — depth only, not smog */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, rgba(10,18,35,0.35) 100%)" }} />
     </div>
   );
 }

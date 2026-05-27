@@ -105,8 +105,6 @@ export default function IndustryUseCases() {
                   </div>
                 )}
 
-                {/* Gradient fade into card body — very short, just enough */}
-                <div className="absolute bottom-0 left-0 right-0 h-8" style={{ background: "linear-gradient(to top, rgba(255,255,255,0.85), transparent)" }} />
 
                 {/* Industry icon badge */}
                 <div className="absolute top-4 left-4">

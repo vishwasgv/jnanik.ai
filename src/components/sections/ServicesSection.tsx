@@ -150,9 +150,6 @@ export default function ServicesSection() {
                   {/* Visual panel */}
                   <div className="relative overflow-hidden min-h-[200px] lg:w-[38%] shrink-0">
                     <ImageOrGradient image={svc.image} gradient={svc.gradient} glow={svc.glowColor} alt={svc.title} />
-                    {/* Fade to white — short, sharp, starts late */}
-                    <div className="absolute inset-0 hidden lg:block" style={{ background: panelRight ? "linear-gradient(to left, transparent 76%, rgba(255,255,255,0.95) 90%, #FFFFFF 100%)" : "linear-gradient(to right, transparent 76%, rgba(255,255,255,0.95) 90%, #FFFFFF 100%)" }} />
-                    <div className="absolute inset-0 lg:hidden" style={{ background: "linear-gradient(to bottom, transparent 74%, rgba(255,255,255,0.95) 90%, #FFFFFF 100%)" }} />
                     {/* Icon badge */}
                     <div className="absolute top-5 left-5 flex items-center gap-2.5">
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: svc.accentBg, border: `1px solid ${svc.accentBd}`, backdropFilter: "blur(8px)" }}>

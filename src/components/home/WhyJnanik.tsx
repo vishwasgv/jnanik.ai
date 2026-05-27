@@ -7,23 +7,23 @@ import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/
 const comparisons = [
   {
     them: "Generic AI tools adapted to your data",
-    us:   "Systems designed around your actual workflows, data, and constraints — from the first conversation.",
+    us:   "Systems built around your actual workflows, data, and constraints.",
   },
   {
     them: "Cloud-only — your data leaves the building",
-    us:   "On-prem options available. Your data never crosses a network boundary you don't own.",
+    us:   "On-prem available. Your data never crosses a boundary you don't own.",
   },
   {
     them: "Consultants who recommend, then disappear",
-    us:   "Engineers who build, test, and own the production deployment — start to finish.",
+    us:   "Engineers who build, test, and own the deployment — start to finish.",
   },
   {
     them: "Black-box AI with no audit trail",
-    us:   "Transparent, auditable AI with full decision traceability and access controls.",
+    us:   "Transparent AI with full decision traceability and access controls.",
   },
   {
     them: "Escalating cloud API costs at scale",
-    us:   "SLM-first architecture — sustainable economics from day one, not a surprise at month three.",
+    us:   "SLM-first architecture — sustainable economics from day one.",
   },
 ];
 
@@ -65,8 +65,8 @@ export default function WhyJnanik() {
             Most AI projects stall.<br />
             <span className="shimmer-text-dark">Here&apos;s how we&apos;re different.</span>
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-base sm:text-lg max-w-xl" style={{ color: "var(--text-on-light-3)" }}>
-            The gap between an impressive pilot and a system that works in production isn&apos;t the model — it&apos;s every decision made before the first line of code.
+          <motion.p variants={fadeUp} className="text-base max-w-lg" style={{ color: "var(--text-on-light-3)" }}>
+            The gap between a pilot and a production system isn&apos;t the model — it&apos;s every decision made before the first line of code.
           </motion.p>
         </motion.div>
 
@@ -109,30 +109,30 @@ export default function WhyJnanik() {
             >
               <motion.div
                 variants={problemVariant}
-                className="flex items-start gap-3.5 px-5 py-4 rounded-xl"
+                className="flex items-center gap-3 px-5 py-3 rounded-xl"
                 style={{ background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.09)" }}
               >
                 <div
-                  className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
+                  className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
                   style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.18)" }}
                 >
                   <X size={10} style={{ color: "#EF4444" }} />
                 </div>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-light-3)" }}>{row.them}</p>
+                <p className="text-sm" style={{ color: "var(--text-on-light-3)" }}>{row.them}</p>
               </motion.div>
 
               <motion.div
                 variants={solutionVariant}
-                className="flex items-start gap-3.5 px-5 py-4 rounded-xl"
+                className="flex items-center gap-3 px-5 py-3 rounded-xl"
                 style={{ background: "rgba(37,99,235,0.04)", border: "1px solid rgba(37,99,235,0.13)" }}
               >
                 <div
-                  className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
+                  className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
                   style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.24)" }}
                 >
                   <Check size={10} style={{ color: "#2563EB" }} />
                 </div>
-                <p className="text-sm leading-relaxed font-medium" style={{ color: "var(--text-on-light-2)" }}>{row.us}</p>
+                <p className="text-sm font-medium" style={{ color: "var(--text-on-light-2)" }}>{row.us}</p>
               </motion.div>
             </motion.div>
           ))}
