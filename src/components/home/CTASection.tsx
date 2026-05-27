@@ -6,7 +6,7 @@ import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/
 
 export default function CTASection() {
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8" style={{ background: "#F8FAFD" }}>
+    <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8" style={{ background: "var(--bg-cool)" }}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -15,7 +15,7 @@ export default function CTASection() {
           transition={{ duration: dur.cinematic, ease: ease.out }}
           className="relative overflow-hidden rounded-2xl sm:rounded-3xl px-8 sm:px-16 py-14 sm:py-20"
           style={{
-            background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+            background: "linear-gradient(135deg, #0B1525 0%, #152238 100%)",
             boxShadow: "0 24px 64px rgba(15,23,42,0.2)",
           }}
         >

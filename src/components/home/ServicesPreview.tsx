@@ -142,9 +142,9 @@ export default function ServicesPreview() {
               {/* Image / gradient panel */}
               <div className="relative overflow-hidden min-h-[220px] lg:min-h-0">
                 <ImageOrGradient image={featured.image} gradient={featured.gradient} glow={featured.glowColor} accent={featured.accent} alt={featured.title} />
-                {/* Gradient to white on right */}
-                <div className="absolute inset-0 hidden lg:block" style={{ background: "linear-gradient(to right, transparent 60%, #FFFFFF 100%)" }} />
-                <div className="absolute inset-0 lg:hidden" style={{ background: "linear-gradient(to bottom, transparent 60%, #FFFFFF 100%)" }} />
+                {/* Gradient to white — starts at 82%, no smog on photo */}
+                <div className="absolute inset-0 hidden lg:block" style={{ background: "linear-gradient(to right, transparent 80%, rgba(255,255,255,0.96) 94%, #FFFFFF 100%)" }} />
+                <div className="absolute inset-0 lg:hidden" style={{ background: "linear-gradient(to bottom, transparent 80%, rgba(255,255,255,0.96) 94%, #FFFFFF 100%)" }} />
 
                 {/* Badge */}
                 <span className="absolute top-4 left-4 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest" style={{ background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.35)", color: "#93C5FD" }}>
@@ -190,8 +190,8 @@ export default function ServicesPreview() {
               {/* Image / gradient header */}
               <div className="relative overflow-hidden" style={{ height: "130px", flexShrink: 0 }}>
                 <ImageOrGradient image={svc.image} gradient={svc.gradient} glow={svc.glowColor} accent={svc.accent} alt={svc.title} />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, #FFFFFF 100%)" }} />
-                <div className="absolute bottom-3 left-4 w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: svc.accentBg, border: `1px solid ${svc.accentBd}` }}>
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 65%, rgba(255,255,255,0.92) 92%, #FFFFFF 100%)" }} />
+                <div className="absolute bottom-3 left-4 w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: svc.accentBg, border: `1px solid ${svc.accentBd}`, backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" }}>
                   <svc.icon size={16} style={{ color: svc.accent }} />
                 </div>
               </div>

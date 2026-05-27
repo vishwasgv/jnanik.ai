@@ -68,7 +68,7 @@ export default function Footer() {
             <a href="#home" className="flex items-center gap-2 mb-5">
               <Image src="/logo.avif" alt="Jnanik AI" width={100} height={67} className="object-contain" />
             </a>
-            <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: "#64748B" }}>
+            <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: "#8DAABF" }}>
               Enterprise AI for Manufacturing, Automotive, and FMCG — built for production, deployed on your terms.
             </p>
             <div className="flex items-center gap-2.5">
@@ -83,7 +83,7 @@ export default function Footer() {
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 400, damping: 18 }}
                   className="w-9 h-9 rounded-lg flex items-center justify-center"
-                  style={{ background: "rgba(255,255,255,0.06)", color: "#64748B" }}
+                  style={{ background: "rgba(255,255,255,0.07)", color: "#7A9AB5" }}
                 >
                   {social.svg}
                 </motion.a>
@@ -100,7 +100,7 @@ export default function Footer() {
                   <a
                     href={item.href}
                     className="group inline-flex items-center gap-1.5 text-sm transition-colors hover:text-blue-400"
-                    style={{ color: "#64748B" }}
+                    style={{ color: "#8DAABF" }}
                   >
                     <span className="inline-block w-0 h-px bg-blue-400 transition-all duration-300 group-hover:w-3" />
                     {item.label}
@@ -119,7 +119,7 @@ export default function Footer() {
                   <a
                     href={s.href}
                     className="group inline-flex items-center gap-1.5 text-sm transition-colors hover:text-blue-400"
-                    style={{ color: "#64748B" }}
+                    style={{ color: "#8DAABF" }}
                   >
                     <span className="inline-block w-0 h-px bg-blue-400 transition-all duration-300 group-hover:w-3" />
                     {s.label}
@@ -135,7 +135,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={13} className="shrink-0 mt-0.5" style={{ color: "#3B82F6" }} />
-                <span className="text-xs sm:text-sm leading-relaxed" style={{ color: "#64748B" }}>
+                <span className="text-xs sm:text-sm leading-relaxed" style={{ color: "#8DAABF" }}>
                   7th Main, Bhuvaneshwari Nagar,<br />Banashankari 3rd Stage,<br />Bengaluru — 560085, India
                 </span>
               </li>
@@ -144,7 +144,7 @@ export default function Footer() {
                 <motion.a
                   href="mailto:contact@jnanikai.com"
                   className="text-xs sm:text-sm transition-colors hover:text-blue-400"
-                  style={{ color: "#64748B" }}
+                  style={{ color: "#8DAABF" }}
                   whileHover={{ x: 2 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 >
@@ -164,10 +164,10 @@ export default function Footer() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <p className="text-xs" style={{ color: "#475569" }}>
+        <p className="text-xs" style={{ color: "#6B859B" }}>
           © {new Date().getFullYear()} Jnanik AI. All rights reserved.
         </p>
-        <p className="text-xs" style={{ color: "#475569" }}>
+        <p className="text-xs" style={{ color: "#6B859B" }}>
           Engineered in Bengaluru. Built for global enterprises.
         </p>
       </motion.div>
