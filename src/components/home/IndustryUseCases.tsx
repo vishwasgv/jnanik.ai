@@ -53,7 +53,7 @@ const industries = [
 
 export default function IndustryUseCases() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
+    <section className="py-24 sm:py-36" style={{ background: "var(--bg-warm)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(15,23,42,0.07)" }} />
 
@@ -119,8 +119,8 @@ export default function IndustryUseCases() {
               {/* ── Content zone ── */}
               <div className="flex-1 flex flex-col justify-between p-6 pt-4 bg-white">
                 <div>
-                  <h3 className="font-bold text-lg mb-2" style={{ color: "#0F172A" }}>{ind.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{ind.tagline}</p>
+                  <h3 className="font-bold text-lg mb-2" style={{ color: "#0C1A2E" }}>{ind.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "#5C7A96" }}>{ind.tagline}</p>
                 </div>
 
                 {/* Metrics */}

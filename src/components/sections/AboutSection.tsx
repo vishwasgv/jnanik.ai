@@ -61,15 +61,15 @@ export default function AboutSection() {
               </div>
               <h2
                 className="font-serif font-bold mb-6 leading-tight"
-                style={{ fontSize: "clamp(2rem,5vw,3.75rem)", color: "#0F172A" }}
+                style={{ fontSize: "clamp(2rem,5vw,3.75rem)", color: "#0C1A2E" }}
               >
                 Built from the<br />
                 <span className="shimmer-text">shop floor up.</span>
               </h2>
 
-              <div className="space-y-4 text-base leading-relaxed" style={{ color: "#475569" }}>
+              <div className="space-y-4 text-base leading-relaxed" style={{ color: "#3D5472" }}>
                 <p>
-                  <span className="font-semibold" style={{ color: "#0F172A" }}>Jnanik</span> is rooted in <em>Jnana</em> — the Sanskrit principle of knowledge through direct experience. Not theory. Not abstraction. Knowledge earned by understanding the problem from within.
+                  <span className="font-semibold" style={{ color: "#0C1A2E" }}>Jnanik</span> is rooted in <em>Jnana</em> — the Sanskrit principle of knowledge through direct experience. Not theory. Not abstraction. Knowledge earned by understanding the problem from within.
                 </p>
                 <p>
                   We founded Jnanik AI because we watched a pattern repeat itself: intelligent teams, complex operations, and AI systems that simply couldn&apos;t understand the context in which they were being asked to work.
@@ -148,8 +148,8 @@ export default function AboutSection() {
                     <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#2563EB" }}>{card.label}</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm mb-1.5" style={{ color: "#0F172A" }}>{card.title}</h3>
-                    <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{card.body}</p>
+                    <h3 className="font-bold text-sm mb-1.5" style={{ color: "#0C1A2E" }}>{card.title}</h3>
+                    <p className="text-xs leading-relaxed" style={{ color: "#5C7A96" }}>{card.body}</p>
                   </div>
                 </motion.div>
               ))}
@@ -181,8 +181,8 @@ export default function AboutSection() {
                 className="card-base p-6 sm:p-8"
               >
                 <div className="blue-icon mb-5"><item.icon size={20} style={{ color: "#2563EB" }} /></div>
-                <h3 className="font-serif font-bold text-xl mb-3" style={{ color: "#0F172A" }}>{item.heading}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{item.body}</p>
+                <h3 className="font-serif font-bold text-xl mb-3" style={{ color: "#0C1A2E" }}>{item.heading}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#5C7A96" }}>{item.body}</p>
               </motion.div>
             ))}
           </div>
@@ -205,7 +205,7 @@ export default function AboutSection() {
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0F172A" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0C1A2E" }}
             >
               The people behind<br />the conviction.
             </h2>
@@ -259,10 +259,10 @@ export default function AboutSection() {
                 {/* Content */}
                 <div className="p-6 sm:p-8">
                   <div className="mb-4">
-                    <h3 className="font-serif font-bold text-xl" style={{ color: "#0F172A" }}>{founder.name}</h3>
+                    <h3 className="font-serif font-bold text-xl" style={{ color: "#0C1A2E" }}>{founder.name}</h3>
                     <p className="text-sm font-semibold mt-0.5" style={{ color: "#2563EB" }}>{founder.role}</p>
                   </div>
-                  <p className="text-sm leading-relaxed mb-5" style={{ color: "#475569" }}>{founder.bio}</p>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: "#3D5472" }}>{founder.bio}</p>
                   <div className="flex flex-wrap gap-2">
                     {founder.background.map((tag) => (
                       <span
@@ -297,7 +297,7 @@ export default function AboutSection() {
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0F172A" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0C1A2E" }}
             >
               Built steadily, shipped reliably.
             </h2>
@@ -325,8 +325,8 @@ export default function AboutSection() {
                   <div className={`flex-1 sm:pr-12 ${i % 2 !== 0 ? "sm:pr-0 sm:pl-12" : ""}`}>
                     <div className="card-base p-5 sm:p-6">
                       <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#2563EB" }}>{item.year}</p>
-                      <h3 className="font-bold text-base sm:text-lg mb-2" style={{ color: "#0F172A" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{item.desc}</p>
+                      <h3 className="font-bold text-base sm:text-lg mb-2" style={{ color: "#0C1A2E" }}>{item.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "#5C7A96" }}>{item.desc}</p>
                     </div>
                   </div>
                   <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full items-center justify-center z-10 text-xs font-bold"
@@ -357,7 +357,7 @@ export default function AboutSection() {
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0F172A" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0C1A2E" }}
             >
               Principles that shape<br />every engagement.
             </h2>
@@ -377,8 +377,8 @@ export default function AboutSection() {
                   <v.icon size={18} style={{ color: "#2563EB" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-2" style={{ color: "#0F172A" }}>{v.title}</h3>
-                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#64748B" }}>{v.desc}</p>
+                  <h3 className="font-bold text-sm mb-2" style={{ color: "#0C1A2E" }}>{v.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#5C7A96" }}>{v.desc}</p>
                 </div>
               </motion.div>
             ))}

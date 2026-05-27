@@ -42,7 +42,7 @@ const rowContainer = (delay = 0) => ({
 
 export default function WhyJnanik() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "var(--bg-light-alt)" }}>
+    <section className="py-24 sm:py-36" style={{ background: "var(--bg-cool)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
@@ -51,7 +51,7 @@ export default function WhyJnanik() {
           initial="hidden"
           whileInView="show"
           viewport={vp}
-          className="mb-14 sm:mb-18"
+          className="mb-16 sm:mb-20"
         >
           <motion.div variants={fadeOnly} className="section-label-dark mb-5 sm:mb-6 inline-flex">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
@@ -97,7 +97,7 @@ export default function WhyJnanik() {
         </div>
 
         {/* Comparison rows */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {comparisons.map((row, i) => (
             <motion.div
               key={i}
@@ -144,7 +144,7 @@ export default function WhyJnanik() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={vp}
           transition={{ duration: dur.smooth, delay: 0.3 }}
-          className="mt-12 sm:mt-16 flex flex-wrap items-center gap-8 pt-10"
+          className="mt-14 sm:mt-20 flex flex-wrap items-center gap-10 pt-12"
           style={{ borderTop: "1px solid var(--bd-light)" }}
         >
           {[

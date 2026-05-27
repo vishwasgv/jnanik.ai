@@ -44,7 +44,7 @@ const modes = [
 
 export default function ArchitectureSection() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "#FFFFFF" }}>
+    <section className="py-24 sm:py-36" style={{ background: "#FFFFFF" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "rgba(15,23,42,0.07)" }} />
 
@@ -144,7 +144,7 @@ export default function ArchitectureSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 rounded-2xl"
-          style={{ background: "#F8FAFD", border: "1px solid rgba(15,23,42,0.06)" }}
+          style={{ background: "var(--bg-cool)", border: "1px solid rgba(10,20,50,0.07)" }}
         >
           <p className="text-sm text-center sm:text-left" style={{ color: "#64748B" }}>
             Not sure which is right for you? We help you choose based on your data, compliance, and team constraints — in the first conversation.

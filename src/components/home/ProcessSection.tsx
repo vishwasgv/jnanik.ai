@@ -37,7 +37,7 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="py-20 sm:py-32" style={{ background: "var(--bg-light)" }}>
+    <section className="py-24 sm:py-36" style={{ background: "var(--bg-cool)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t mb-14 sm:mb-20" style={{ borderColor: "var(--bd-light)" }} />
 

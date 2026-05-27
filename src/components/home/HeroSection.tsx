@@ -154,7 +154,7 @@ export default function HeroSection() {
       {/* Ambient glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 65%)", filter: "blur(60px)", transform: "translate(15%, -20%)" }} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-24 sm:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-28 sm:py-40">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left: Text */}
@@ -174,7 +174,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: dur.smooth, delay: 0.18, ease: ease.out }}
               className="font-serif font-bold leading-[1.07] tracking-tight mb-3"
-              style={{ fontSize: "clamp(2.4rem, 5vw, 4.25rem)", color: "#0F172A" }}
+              style={{ fontSize: "clamp(2.4rem, 5vw, 4.25rem)", color: "#0C1A2E" }}
             >
               Enterprise AI built<br />for production.
             </motion.h1>
@@ -194,7 +194,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.52 }}
               className="text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
-              style={{ color: "#475569" }}
+              style={{ color: "#3D5472" }}
             >
               AI that works where precision is non-negotiable — built for Automotive, FMCG, and Industrial operations.
             </motion.p>
@@ -233,8 +233,8 @@ export default function HeroSection() {
               className="flex flex-wrap gap-2.5"
             >
               {badges.map((b, i) => (
-                <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium" style={{ background: "rgba(37,99,235,0.05)", border: "1px solid rgba(37,99,235,0.12)", color: "#334155" }}>
-                  <b.icon size={12} style={{ color: "#2563EB" }} />
+                <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium" style={{ background: "rgba(26,86,219,0.05)", border: "1px solid rgba(26,86,219,0.11)", color: "#2A3E58" }}>
+                  <b.icon size={12} style={{ color: "#1A56DB" }} />
                   {b.text}
                 </div>
               ))}

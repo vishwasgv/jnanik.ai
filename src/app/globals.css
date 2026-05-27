@@ -7,45 +7,49 @@
 
 /* ── Light-first design tokens ─────────────────────────── */
 :root {
+  /* ── Backgrounds — premium section rhythm ────────────── */
   --bg:        #FFFFFF;
-  --bg-alt:    #F8FAFD;
+  --bg-warm:   #F8F6F2;   /* warm stone — TrustedExpertise, IndustryUseCases */
+  --bg-cool:   #EFF3F9;   /* cool silk  — WhyJnanik, ProcessSection          */
+  --bg-alt:    #F8FAFD;   /* legacy (scrollbar, minor uses)                  */
   --bg-raised: #EEF4FF;
   --glass:     rgba(255,255,255,0.92);
-  --glass-bd:  rgba(15,23,42,0.08);
+  --glass-bd:  rgba(10,20,50,0.08);
 
-  --blue:      #2563EB;
-  --blue-lt:   #3B82F6;
-  --indigo:    #4F46E5;
-  --cyan:      #0EA5E9;
-  --blue-dim:  rgba(37,99,235,0.08);
-  --blue-glow: rgba(37,99,235,0.16);
+  /* ── Accent ──────────────────────────────────────────── */
+  --blue:      #1A56DB;   /* richer, more premium than #2563EB */
+  --blue-lt:   #3B7DD8;
+  --indigo:    #4338CA;
+  --cyan:      #0284C7;
+  --blue-dim:  rgba(26,86,219,0.07);
+  --blue-glow: rgba(26,86,219,0.14);
 
-  /* Text — dark on light */
-  --text-1:    #0F172A;
-  --text-2:    #334155;
-  --text-3:    #64748B;
-  --text-muted:#94A3B8;
+  /* ── Text — warm blue-grey hierarchy ────────────────── */
+  --text-1:    #0C1A2E;   /* deep navy-black — rich depth, not harsh */
+  --text-2:    #2A3E58;   /* blue-grey body  — warm and readable     */
+  --text-3:    #5C7A96;   /* muted supporting — calm, premium        */
+  --text-muted:#8DAABF;   /* very muted captions                     */
 
-  --bd:        rgba(15,23,42,0.08);
-  --bd-subtle: rgba(15,23,42,0.05);
+  --bd:        rgba(10,20,50,0.08);
+  --bd-subtle: rgba(10,20,50,0.05);
 
-  /* Dark section tokens — used only in CTA + Footer */
-  --dark-bg:    #0F172A;
-  --dark-bg-alt:#1E293B;
-  --dark-text-1:#F1F5F9;
-  --dark-text-2:#CBD5E1;
-  --dark-text-3:#94A3B8;
+  /* ── Dark section tokens — CTA + Footer only ─────────── */
+  --dark-bg:    #09111F;
+  --dark-bg-alt:#111D30;
+  --dark-text-1:#F0F5FB;
+  --dark-text-2:#C5D4E6;
+  --dark-text-3:#8DAABF;
 
-  /* Light section alias (for backwards compatibility) */
+  /* ── Light section aliases ───────────────────────────── */
   --bg-light:        #FFFFFF;
-  --bg-light-alt:    #F4F8FF;
-  --text-on-light-1: #0F172A;
-  --text-on-light-2: #334155;
-  --text-on-light-3: #64748B;
-  --text-on-light-muted: #94A3B8;
-  --bd-light:        rgba(15,23,42,0.07);
+  --bg-light-alt:    #EFF3F9;   /* now maps to cool-silk */
+  --text-on-light-1: #0C1A2E;
+  --text-on-light-2: #2A3E58;
+  --text-on-light-3: #5C7A96;
+  --text-on-light-muted: #8DAABF;
+  --bd-light:        rgba(10,20,50,0.07);
 
-  --footer: #0F172A;
+  --footer: #09111F;
 }
 
 * { box-sizing: border-box; }
@@ -60,17 +64,23 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Card system — clean white on light ─────────────────── */
+/* ── Card system — premium white on light ────────────────── */
 .card-base {
   background: #FFFFFF;
-  border: 1px solid rgba(15,23,42,0.07);
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.04);
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  border: 1px solid rgba(10,20,50,0.065);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 2px  rgba(0,0,0,0.03),
+    0 4px 16px rgba(0,0,0,0.04),
+    0 12px 40px rgba(0,0,0,0.025);
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.3s;
 }
 .card-base:hover {
-  border-color: rgba(37,99,235,0.22);
-  box-shadow: 0 8px 32px rgba(37,99,235,0.1), 0 2px 8px rgba(15,23,42,0.06);
+  border-color: rgba(26,86,219,0.18);
+  box-shadow:
+    0 1px 2px  rgba(0,0,0,0.03),
+    0 8px 24px rgba(26,86,219,0.08),
+    0 24px 48px rgba(0,0,0,0.05);
 }
 
 .card-glow {
@@ -121,20 +131,20 @@ body {
 /* ── Section label variants ──────────────────────────────── */
 .section-label {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 4px 12px; border-radius: 999px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  background: rgba(37,99,235,0.08);
-  border: 1px solid rgba(37,99,235,0.18);
-  color: #2563EB;
+  padding: 4px 14px; border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(26,86,219,0.06);
+  border: 1px solid rgba(26,86,219,0.14);
+  color: #1E52A4;
 }
 
 .section-label-dark {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 4px 12px; border-radius: 999px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  background: rgba(37,99,235,0.08);
-  border: 1px solid rgba(37,99,235,0.18);
-  color: #1D4ED8;
+  padding: 4px 14px; border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(26,86,219,0.06);
+  border: 1px solid rgba(26,86,219,0.14);
+  color: #1E52A4;
 }
 
 /* Section label for use inside dark sections */
@@ -149,17 +159,17 @@ body {
 
 /* ── Icon badges ─────────────────────────────────────────── */
 .blue-icon {
-  background: rgba(37,99,235,0.08);
-  border: 1px solid rgba(37,99,235,0.16);
-  border-radius: 12px;
+  background: rgba(26,86,219,0.07);
+  border: 1px solid rgba(26,86,219,0.13);
+  border-radius: 13px;
   width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .blue-icon-light {
-  background: rgba(37,99,235,0.08);
-  border: 1px solid rgba(37,99,235,0.18);
-  border-radius: 12px;
+  background: rgba(26,86,219,0.07);
+  border: 1px solid rgba(26,86,219,0.14);
+  border-radius: 13px;
   width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;

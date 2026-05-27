@@ -112,7 +112,7 @@ export default function ServicesPreview() {
   const rest = services.slice(1);
 
   return (
-    <section className="py-20 sm:py-32" style={{ background: "var(--bg-alt)" }}>
+    <section className="py-24 sm:py-36" style={{ background: "#FFFFFF" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -159,8 +159,8 @@ export default function ServicesPreview() {
 
               {/* Text panel */}
               <div className="flex flex-col justify-center p-7 sm:p-10 bg-white">
-                <h3 className="font-bold text-2xl sm:text-3xl mb-3" style={{ color: "#0F172A" }}>{featured.title}</h3>
-                <p className="text-base leading-relaxed mb-6" style={{ color: "#64748B" }}>{featured.desc}</p>
+                <h3 className="font-bold text-2xl sm:text-3xl mb-3" style={{ color: "#0C1A2E" }}>{featured.title}</h3>
+                <p className="text-base leading-relaxed mb-6" style={{ color: "#5C7A96" }}>{featured.desc}</p>
                 {["SOPs & manuals searchable in seconds", "Works on-prem or in the cloud", "Supports 50,000+ documents"].map((pt, i) => (
                   <div key={i} className="flex items-center gap-2.5 text-sm mb-2" style={{ color: "#334155" }}>
                     <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#2563EB" }} />
@@ -199,8 +199,8 @@ export default function ServicesPreview() {
               {/* Text */}
               <div className="flex-1 flex flex-col justify-between p-4 pt-2 bg-white">
                 <div>
-                  <h3 className="font-bold text-sm mb-1.5 leading-snug" style={{ color: "#0F172A" }}>{svc.title}</h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{svc.desc}</p>
+                  <h3 className="font-bold text-sm mb-1.5 leading-snug" style={{ color: "#0C1A2E" }}>{svc.title}</h3>
+                  <p className="text-xs leading-relaxed" style={{ color: "#5C7A96" }}>{svc.desc}</p>
                 </div>
                 <Link href={svc.href} className="text-xs font-semibold inline-flex items-center gap-1 mt-3 group/link" style={{ color: svc.accent }}>
                   Learn more

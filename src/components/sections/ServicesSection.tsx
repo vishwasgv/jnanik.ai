@@ -126,7 +126,7 @@ export default function ServicesSection() {
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
             What We Build
           </div>
-          <h2 className="font-serif font-bold leading-tight max-w-xl" style={{ fontSize: "clamp(1.8rem,4.5vw,3.5rem)", color: "#0F172A" }}>
+          <h2 className="font-serif font-bold leading-tight max-w-xl" style={{ fontSize: "clamp(1.8rem,4.5vw,3.5rem)", color: "#0C1A2E" }}>
             Six systems. Each built for enterprise.
           </h2>
         </motion.div>
@@ -165,8 +165,8 @@ export default function ServicesSection() {
                   {/* Content panel */}
                   <div className="flex-1 p-7 sm:p-9 flex flex-col justify-center gap-5 bg-white">
                     <div>
-                      <h3 className="font-serif font-bold text-xl sm:text-2xl mb-2" style={{ color: "#0F172A" }}>{svc.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{svc.desc}</p>
+                      <h3 className="font-serif font-bold text-xl sm:text-2xl mb-2" style={{ color: "#0C1A2E" }}>{svc.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "#5C7A96" }}>{svc.desc}</p>
                     </div>
 
                     <ul className="space-y-2.5">
@@ -175,13 +175,13 @@ export default function ServicesSection() {
                           <div className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: svc.accentBg, border: `1px solid ${svc.accentBd}` }}>
                             <Check size={9} style={{ color: svc.accent }} />
                           </div>
-                          <span className="text-sm" style={{ color: "#334155" }}>{b}</span>
+                          <span className="text-sm" style={{ color: "#2A3E58" }}>{b}</span>
                         </li>
                       ))}
                     </ul>
 
                     <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: "rgba(15,23,42,0.06)" }}>
-                      <p className="text-sm font-semibold" style={{ color: "#0F172A" }}>{svc.outcome}</p>
+                      <p className="text-sm font-semibold" style={{ color: "#0C1A2E" }}>{svc.outcome}</p>
                       <a href="#contact" className="flex items-center gap-1.5 text-sm font-semibold group/link shrink-0 ml-4" style={{ color: svc.accent }}>
                         Learn more <ArrowRight size={13} className="group-hover/link:translate-x-0.5 transition-transform" />
                       </a>
