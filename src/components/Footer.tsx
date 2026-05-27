@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
 const services = [
@@ -47,49 +47,14 @@ const colVariants = {
 
 export default function Footer() {
   return (
-    <footer style={{ background: "var(--footer)", borderTop: "1px solid rgba(255,255,255,0.07)" }} className="relative overflow-hidden">
-      {/* Ambient glow */}
+    <footer style={{ background: "var(--footer)", borderTop: "1px solid rgba(255,255,255,0.06)" }} className="relative overflow-hidden">
+      {/* Subtle glow */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-40 rounded-full blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse, rgba(37,99,235,0.06) 0%, transparent 70%)" }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
-        {/* CTA strip */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
-          className="rounded-2xl px-6 sm:px-8 py-6 sm:py-7 mb-12 sm:mb-14 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative overflow-hidden"
-          style={{ background: "rgba(59,130,246,0.07)", border: "1px solid rgba(59,130,246,0.18)" }}
-        >
-          <div
-            className="absolute right-0 top-0 w-56 h-full blur-3xl pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%)" }}
-          />
-          <div className="relative z-10">
-            <p className="font-bold text-sm sm:text-base mb-1" style={{ color: "#EEF2FF" }}>
-              Ready to bring AI into your operations?
-            </p>
-            <p className="text-xs sm:text-sm" style={{ color: "#64748B" }}>
-              Book a free 60-minute consultation — no commitment, no pitch.
-            </p>
-          </div>
-          <motion.a
-            whileHover={{ scale: 1.04, boxShadow: "0 8px 28px rgba(59,130,246,0.5)" }}
-            whileTap={{ scale: 0.97 }}
-            href="https://calendly.com/contact-jnanikai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative z-10 shrink-0 flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm"
-            style={{ background: "#3B82F6", color: "#fff" }}
-          >
-            Book a Call
-            <ArrowUpRight size={15} />
-          </motion.a>
-        </motion.div>
-
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-16 pb-10">
         {/* Columns */}
         <motion.div
           variants={containerVariants}
@@ -104,7 +69,7 @@ export default function Footer() {
               <Image src="/logo.avif" alt="Jnanik AI" width={100} height={67} className="object-contain" />
             </a>
             <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: "#64748B" }}>
-              Enterprise-grade Agentic AI, Industrial AI, and on-prem architectures engineered for scale, privacy, and reliability.
+              Enterprise AI for Manufacturing, Automotive, and FMCG — built for production, deployed on your terms.
             </p>
             <div className="flex items-center gap-2.5">
               {socials.map((social) => (
@@ -114,7 +79,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  whileHover={{ scale: 1.18, backgroundColor: "rgba(59,130,246,0.18)", color: "#60A5FA" }}
+                  whileHover={{ scale: 1.18, backgroundColor: "rgba(37,99,235,0.18)", color: "#93C5FD" }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 400, damping: 18 }}
                   className="w-9 h-9 rounded-lg flex items-center justify-center"
@@ -128,7 +93,7 @@ export default function Footer() {
 
           {/* Company */}
           <motion.div variants={colVariants}>
-            <h3 className="font-semibold text-xs mb-5 uppercase tracking-widest" style={{ color: "#EEF2FF" }}>Company</h3>
+            <h3 className="font-semibold text-xs mb-5 uppercase tracking-widest" style={{ color: "#F1F5F9" }}>Company</h3>
             <ul className="space-y-3">
               {company.map((item) => (
                 <li key={item.href}>
@@ -147,7 +112,7 @@ export default function Footer() {
 
           {/* Services */}
           <motion.div variants={colVariants}>
-            <h3 className="font-semibold text-xs mb-5 uppercase tracking-widest" style={{ color: "#EEF2FF" }}>Services</h3>
+            <h3 className="font-semibold text-xs mb-5 uppercase tracking-widest" style={{ color: "#F1F5F9" }}>What We Build</h3>
             <ul className="space-y-3">
               {services.map((s) => (
                 <li key={s.label}>
@@ -166,7 +131,7 @@ export default function Footer() {
 
           {/* Contact */}
           <motion.div variants={colVariants}>
-            <h3 className="font-semibold text-xs mb-5 uppercase tracking-widest" style={{ color: "#EEF2FF" }}>Get in touch</h3>
+            <h3 className="font-semibold text-xs mb-5 uppercase tracking-widest" style={{ color: "#F1F5F9" }}>Get in touch</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={13} className="shrink-0 mt-0.5" style={{ color: "#3B82F6" }} />
@@ -202,14 +167,9 @@ export default function Footer() {
         <p className="text-xs" style={{ color: "#475569" }}>
           © {new Date().getFullYear()} Jnanik AI. All rights reserved.
         </p>
-        <div className="flex items-center gap-5">
-          <a href="mailto:contact@jnanikai.com" className="text-xs hover:text-blue-400 transition-colors" style={{ color: "#475569" }}>
-            Privacy Policy
-          </a>
-          <p className="text-xs" style={{ color: "#475569" }}>
-            Engineered in Bengaluru. Built for global enterprises.
-          </p>
-        </div>
+        <p className="text-xs" style={{ color: "#475569" }}>
+          Engineered in Bengaluru. Built for global enterprises.
+        </p>
       </motion.div>
     </footer>
   );

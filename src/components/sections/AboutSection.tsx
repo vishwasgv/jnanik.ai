@@ -1,64 +1,95 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2 } from "lucide-react";
+import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2, User } from "lucide-react";
 
 const timeline = [
-  { year: "2021", title: "Founded in Bengaluru", desc: "Jnanik AI was started with one conviction: enterprise AI should be private, practical, and built to last — not a flashy demo that never ships." },
+  { year: "2021", title: "Founded in Bengaluru", desc: "Started with one conviction: enterprise AI should be private, practical, and built to last — not a flashy demo that never ships." },
   { year: "2022", title: "First Production Deployment", desc: "Shipped our first on-premise AI Knowledge Hub for a mid-market manufacturer. 50,000+ documents. Answers in seconds instead of hours." },
-  { year: "2023", title: "Agentic Systems in Production", desc: "Launched our first multi-step agentic workflow for an enterprise client — handling document routing, classification, and approval without human intervention." },
-  { year: "2024", title: "SLM-First Architecture", desc: "Moved fully to a Small Language Model-first approach. Domain-specific models outperforming GPT-4 on client tasks at 80% lower cost." },
-  { year: "2025", title: "Expanding the Practice", desc: "Launched our AI Strategy practice. Now supporting enterprise AI programs across manufacturing, BFSI, and professional services." },
+  { year: "2023", title: "Agentic Systems Live", desc: "Launched our first multi-step agentic workflow — handling document routing, classification, and approval without human intervention." },
+  { year: "2024", title: "SLM-First Architecture", desc: "Moved fully to Small Language Models. Domain-specific models outperforming general LLMs at 80% lower cost." },
+  { year: "2025", title: "Expanding Across Industries", desc: "Now supporting enterprise AI programs across Manufacturing, Automotive, and FMCG — the industries where precision is non-negotiable." },
 ];
 
 const values = [
-  { icon: Shield,  title: "We build, not just advise",     desc: "We're engineers who deliver working systems — not consultants who hand over slide decks and leave." },
-  { icon: Cpu,     title: "Outcomes over technology",      desc: "We measure every project by the business result, not the technical sophistication." },
-  { icon: Target,  title: "Honest about what works",       desc: "We'll tell you when AI isn't the right answer. That's how we build trust." },
-  { icon: Zap,     title: "Simple before complex",         desc: "The best AI system is often the simplest one that solves the problem reliably." },
-  { icon: Users,   title: "Your team's success is ours",   desc: "We work alongside your people, transfer knowledge, and make sure the system lives on after we leave." },
-  { icon: Globe2,  title: "Open and portable by default",  desc: "Open-source foundations, transparent architectures. No lock-in. You own everything we build." },
+  { icon: Shield,  title: "We build, not just advise",    desc: "Engineers who deliver working systems — not consultants who hand over slide decks and leave." },
+  { icon: Cpu,     title: "Outcomes over technology",     desc: "Every project is measured by the business result, not the technical sophistication." },
+  { icon: Target,  title: "Honest about what works",      desc: "We'll tell you when AI isn't the right answer. That's how we build trust." },
+  { icon: Zap,     title: "Simple before complex",        desc: "The best AI system is often the simplest one that solves the problem reliably." },
+  { icon: Users,   title: "Your team's success is ours",  desc: "We work alongside your people, transfer knowledge, and make sure the system lives on after we leave." },
+  { icon: Globe2,  title: "Open and portable by default", desc: "Open-source foundations. No vendor lock-in. You own everything we build." },
+];
+
+const founders = [
+  {
+    name: "Pramod Kumar P",
+    role: "Co-founder",
+    bio: "Pramod brings deep expertise in industrial technology and operations management. Having spent years understanding how manufacturing floors actually work — not from a conference room, but from the ground up — he leads our industrial AI practice. His conviction: AI systems for manufacturing must be held to the same zero-tolerance standards as the operations they serve.",
+    background: ["Industrial Engineering", "Manufacturing Operations", "Production AI"],
+  },
+  {
+    name: "Puneeth Shetty",
+    role: "Co-founder",
+    bio: "Puneeth is the architect behind Jnanik's platform and engineering organisation. With experience building large-scale enterprise data systems and cloud platforms, he ensures every Jnanik system is built to last, scale, and evolve. His focus: the gap between an AI demo and an AI system in production is an engineering problem — and engineering problems have solutions.",
+    background: ["Cloud Architecture", "Distributed Systems", "Enterprise Platforms"],
+  },
 ];
 
 export default function AboutSection() {
   return (
     <div style={{ background: "var(--bg)" }}>
 
-      {/* ── Hero — split: text left, image right ── */}
-      <section className="py-20 sm:py-32 overflow-hidden" style={{ background: "var(--bg-alt)" }}>
+      {/* ── Story section ─────────────────────────────── */}
+      <section className="py-20 sm:py-32 overflow-hidden" style={{ background: "#FFFFFF" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-            {/* Left: text */}
+            {/* Left: The story */}
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <div className="section-label mb-6 sm:mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+              <div className="section-label mb-6 sm:mb-8 inline-flex">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                 About Jnanik AI
               </div>
               <h2
                 className="font-serif font-bold mb-6 leading-tight"
-                style={{ fontSize: "clamp(2rem,5vw,4rem)", color: "var(--text-1)" }}
+                style={{ fontSize: "clamp(2rem,5vw,3.75rem)", color: "#0F172A" }}
               >
-                We build AI that earns<br />
-                <span className="shimmer-text">your trust through results.</span>
+                Built from the<br />
+                <span className="shimmer-text">shop floor up.</span>
               </h2>
-              <p className="text-base sm:text-xl leading-relaxed mb-8" style={{ color: "var(--text-2)" }}>
-                Not a research lab. Not a software reseller. An engineering team that designs, builds, and delivers AI systems — and stays accountable for whether they actually work.
-              </p>
-              <div className="flex flex-wrap gap-5">
+
+              <div className="space-y-4 text-base leading-relaxed" style={{ color: "#475569" }}>
+                <p>
+                  <span className="font-semibold" style={{ color: "#0F172A" }}>Jnanik</span> is rooted in <em>Jnana</em> — the Sanskrit principle of knowledge through direct experience. Not theory. Not abstraction. Knowledge earned by understanding the problem from within.
+                </p>
+                <p>
+                  We founded Jnanik AI because we watched a pattern repeat itself: intelligent teams, complex operations, and AI systems that simply couldn&apos;t understand the context in which they were being asked to work.
+                </p>
+                <p>
+                  A factory floor is not the internet. A quality exception in an automotive line is not a customer service ticket. The knowledge that runs a manufacturing plant — the hard-won expertise of engineers who&apos;ve spent years tuning, calibrating, and solving — doesn&apos;t live in a PDF. It lives in people.
+                </p>
+                <p>
+                  We started Jnanik AI to build AI that understands where it&apos;s being deployed. Not generic tools configured for a use case, but systems designed from the ground up around the realities of Manufacturing, FMCG, and Automotive operations — where precision is non-negotiable and the cost of failure is real.
+                </p>
+                <p className="font-medium" style={{ color: "#334155" }}>
+                  Jnanik AI is the knowledge that industry needs. Built by the engineers industry deserves.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-6 mt-10">
                 {[
                   { val: "2021", lbl: "Founded" },
-                  { val: "6", lbl: "AI Services" },
                   { val: "3+", lbl: "Industries" },
+                  { val: "2", lbl: "Deployment Modes" },
                 ].map((s, i) => (
                   <div key={i} className="flex flex-col">
-                    <span className="text-3xl font-extrabold" style={{ color: "#60A5FA", fontFamily: "var(--font-playfair)" }}>{s.val}</span>
-                    <span className="text-xs font-semibold mt-0.5" style={{ color: "var(--text-3)" }}>{s.lbl}</span>
+                    <span className="text-3xl font-extrabold" style={{ color: "#2563EB", fontFamily: "var(--font-playfair)" }}>{s.val}</span>
+                    <span className="text-xs font-semibold mt-0.5" style={{ color: "#94A3B8" }}>{s.lbl}</span>
                   </div>
                 ))}
               </div>
@@ -77,25 +108,25 @@ export default function AboutSection() {
                   icon: Server,
                   label: "Ex-AWS",
                   title: "Cloud Architecture",
-                  body: "Designed and operated distributed systems at hyperscaler scale — reliability and security built in from day one.",
+                  body: "Distributed systems at hyperscaler scale — reliability and security built in from day one.",
                 },
                 {
                   icon: Factory,
                   label: "Ex-Bosch",
                   title: "Industrial Engineering",
-                  body: "Built production software for industrial environments where failure is measured in downtime, not bugs.",
+                  body: "Production software for environments where failure is measured in downtime, not bugs.",
                 },
                 {
                   icon: Clock,
                   label: "5+ Years",
                   title: "AI in Production",
-                  body: "Not experimenting. Shipping. Our systems have been in production longer than most competitors have existed.",
+                  body: "Our systems have been running in production longer than most competitors have existed.",
                 },
                 {
                   icon: Code2,
                   label: "Open-Source First",
                   title: "No Vendor Lock-in",
-                  body: "Everything we build runs on open foundations. You own your models, your data, and your infrastructure.",
+                  body: "Everything we build runs on open foundations. You own your models, your data, your infrastructure.",
                 },
               ].map((card, i) => (
                 <motion.div
@@ -108,29 +139,29 @@ export default function AboutSection() {
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="blue-icon" style={{ width: "36px", height: "36px", borderRadius: "10px" }}>
-                      <card.icon size={16} style={{ color: "#60A5FA" }} />
+                      <card.icon size={16} style={{ color: "#2563EB" }} />
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#3B82F6" }}>{card.label}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#2563EB" }}>{card.label}</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm mb-1.5" style={{ color: "var(--text-1)" }}>{card.title}</h3>
-                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>{card.body}</p>
+                    <h3 className="font-bold text-sm mb-1.5" style={{ color: "#0F172A" }}>{card.title}</h3>
+                    <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{card.body}</p>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
           </div>
 
-          {/* Vision / Mission / Approach cards below hero */}
+          {/* Vision / Mission / Approach */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14 sm:mt-20">
             {[
               {
                 icon: Eye, heading: "Our Vision",
-                body: "A world where every organisation — from a regional manufacturer to a global enterprise — has access to AI systems that work reliably, protect their data, and create measurable business value.",
+                body: "Every organisation — from a regional manufacturer to a global enterprise — has access to AI that works reliably, protects their data, and creates measurable business value.",
               },
               {
                 icon: Target, heading: "Our Mission",
-                body: "To close the gap between AI potential and enterprise reality. We build production-grade AI systems that solve specific, high-value problems — not generic tools or proof-of-concept demos.",
+                body: "Close the gap between AI potential and enterprise reality. We build production-grade systems that solve specific, high-value problems — not generic tools or proof-of-concept demos.",
               },
               {
                 icon: Cpu, heading: "Our Approach",
@@ -145,17 +176,17 @@ export default function AboutSection() {
                 transition={{ duration: 0.55, delay: i * 0.1 }}
                 className="card-base p-6 sm:p-8"
               >
-                <div className="blue-icon mb-5"><item.icon size={20} style={{ color: "#60A5FA" }} /></div>
-                <h3 className="font-serif font-bold text-xl mb-3" style={{ color: "var(--text-1)" }}>{item.heading}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{item.body}</p>
+                <div className="blue-icon mb-5"><item.icon size={20} style={{ color: "#2563EB" }} /></div>
+                <h3 className="font-serif font-bold text-xl mb-3" style={{ color: "#0F172A" }}>{item.heading}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{item.body}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Timeline ── */}
-      <section className="py-20 sm:py-28" style={{ background: "var(--bg)" }}>
+      {/* ── Founders ───────────────────────────────────────── */}
+      <section className="py-20 sm:py-28" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -164,13 +195,90 @@ export default function AboutSection() {
             transition={{ duration: 0.6 }}
             className="mb-12 sm:mb-16"
           >
-            <div className="section-label mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+            <div className="section-label mb-5 inline-flex">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              The Founders
+            </div>
+            <h2
+              className="font-serif font-bold leading-tight"
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0F172A" }}
+            >
+              The people behind<br />the conviction.
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+            {founders.map((founder, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className="card-base overflow-hidden"
+              >
+                {/* Photo placeholder */}
+                <div
+                  className="w-full flex items-center justify-center"
+                  style={{
+                    height: "220px",
+                    background: "linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%)",
+                    borderBottom: "1px solid rgba(37,99,235,0.1)",
+                  }}
+                >
+                  <div className="flex flex-col items-center gap-3">
+                    <div
+                      className="w-20 h-20 rounded-full flex items-center justify-center"
+                      style={{ background: "rgba(37,99,235,0.1)", border: "2px solid rgba(37,99,235,0.2)" }}
+                    >
+                      <User size={36} style={{ color: "#2563EB" }} />
+                    </div>
+                    <p className="text-xs font-medium" style={{ color: "#64748B" }}>Photo coming soon</p>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 sm:p-8">
+                  <div className="mb-4">
+                    <h3 className="font-serif font-bold text-xl" style={{ color: "#0F172A" }}>{founder.name}</h3>
+                    <p className="text-sm font-semibold mt-0.5" style={{ color: "#2563EB" }}>{founder.role}</p>
+                  </div>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: "#475569" }}>{founder.bio}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {founder.background.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
+                        style={{ background: "rgba(37,99,235,0.07)", border: "1px solid rgba(37,99,235,0.14)", color: "#2563EB" }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Timeline ───────────────────────────────────────── */}
+      <section className="py-20 sm:py-28" style={{ background: "#FFFFFF" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12 sm:mb-16"
+          >
+            <div className="section-label mb-5 inline-flex">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
               Our Journey
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "var(--text-1)" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0F172A" }}
             >
               Built steadily, shipped reliably.
             </h2>
@@ -179,7 +287,7 @@ export default function AboutSection() {
           <div className="relative">
             <div
               className="absolute left-[19px] sm:left-1/2 top-0 bottom-0 w-px"
-              style={{ background: "linear-gradient(to bottom, #3B82F6, rgba(59,130,246,0.08))" }}
+              style={{ background: "linear-gradient(to bottom, #2563EB, rgba(37,99,235,0.08))" }}
             />
             <div className="space-y-8 sm:space-y-12">
               {timeline.map((item, i) => (
@@ -192,18 +300,18 @@ export default function AboutSection() {
                   className={`relative flex items-start gap-6 sm:gap-0 ${i % 2 === 0 ? "sm:flex-row" : "sm:flex-row-reverse"}`}
                 >
                   <div className="sm:hidden shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10 text-xs font-bold"
-                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}>
+                    style={{ background: "#FFFFFF", border: "2px solid #2563EB", color: "#2563EB" }}>
                     {item.year.slice(2)}
                   </div>
                   <div className={`flex-1 sm:pr-12 ${i % 2 !== 0 ? "sm:pr-0 sm:pl-12" : ""}`}>
                     <div className="card-base p-5 sm:p-6">
-                      <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#3B82F6" }}>{item.year}</p>
-                      <h3 className="font-bold text-base sm:text-lg mb-2" style={{ color: "var(--text-1)" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{item.desc}</p>
+                      <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#2563EB" }}>{item.year}</p>
+                      <h3 className="font-bold text-base sm:text-lg mb-2" style={{ color: "#0F172A" }}>{item.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "#64748B" }}>{item.desc}</p>
                     </div>
                   </div>
                   <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full items-center justify-center z-10 text-xs font-bold"
-                    style={{ background: "var(--bg)", border: "2px solid #3B82F6", color: "#60A5FA" }}>
+                    style={{ background: "#FFFFFF", border: "2px solid #2563EB", color: "#2563EB" }}>
                     {item.year.slice(2)}
                   </div>
                   <div className="hidden sm:block flex-1" />
@@ -214,7 +322,7 @@ export default function AboutSection() {
         </div>
       </section>
 
-      {/* ── Values ── */}
+      {/* ── Values ─────────────────────────────────────────── */}
       <section className="py-20 sm:py-28" style={{ background: "var(--bg-alt)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -224,13 +332,13 @@ export default function AboutSection() {
             transition={{ duration: 0.6 }}
             className="mb-12 sm:mb-16"
           >
-            <div className="section-label mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+            <div className="section-label mb-5 inline-flex">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
               What We Stand For
             </div>
             <h2
               className="font-serif font-bold leading-tight"
-              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "var(--text-1)" }}
+              style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0F172A" }}
             >
               Principles that shape<br />every engagement.
             </h2>
@@ -247,11 +355,11 @@ export default function AboutSection() {
                 className="card-base p-5 sm:p-6 flex flex-col gap-4"
               >
                 <div className="blue-icon shrink-0">
-                  <v.icon size={18} style={{ color: "#60A5FA" }} />
+                  <v.icon size={18} style={{ color: "#2563EB" }} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm mb-2" style={{ color: "var(--text-1)" }}>{v.title}</h3>
-                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{v.desc}</p>
+                  <h3 className="font-bold text-sm mb-2" style={{ color: "#0F172A" }}>{v.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#64748B" }}>{v.desc}</p>
                 </div>
               </motion.div>
             ))}

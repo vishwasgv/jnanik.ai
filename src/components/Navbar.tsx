@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Calendar } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -25,17 +25,14 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  /* scroll shadow */
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  /* close mobile on route change */
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
-  /* intersection observer — only wires up when sections exist in DOM */
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     SECTIONS.forEach((id) => {
@@ -69,7 +66,7 @@ export default function Navbar() {
           scrolled ? "backdrop-blur-xl border-b" : "bg-transparent"
         )}
         style={scrolled
-          ? { background: "rgba(15,23,42,0.94)", borderColor: "rgba(255,255,255,0.08)" }
+          ? { background: "rgba(255,255,255,0.95)", borderColor: "rgba(15,23,42,0.07)", boxShadow: "0 2px 16px rgba(15,23,42,0.06)" }
           : {}}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
@@ -94,16 +91,16 @@ export default function Navbar() {
                 href={href(link.id)}
                 className={cn(
                   "relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
-                  isActive(link.id) ? "font-semibold" : "hover:bg-white/5"
+                  isActive(link.id) ? "font-semibold" : "hover:bg-slate-50"
                 )}
-                style={{ color: isActive(link.id) ? "#60A5FA" : "#94A3B8" }}
+                style={{ color: isActive(link.id) ? "#2563EB" : "#475569" }}
               >
                 {link.label}
                 {isActive(link.id) && (
                   <motion.span
                     layoutId="nav-pill"
                     className="absolute inset-0 rounded-lg"
-                    style={{ background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.22)" }}
+                    style={{ background: "rgba(37,99,235,0.07)", border: "1px solid rgba(37,99,235,0.18)" }}
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -111,26 +108,21 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
+          {/* Desktop — subtle contact link instead of prominent button */}
           <div className="hidden md:flex items-center">
-            <motion.a
-              whileHover={{ scale: 1.04, boxShadow: "0 8px 28px rgba(59,130,246,0.45)" }}
-              whileTap={{ scale: 0.97 }}
-              href="https://calendly.com/contact-jnanikai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold"
-              style={{ background: "#3B82F6", color: "#fff", boxShadow: "0 4px 16px rgba(59,130,246,0.35)" }}
+            <a
+              href={href("contact")}
+              className="text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+              style={{ color: "#2563EB" }}
             >
-              <Calendar size={14} />
-              Book Consultation
-            </motion.a>
+              Get in Touch →
+            </a>
           </div>
 
           {/* Mobile hamburger */}
           <button
             className="md:hidden p-2 rounded-lg transition-colors"
-            style={{ color: "#94A3B8" }}
+            style={{ color: "#475569" }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -146,14 +138,14 @@ export default function Navbar() {
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 md:hidden bg-black/40 backdrop-blur-sm"
+              className="fixed inset-0 z-40 md:hidden bg-black/10 backdrop-blur-sm"
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
               initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.22 }}
               className="fixed top-20 sm:top-24 left-0 right-0 z-40 md:hidden border-b"
-              style={{ background: "rgba(15,23,42,0.97)", borderColor: "rgba(255,255,255,0.08)" }}
+              style={{ background: "rgba(255,255,255,0.98)", borderColor: "rgba(15,23,42,0.08)", boxShadow: "0 8px 32px rgba(15,23,42,0.08)" }}
             >
               <div className="px-4 py-5 flex flex-col gap-1 max-w-7xl mx-auto">
                 {navLinks.map((link, idx) => (
@@ -166,25 +158,13 @@ export default function Navbar() {
                     transition={{ delay: 0.04 + idx * 0.045, duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
                     className="px-4 py-3.5 rounded-xl text-sm font-medium transition-colors"
                     style={{
-                      color: isActive(link.id) ? "#60A5FA" : "#94A3B8",
-                      background: isActive(link.id) ? "rgba(59,130,246,0.1)" : "transparent",
+                      color: isActive(link.id) ? "#2563EB" : "#475569",
+                      background: isActive(link.id) ? "rgba(37,99,235,0.06)" : "transparent",
                     }}
                   >
                     {link.label}
                   </motion.a>
                 ))}
-                <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-                  <a
-                    href="https://calendly.com/contact-jnanikai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl text-sm font-bold"
-                    style={{ background: "#3B82F6", color: "#fff" }}
-                  >
-                    <Calendar size={14} />
-                    Book a Consultation
-                  </a>
-                </div>
               </div>
             </motion.div>
           </>

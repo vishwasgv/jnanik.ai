@@ -2,53 +2,71 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Lightbulb, Bot, Cpu, MessageSquare, Wrench } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { ease, dur, vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
+import { vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
 
 const services = [
   {
     icon: BookOpen,
     title: "AI Knowledge Hub",
-    desc: "Employees stop wasting hours searching for answers that already exist in your company. Instant, accurate access to everything your organisation knows — documents, SOPs, emails, wikis — all in one place.",
+    desc: "Your team's collective knowledge — SOPs, documents, emails, reports — made instantly searchable and answerable. No more hours lost looking for answers that already exist.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
+    gradient: "linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%)",
+    iconColor: "#2563EB",
+    iconBg: "rgba(37,99,235,0.1)",
+    iconBd: "rgba(37,99,235,0.2)",
     featured: true,
+    label: "Most Requested",
   },
   {
     icon: Lightbulb,
     title: "AI Strategy",
-    desc: "A clear, prioritised roadmap built around your real constraints — data, budget, and risk.",
+    desc: "A clear, prioritised AI roadmap built around your real data, constraints, and goals.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1758873269181-270f5b7fc6aa?auto=format&fit=crop&w=800&q=85",
+    gradient: "linear-gradient(135deg, #FEFCE8 0%, #FEF08A 100%)",
+    iconColor: "#CA8A04",
+    iconBg: "rgba(202,138,4,0.1)",
+    iconBd: "rgba(202,138,4,0.2)",
   },
   {
     icon: Bot,
     title: "Agentic AI",
-    desc: "AI agents that plan, reason, and execute complex multi-step workflows autonomously.",
+    desc: "AI that plans, reasons, and executes complex workflows — autonomously and reliably.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1698087908802-baae881e41e6?auto=format&fit=crop&w=800&q=85",
+    gradient: "linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)",
+    iconColor: "#16A34A",
+    iconBg: "rgba(22,163,74,0.1)",
+    iconBd: "rgba(22,163,74,0.2)",
   },
   {
     icon: Cpu,
     title: "Small Language Models",
-    desc: "Domain-specific models that outperform general LLMs on your tasks at a fraction of the cost.",
+    desc: "Domain-specific AI models trained on your data — outperforming general LLMs at a fraction of the cost.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1639066648921-82d4500abf1a?auto=format&fit=crop&w=800&q=85",
+    gradient: "linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%)",
+    iconColor: "#EA580C",
+    iconBg: "rgba(234,88,12,0.1)",
+    iconBd: "rgba(234,88,12,0.2)",
   },
   {
     icon: MessageSquare,
     title: "AI Chatbot",
-    desc: "Enterprise chatbots that resolve real queries and learn from your data — not generic FAQ bots.",
+    desc: "Enterprise chatbots that understand your business context and resolve real queries — not just FAQs.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1745674684463-62f62cb88d4c?auto=format&fit=crop&w=800&q=85",
+    gradient: "linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)",
+    iconColor: "#7C3AED",
+    iconBg: "rgba(124,58,237,0.1)",
+    iconBd: "rgba(124,58,237,0.2)",
   },
   {
     icon: Wrench,
     title: "Custom AI Solutions",
-    desc: "Your workflow doesn't fit any off-the-shelf product. We build purpose-built AI around your exact process and data.",
+    desc: "Your workflow is unique. We build AI systems designed precisely around your process and data.",
     href: "/services",
-    image: "https://images.unsplash.com/photo-1638482856830-16b0e15fcf2c?auto=format&fit=crop&w=800&q=85",
+    gradient: "linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)",
+    iconColor: "#0284C7",
+    iconBg: "rgba(2,132,199,0.1)",
+    iconBd: "rgba(2,132,199,0.2)",
   },
 ];
 
@@ -69,7 +87,7 @@ export default function ServicesPreview() {
         >
           <div>
             <motion.div variants={fadeOnly} className="section-label mb-5 sm:mb-6 inline-flex">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
               What We Build
             </motion.div>
             <motion.h2
@@ -80,7 +98,7 @@ export default function ServicesPreview() {
               Six AI systems.<br />One engineering team.
             </motion.h2>
             <motion.p variants={fadeUp} className="text-base sm:text-lg mt-4 max-w-lg" style={{ color: "var(--text-3)" }}>
-              Every solution is built around your actual data and constraints — not adapted from a generic template.
+              Built around your actual data and constraints — not adapted from a generic template.
             </motion.p>
           </div>
           <motion.div variants={fadeOnly}>
@@ -91,107 +109,124 @@ export default function ServicesPreview() {
           </motion.div>
         </motion.div>
 
-        {/* Grid: featured (2-col×2-row) + 4 smaller + 1 wide */}
+        {/* Featured card */}
         <motion.div
           variants={staggerGrid(0.05)}
           initial="hidden"
           whileInView="show"
           viewport={vp}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
-          style={{ gridAutoRows: "260px" }}
+          className="mb-5"
         >
-          {/* Featured card — cinematic entrance (slightly longer) */}
           <motion.div
             variants={fadeUp}
-            className="card-glow group relative overflow-hidden rounded-2xl lg:col-span-2 lg:row-span-2"
-            style={{ minHeight: "260px" }}
+            whileHover={{ y: -3 }}
+            transition={{ duration: 0.25 }}
+            className="card-base overflow-hidden"
           >
-            <Image
-              src={featured.image}
-              alt={featured.title}
-              fill
-              priority
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
-              sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 66vw"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(to top, rgba(4,10,22,0.98) 0%, rgba(4,10,22,0.7) 45%, rgba(4,10,22,0.2) 100%)" }}
-            />
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              style={{ background: "rgba(59,130,246,0.06)" }}
-            />
-
-            <div className="absolute top-5 right-5">
-              <span
-                className="text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest"
-                style={{ background: "rgba(59,130,246,0.22)", border: "1px solid rgba(59,130,246,0.4)", color: "#93C5FD" }}
-              >
-                Most Requested
-              </span>
-            </div>
-
-            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+            <div className="grid lg:grid-cols-2">
+              {/* Gradient visual side */}
               <div
-                className="inline-flex items-center justify-center rounded-xl mb-4"
-                style={{ width: "46px", height: "46px", background: "rgba(59,130,246,0.2)", border: "1px solid rgba(59,130,246,0.38)" }}
+                className="relative p-10 sm:p-12 flex flex-col justify-between min-h-[280px]"
+                style={{ background: featured.gradient }}
               >
-                <featured.icon size={20} style={{ color: "#93C5FD" }} />
+                <div>
+                  <span
+                    className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest mb-5"
+                    style={{ background: "rgba(255,255,255,0.7)", border: `1px solid ${featured.iconBd}`, color: featured.iconColor }}
+                  >
+                    {featured.label}
+                  </span>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                    style={{ background: "rgba(255,255,255,0.85)", border: `1px solid ${featured.iconBd}`, boxShadow: "0 4px 12px rgba(0,0,0,0.06)" }}
+                  >
+                    <featured.icon size={26} style={{ color: featured.iconColor }} />
+                  </div>
+                  <h3 className="font-bold text-2xl sm:text-3xl mb-3" style={{ color: "#0F172A" }}>{featured.title}</h3>
+                </div>
+
+                {/* Animated insight cards */}
+                <div className="flex gap-2 flex-wrap">
+                  {["SOPs & Manuals", "Quality Reports", "Engineering Docs", "Shift Logs"].map((tag, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 6 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 + i * 0.08 }}
+                      className="px-2.5 py-1 text-[10px] font-semibold rounded-lg"
+                      style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${featured.iconBd}`, color: featured.iconColor }}
+                    >
+                      {tag}
+                    </motion.span>
+                  ))}
+                </div>
               </div>
-              <h3 className="font-extrabold text-2xl sm:text-3xl mb-3 leading-snug" style={{ color: "#FFFFFF" }}>{featured.title}</h3>
-              <p className="text-sm sm:text-base leading-relaxed mb-4 max-w-lg" style={{ color: "#CBD5E1" }}>
-                {featured.desc}
-              </p>
-              <Link
-                href={featured.href}
-                className="inline-flex items-center gap-2 text-sm font-semibold group/link px-4 py-2 rounded-lg"
-                style={{ background: "rgba(59,130,246,0.18)", border: "1px solid rgba(59,130,246,0.35)", color: "#60A5FA" }}
-              >
-                Learn more
-                <ArrowRight size={13} className="group-hover/link:translate-x-0.5 transition-transform" />
-              </Link>
+
+              {/* Content side */}
+              <div className="p-8 sm:p-10 flex flex-col justify-between">
+                <div>
+                  <p className="text-base leading-relaxed mb-6" style={{ color: "#475569" }}>{featured.desc}</p>
+                  <div className="space-y-3">
+                    {[
+                      "Answers from 50,000+ documents in seconds",
+                      "Works on your existing files — no migration",
+                      "Deployable on-prem or in the cloud",
+                    ].map((pt, i) => (
+                      <div key={i} className="flex items-center gap-2.5 text-sm" style={{ color: "#334155" }}>
+                        <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: featured.iconColor }} />
+                        {pt}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <Link
+                  href={featured.href}
+                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold group/link"
+                  style={{ color: featured.iconColor }}
+                >
+                  Learn more
+                  <ArrowRight size={14} className="group-hover/link:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
             </div>
           </motion.div>
+        </motion.div>
 
-          {/* Supporting cards */}
+        {/* Supporting cards grid */}
+        <motion.div
+          variants={staggerGrid(0.07)}
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5"
+        >
           {rest.map((svc, i) => (
             <motion.div
               key={i}
               variants={fadeUp}
-              className="card-glow group relative overflow-hidden rounded-2xl"
+              whileHover={{ y: -3 }}
+              transition={{ duration: 0.25 }}
+              className="card-base overflow-hidden flex flex-col"
             >
-              <Image
-                src={svc.image}
-                alt={svc.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
-              />
+              {/* Gradient header */}
               <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(to top, rgba(4,10,22,0.97) 0%, rgba(4,10,22,0.65) 55%, rgba(4,10,22,0.15) 100%)" }}
-              />
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: "rgba(59,130,246,0.06)" }}
-              />
-
-              <div className="absolute bottom-0 left-0 right-0 p-5">
+                className="p-5 flex flex-col gap-3"
+                style={{ background: svc.gradient }}
+              >
                 <div
-                  className="inline-flex items-center justify-center rounded-xl mb-3"
-                  style={{ width: "38px", height: "38px", background: "rgba(59,130,246,0.18)", border: "1px solid rgba(59,130,246,0.32)" }}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{ background: "rgba(255,255,255,0.8)", border: `1px solid ${svc.iconBd}`, boxShadow: "0 2px 6px rgba(0,0,0,0.05)" }}
                 >
-                  <svc.icon size={16} style={{ color: "#93C5FD" }} />
+                  <svc.icon size={18} style={{ color: svc.iconColor }} />
                 </div>
-                <h3 className="font-extrabold text-sm sm:text-base mb-2 leading-snug" style={{ color: "#FFFFFF" }}>{svc.title}</h3>
-                <p
-                  className="text-xs leading-relaxed mb-3 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500"
-                  style={{ color: "#CBD5E1" }}
-                >
-                  {svc.desc}
-                </p>
-                <Link href={svc.href} className="text-xs font-semibold inline-flex items-center gap-1.5 group/link" style={{ color: "#60A5FA" }}>
+                <h3 className="font-bold text-sm leading-snug" style={{ color: "#0F172A" }}>{svc.title}</h3>
+              </div>
+
+              {/* Body */}
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <p className="text-xs leading-relaxed mb-4" style={{ color: "#64748B" }}>{svc.desc}</p>
+                <Link href={svc.href} className="text-xs font-semibold inline-flex items-center gap-1 group/link" style={{ color: svc.iconColor }}>
                   Learn more
                   <ArrowRight size={11} className="group-hover/link:translate-x-0.5 transition-transform" />
                 </Link>

@@ -14,21 +14,21 @@ const contactInfo = [
 type FormStatus = "idle" | "sending" | "sent";
 
 const inputBase: React.CSSProperties = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(255,255,255,0.1)",
-  color: "#FFFFFF",
+  background: "#FFFFFF",
+  border: "1px solid rgba(15,23,42,0.12)",
+  color: "#0F172A",
   outline: "none",
 };
 
 const inputFocused: React.CSSProperties = {
   ...inputBase,
-  border: "1px solid rgba(59,130,246,0.55)",
-  boxShadow: "0 0 0 3px rgba(59,130,246,0.12)",
+  border: "1px solid rgba(37,99,235,0.5)",
+  boxShadow: "0 0 0 3px rgba(37,99,235,0.08)",
 };
 
 function FieldLabel({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) {
   return (
-    <label htmlFor={htmlFor} className="block text-xs font-semibold mb-1.5" style={{ color: "#94A3B8" }}>
+    <label htmlFor={htmlFor} className="block text-xs font-semibold mb-1.5" style={{ color: "#64748B" }}>
       {children}
     </label>
   );
@@ -70,7 +70,7 @@ function DarkSelect({ id, value, onChange, children }: { id: string; value: stri
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       className="w-full px-4 py-3 rounded-xl text-sm transition-all"
-      style={focused ? { ...inputFocused, color: value ? "#FFFFFF" : "#94A3B8" } : { ...inputBase, color: value ? "#FFFFFF" : "#94A3B8" }}
+      style={focused ? { ...inputFocused, color: value ? "#0F172A" : "#94A3B8" } : { ...inputBase, color: value ? "#0F172A" : "#94A3B8" }}
       aria-required
     >
       {children}
@@ -167,11 +167,11 @@ export default function ContactSection() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="card-base p-5 sm:p-6"
               >
-                <div className="blue-icon mb-4"><info.icon size={16} style={{ color: "#60A5FA" }} /></div>
+                <div className="blue-icon mb-4"><info.icon size={16} style={{ color: "#2563EB" }} /></div>
                 <h3 className="font-semibold text-sm mb-2" style={{ color: "var(--text-1)" }}>{info.title}</h3>
                 {info.lines.map((line, j) =>
                   info.link ? (
-                    <a key={j} href={info.link} className="block text-sm font-semibold hover:opacity-80 transition-opacity" style={{ color: "#60A5FA" }}>{line}</a>
+                    <a key={j} href={info.link} className="block text-sm font-semibold hover:opacity-80 transition-opacity" style={{ color: "#2563EB" }}>{line}</a>
                   ) : (
                     <p key={j} className="text-sm" style={{ color: "var(--text-2)" }}>{line}</p>
                   )
@@ -185,7 +185,7 @@ export default function ContactSection() {
       {/* Calendly */}
       <section className="py-16 sm:py-20" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="border-t mb-12 sm:mb-16" style={{ borderColor: "rgba(255,255,255,0.07)" }} />
+          <div className="border-t mb-12 sm:mb-16" style={{ borderColor: "rgba(15,23,42,0.07)" }} />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -211,11 +211,11 @@ export default function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
             className="rounded-2xl overflow-hidden"
-            style={{ border: "1px solid rgba(59,130,246,0.2)" }}
+            style={{ border: "1px solid rgba(15,23,42,0.08)", boxShadow: "0 2px 12px rgba(15,23,42,0.06)" }}
           >
             <div
               className="calendly-inline-widget"
-              data-url="https://calendly.com/contact-jnanikai?hide_event_type_details=0&hide_gdpr_banner=1&background_color=0F172A&text_color=F1F5F9&primary_color=3B82F6"
+              data-url="https://calendly.com/contact-jnanikai?hide_event_type_details=0&hide_gdpr_banner=1&background_color=ffffff&text_color=0F172A&primary_color=2563EB"
               style={{ minWidth: "320px", height: "650px" }}
             />
             <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
