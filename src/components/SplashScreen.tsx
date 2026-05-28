@@ -7,118 +7,250 @@ import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import gsap from "gsap";
 
-/* ─────────────────────────────────────────────────────────────────
-   Module-level mutable state — GSAP writes, useFrame reads.
-   Singleton pattern is fine: splash shows once per session.
-───────────────────────────────────────────────────────────────── */
-const A = {
-  webAlpha:   0,
-  nodeAlpha:  0,
-  ptAlpha:    0,
-  cameraZ:    9,
-  rotY:       0,
-  collapse:   1,
-  burstR:     0.01,
-  burstAlpha: 0,
-};
+/* ─────────────────────────────────────────────────────────────────────
+   Animation state — lives in a useRef so GSAP can mutate it without
+   triggering React re-renders. Passed as a prop to every 3-D component.
+───────────────────────────────────────────────────────────────────── */
+interface S {
+  /* core */
+  coreI:        number;   // origin sphere emissive intensity
+  /* shock rings */
+  r1: number; a1: number;
+  r2: number; a2: number;
+  r3: number; a3: number;
+  /* neural tubes */
+  tubeProgress: number;   // 0 → 1: drives setDrawRange on every tube
+  tubeAlpha:    number;   // overall tube opacity
+  /* service nodes */
+  nodeAlpha:    number;
+  nodeScale:    number;
+  /* ambient particles */
+  cloudAlpha:   number;
+  /* pulse wave */
+  pulse:        number;   // 0 → 1 → 0: synchronised brightness spike
+  /* group transform */
+  rotY:         number;
+  collapse:     number;   // 1 → 0 on implosion
+  /* burst */
+  burstR:       number;
+  burstA:       number;
+  /* camera */
+  camZ:         number;
+  /* bloom */
+  bloomI:       number;
+}
+type SR = React.MutableRefObject<S>;
 
-const resetA = () =>
-  Object.assign(A, {
-    webAlpha: 0, nodeAlpha: 0, ptAlpha: 0,
-    cameraZ: 9, rotY: 0, collapse: 1,
-    burstR: 0.01, burstAlpha: 0,
-  });
+function freshState(): S {
+  return {
+    coreI: 0,
+    r1: 0, a1: 0, r2: 0, a2: 0, r3: 0, a3: 0,
+    tubeProgress: 0, tubeAlpha: 0,
+    nodeAlpha: 0, nodeScale: 0,
+    cloudAlpha: 0,
+    pulse: 0,
+    rotY: 0, collapse: 1,
+    burstR: 0.01, burstA: 0,
+    camZ: 8,
+    bloomI: 1.8,
+  };
+}
 
-/* ── Service node definitions ─────────────────────────────────── */
-const NODES: { color: string; pos: [number, number, number] }[] = [
-  { color: "#00D4FF", pos: [-2.2,  1.3,  0.5] },
-  { color: "#7C3AED", pos: [ 2.2,  1.3, -0.5] },
-  { color: "#00FF9C", pos: [ 0,    2.8,  0  ] },
-  { color: "#F59E0B", pos: [-2.2, -1.3, -0.5] },
-  { color: "#FF006E", pos: [ 2.2, -1.3,  0.5] },
-  { color: "#60A5FA", pos: [ 0,   -2.8,  0  ] },
+/* ─── Service-node definitions ────────────────────────────────────── */
+const NODES = [
+  { color: "#00D4FF", pos: new THREE.Vector3(-2.0,  1.2,  0.8) },
+  { color: "#7C3AED", pos: new THREE.Vector3( 2.0,  1.2, -0.8) },
+  { color: "#00FF9C", pos: new THREE.Vector3( 0,    2.6,  0  ) },
+  { color: "#F59E0B", pos: new THREE.Vector3(-2.0, -1.2, -0.8) },
+  { color: "#FF006E", pos: new THREE.Vector3( 2.0, -1.2,  0.8) },
+  { color: "#60A5FA", pos: new THREE.Vector3( 0,   -2.6,  0  ) },
 ];
+const PALETTE = ["#00D4FF","#7C3AED","#00FF9C","#F59E0B","#FF006E","#60A5FA","#FFFFFF"];
 
-const PALETTE_HEX = ["#00D4FF","#7C3AED","#00FF9C","#F59E0B","#FF006E","#60A5FA","#FFFFFF"];
+/* ─── Pulsing origin sphere ───────────────────────────────────────── */
+function OriginCore({ s }: { s: SR }) {
+  const ref = useRef<THREE.Mesh>(null!);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const flicker = 0.55 + Math.sin(clock.getElapsedTime() * 75) * 0.45; // 12 Hz
+    const mat     = ref.current.material as THREE.MeshStandardMaterial;
+    const peakBoost = 1 + s.current.pulse * 1.8;
+    mat.emissiveIntensity = s.current.coreI * (s.current.collapse < 0.5 ? peakBoost : flicker * peakBoost);
+    ref.current.scale.setScalar(s.current.collapse);
+  });
+  return (
+    <mesh ref={ref}>
+      <sphereGeometry args={[0.045, 16, 16]} />
+      <meshStandardMaterial
+        color="#FFFFFF" emissive="#FFFFFF"
+        emissiveIntensity={0} toneMapped={false}
+      />
+    </mesh>
+  );
+}
 
-/* ── Neural web of fiber-optic CatmullRom lines ───────────────── */
-function NeuralWeb() {
-  const groupRef = useRef<THREE.Group>(null!);
-  const matRef   = useRef<THREE.LineBasicMaterial>(null!);
-
-  const geo = useMemo(() => {
-    const pos: number[] = [];
-    const col: number[] = [];
-    const cols = PALETTE_HEX.map(h => {
-      const c = new THREE.Color(h);
-      c.multiplyScalar(1.9);
-      return c;
-    });
-
-    for (let i = 0; i < 240; i++) {
-      const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3((Math.random()-.5)*12,(Math.random()-.5)*9,(Math.random()-.5)*6),
-        new THREE.Vector3((Math.random()-.5)*10,(Math.random()-.5)*8,(Math.random()-.5)*5),
-        new THREE.Vector3((Math.random()-.5)*11,(Math.random()-.5)*9,(Math.random()-.5)*6),
-        new THREE.Vector3((Math.random()-.5)*12,(Math.random()-.5)*9,(Math.random()-.5)*6),
-      ]);
-      const pts = curve.getPoints(20);
-      const c   = cols[i % cols.length];
-      for (let j = 0; j < pts.length - 1; j++) {
-        pos.push(pts[j].x,   pts[j].y,   pts[j].z);
-        pos.push(pts[j+1].x, pts[j+1].y, pts[j+1].z);
-        col.push(c.r, c.g, c.b, c.r, c.g, c.b);
-      }
-    }
-
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-    g.setAttribute("color",    new THREE.Float32BufferAttribute(col, 3));
-    return g;
-  }, []);
+/* ─── Three expanding shockwave torus rings ───────────────────────── */
+function ShockRings({ s }: { s: SR }) {
+  const m1 = useRef<THREE.Mesh>(null!);
+  const m2 = useRef<THREE.Mesh>(null!);
+  const m3 = useRef<THREE.Mesh>(null!);
 
   useFrame(() => {
-    if (!groupRef.current || !matRef.current) return;
-    groupRef.current.rotation.y = A.rotY;
-    groupRef.current.scale.setScalar(A.collapse);
-    matRef.current.opacity = A.webAlpha;
+    const { r1,a1,r2,a2,r3,a3 } = s.current;
+    const upd = (m: THREE.Mesh, r: number, a: number) => {
+      if (!m) return;
+      m.scale.setScalar(Math.max(0.001, r));
+      (m.material as THREE.MeshBasicMaterial).opacity = Math.max(0, a);
+    };
+    upd(m1.current, r1, a1);
+    upd(m2.current, r2, a2);
+    upd(m3.current, r3, a3);
+  });
+
+  const ring = (
+    ref: React.RefObject<THREE.Mesh>,
+    color: string,
+  ) => (
+    <mesh ref={ref} scale={0.001}>
+      <torusGeometry args={[1, 0.007, 8, 80]} />
+      <meshBasicMaterial
+        color={color} transparent opacity={0}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false} toneMapped={false}
+      />
+    </mesh>
+  );
+
+  return (
+    <>
+      {ring(m1, "#FFFFFF")}
+      {ring(m2, "#00D4FF")}
+      {ring(m3, "#7C3AED")}
+    </>
+  );
+}
+
+/* ─── Neural tubes — TubeGeometry so they have real 3-D width ────── */
+/* Uses setDrawRange to grow each tube tip-first from the centre.      */
+function NeuralTubes({ s }: { s: SR }) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const matRefs  = useRef<THREE.MeshStandardMaterial[]>([]);
+
+  /* Build all tube geometries once */
+  const tubes = useMemo(() => {
+    const O = new THREE.Vector3(0, 0, 0);
+    const pal = PALETTE;
+    const list: { geo: THREE.TubeGeometry; color: string; total: number }[] = [];
+
+    const addTube = (pts: THREE.Vector3[], color: string, r = 0.013, segs = 40) => {
+      const geo  = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), segs, r, 7, false);
+      const total = geo.index ? geo.index.count : 0;
+      geo.setDrawRange(0, 0); // start hidden
+      list.push({ geo, color, total });
+    };
+
+    /* 6 centre → node tubes */
+    NODES.forEach(n => {
+      const mid = n.pos.clone().lerp(O, 0.5);
+      mid.x += (Math.random() - 0.5) * 1.2;
+      mid.y += (Math.random() - 0.5) * 0.9;
+      mid.z += (Math.random() - 0.5) * 0.7;
+      addTube([O.clone(), mid, n.pos.clone()], n.color, 0.014, 44);
+    });
+
+    /* 6 node → adjacent-node tubes (hexagonal ring) */
+    NODES.forEach((n, i) => {
+      const m  = NODES[(i + 1) % NODES.length];
+      const mid = n.pos.clone().lerp(m.pos, 0.5);
+      mid.x += (Math.random() - 0.5) * 0.9;
+      mid.y += (Math.random() - 0.5) * 0.8;
+      addTube([n.pos.clone(), mid, m.pos.clone()], pal[i % pal.length], 0.009, 32);
+    });
+
+    /* 20 decorative branches — grow into the void */
+    for (let i = 0; i < 20; i++) {
+      const end = new THREE.Vector3(
+        (Math.random() - 0.5) * 8,
+        (Math.random() - 0.5) * 6,
+        (Math.random() - 0.5) * 5,
+      );
+      const m1 = end.clone().multiplyScalar(0.38);
+      m1.x += (Math.random() - 0.5) * 1.0;
+      m1.y += (Math.random() - 0.5) * 0.8;
+      const m2 = end.clone().multiplyScalar(0.72);
+      m2.z += (Math.random() - 0.5) * 0.6;
+      addTube([O.clone(), m1, m2, end], pal[Math.floor(Math.random() * pal.length)], 0.007, 28);
+    }
+
+    return list;
+  }, []);
+
+  const N = tubes.length;
+
+  useFrame(() => {
+    if (!groupRef.current) return;
+
+    groupRef.current.rotation.y = s.current.rotY;
+    groupRef.current.scale.setScalar(s.current.collapse);
+
+    const tp  = s.current.tubeProgress;  // 0 → 1
+    const opa = s.current.tubeAlpha;
+
+    tubes.forEach(({ geo, total }, i) => {
+      /* Each tube gets a staggered start — earlier tubes draw first */
+      const start = (i / N) * 0.55;
+      const p     = Math.max(0, Math.min(1, (tp - start) / 0.45));
+      geo.setDrawRange(0, Math.floor(p * total));
+
+      const mat = matRefs.current[i];
+      if (mat) {
+        mat.opacity         = opa * Math.min(1, p * 2);
+        mat.emissiveIntensity = (3 + s.current.pulse * 2.5) * opa;
+      }
+    });
   });
 
   return (
     <group ref={groupRef}>
-      <lineSegments geometry={geo}>
-        <lineBasicMaterial
-          ref={matRef}
-          vertexColors
-          blending={THREE.AdditiveBlending}
-          transparent
-          opacity={0}
-          depthWrite={false}
-          toneMapped={false}
-        />
-      </lineSegments>
+      {tubes.map((t, i) => (
+        <mesh key={i} geometry={t.geo}>
+          <meshStandardMaterial
+            ref={el => { if (el) matRefs.current[i] = el as THREE.MeshStandardMaterial; }}
+            color={t.color}
+            emissive={t.color}
+            emissiveIntensity={0}
+            transparent
+            opacity={0}
+            toneMapped={false}
+            depthWrite={false}
+          />
+        </mesh>
+      ))}
     </group>
   );
 }
 
-/* ── Six pulsing service-node orbs ───────────────────────────── */
-function ServiceNodes() {
+/* ─── Six glowing service-node orbs ──────────────────────────────── */
+function ServiceNodes({ s }: { s: SR }) {
   const groupRef = useRef<THREE.Group>(null!);
   const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
 
   useFrame(({ clock }) => {
     if (!groupRef.current) return;
+    groupRef.current.scale.setScalar(s.current.collapse);
+    groupRef.current.rotation.y = s.current.rotY; // match NeuralTubes so endpoints stay aligned
+
     const t   = clock.getElapsedTime();
-    const opa = Math.max(0, Math.min(1, A.nodeAlpha));
-    groupRef.current.scale.setScalar(A.collapse);
-    groupRef.current.rotation.y = A.rotY * 0.5;
+    const opa = Math.max(0, Math.min(1, s.current.nodeAlpha));
+    const sc  = Math.max(0, Math.min(1, s.current.nodeScale));
 
     meshRefs.current.forEach((m, i) => {
       if (!m) return;
       const mat = m.material as THREE.MeshStandardMaterial;
-      mat.emissiveIntensity = (2.8 + Math.sin(t * 2 + i * 1.1) * 0.9) * opa;
-      mat.opacity           = opa;
-      m.scale.setScalar(1 + Math.sin(t * 1.8 + i * 0.9) * 0.07);
+      const freq = 1.6 + i * 0.22;
+      mat.emissiveIntensity = (4 + Math.sin(t * freq + i * 1.1) * 1.2 + s.current.pulse * 3) * opa;
+      mat.opacity = opa;
+      m.scale.setScalar(sc * (1 + Math.sin(t * freq + i * 0.9) * 0.06));
     });
   });
 
@@ -127,16 +259,13 @@ function ServiceNodes() {
       {NODES.map((n, i) => (
         <mesh
           key={i}
-          position={n.pos}
+          position={[n.pos.x, n.pos.y, n.pos.z]}
           ref={el => { meshRefs.current[i] = el; }}
         >
-          <sphereGeometry args={[0.18, 32, 32]} />
+          <sphereGeometry args={[0.22, 32, 32]} />
           <meshStandardMaterial
-            color={n.color}
-            emissive={n.color}
-            emissiveIntensity={0}
-            transparent
-            opacity={0}
+            color={n.color} emissive={n.color}
+            emissiveIntensity={0} transparent opacity={0}
             toneMapped={false}
           />
         </mesh>
@@ -145,25 +274,25 @@ function ServiceNodes() {
   );
 }
 
-/* ── Floating ambient particles ──────────────────────────────── */
-function Particles() {
+/* ─── Ambient particle cloud ──────────────────────────────────────── */
+function AmbientCloud({ s }: { s: SR }) {
   const ptRef  = useRef<THREE.Points>(null!);
   const matRef = useRef<THREE.PointsMaterial>(null!);
 
   const geo = useMemo(() => {
-    const N   = 900;
+    const N   = 1500;
     const pos = new Float32Array(N * 3);
     const col = new Float32Array(N * 3);
     const pal = [
-      [0,0.83,1],[0.49,0.23,0.93],[0,1,0.61],
-      [0.96,0.62,0.04],[1,0,0.43],[0.38,0.64,0.98],
+      [0, 0.83, 1], [0.49, 0.23, 0.93], [0, 1, 0.61],
+      [0.96, 0.62, 0.04], [1, 0, 0.43], [0.38, 0.64, 0.98],
     ];
     for (let i = 0; i < N; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const r = 1.5 + Math.random() * 5.5;
-      pos[i*3]   = Math.cos(a) * r;
-      pos[i*3+1] = (Math.random() - 0.5) * 9;
-      pos[i*3+2] = Math.sin(a) * r;
+      const θ = Math.random() * Math.PI * 2;
+      const r = 1.5 + Math.random() * 5;
+      pos[i*3]   = Math.cos(θ) * r;
+      pos[i*3+1] = (Math.random() - 0.5) * 8;
+      pos[i*3+2] = Math.sin(θ) * r;
       const c = pal[Math.floor(Math.random() * pal.length)];
       col[i*3] = c[0]; col[i*3+1] = c[1]; col[i*3+2] = c[2];
     }
@@ -175,133 +304,91 @@ function Particles() {
 
   useFrame(({ clock }) => {
     if (!ptRef.current || !matRef.current) return;
-    ptRef.current.rotation.y = clock.getElapsedTime() * 0.07;
-    ptRef.current.scale.setScalar(A.collapse);
-    matRef.current.opacity = A.ptAlpha;
+    ptRef.current.rotation.y = clock.getElapsedTime() * 0.055;
+    ptRef.current.scale.setScalar(s.current.collapse);
+    matRef.current.opacity = s.current.cloudAlpha;
   });
 
   return (
     <points ref={ptRef} geometry={geo}>
       <pointsMaterial
         ref={matRef}
-        vertexColors
-        size={0.055}
+        vertexColors size={0.05}
         blending={THREE.AdditiveBlending}
-        transparent
-        opacity={0}
-        depthWrite={false}
-        toneMapped={false}
-        sizeAttenuation
+        transparent opacity={0}
+        depthWrite={false} toneMapped={false} sizeAttenuation
       />
     </points>
   );
 }
 
-/* ── Bright origin point — flickers during Phase 1 ───────────── */
-function OriginLight() {
+/* ─── White burst flash sphere ────────────────────────────────────── */
+function BurstFlash({ s }: { s: SR }) {
   const ref = useRef<THREE.Mesh>(null!);
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (!ref.current) return;
-    const mat = ref.current.material as THREE.MeshStandardMaterial;
-    const p   = 0.5 + Math.sin(clock.getElapsedTime() * 14) * 0.5;
-    mat.emissiveIntensity = A.webAlpha < 0.35 ? p * 12 : Math.max(1.5, p * 3);
+    ref.current.scale.setScalar(Math.max(0.001, s.current.burstR));
+    (ref.current.material as THREE.MeshBasicMaterial).opacity = Math.max(0, s.current.burstA);
   });
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[0.04, 16, 16]} />
-      <meshStandardMaterial
-        color="#FFFFFF"
-        emissive="#FFFFFF"
-        emissiveIntensity={12}
-        toneMapped={false}
+    <mesh ref={ref} scale={0.001}>
+      <sphereGeometry args={[1, 32, 16]} />
+      <meshBasicMaterial
+        color="#FFFFFF" transparent opacity={0}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false} toneMapped={false}
       />
     </mesh>
   );
 }
 
-/* ── Expanding burst shockwave ───────────────────────────────── */
-function BurstRing() {
-  const r1 = useRef<THREE.Mesh>(null!);
-  const r2 = useRef<THREE.Mesh>(null!);
-
-  useFrame(() => {
-    if (!r1.current || !r2.current) return;
-    const s = Math.max(0.01, A.burstR);
-    r1.current.scale.setScalar(s);
-    r2.current.scale.setScalar(s * 0.72);
-    (r1.current.material as THREE.MeshBasicMaterial).opacity = A.burstAlpha;
-    (r2.current.material as THREE.MeshBasicMaterial).opacity = A.burstAlpha * 0.55;
-  });
-
-  return (
-    <>
-      <mesh ref={r1} scale={0.01}>
-        <sphereGeometry args={[1, 48, 24]} />
-        <meshBasicMaterial
-          color="#FFFFFF"
-          transparent
-          opacity={0}
-          wireframe
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          toneMapped={false}
-        />
-      </mesh>
-      <mesh ref={r2} scale={0.01}>
-        <sphereGeometry args={[1, 32, 16]} />
-        <meshBasicMaterial
-          color="#00D4FF"
-          transparent
-          opacity={0}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          toneMapped={false}
-          side={THREE.BackSide}
-        />
-      </mesh>
-    </>
-  );
-}
-
-/* ── Camera rig — GSAP drives cameraZ ────────────────────────── */
-function CameraRig() {
+/* ─── Camera ──────────────────────────────────────────────────────── */
+function CameraRig({ s }: { s: SR }) {
   const { camera } = useThree();
-  useFrame(() => { camera.position.z = A.cameraZ; });
+  useFrame(() => { camera.position.z = s.current.camZ; });
   return null;
 }
 
-/* ── Post-processing ─────────────────────────────────────────── */
-function FX() {
+/* ─── Post-processing ─────────────────────────────────────────────── */
+function FX({ s }: { s: SR }) {
+  const bloomRef = useRef<any>(null);
+  useFrame(() => {
+    if (bloomRef.current) bloomRef.current.intensity = s.current.bloomI;
+  });
   return (
     <EffectComposer>
       <Bloom
-        intensity={1.6}
-        luminanceThreshold={0.06}
-        luminanceSmoothing={0.35}
+        ref={bloomRef}
+        intensity={1.8}
+        luminanceThreshold={0.05}
+        luminanceSmoothing={0.3}
         mipmapBlur
       />
     </EffectComposer>
   );
 }
 
-/* ── Full 3-D scene ──────────────────────────────────────────── */
-function Scene() {
+/* ─── Full scene ──────────────────────────────────────────────────── */
+function Scene({ s }: { s: SR }) {
   return (
     <>
-      <ambientLight intensity={0.04} />
-      <CameraRig />
-      <NeuralWeb />
-      <ServiceNodes />
-      <Particles />
-      <OriginLight />
-      <BurstRing />
-      <FX />
+      <ambientLight intensity={0.03} />
+      <CameraRig s={s} />
+      <ShockRings s={s} />
+      <NeuralTubes s={s} />
+      <ServiceNodes s={s} />
+      <AmbientCloud s={s} />
+      <OriginCore s={s} />
+      <BurstFlash s={s} />
+      <FX s={s} />
     </>
   );
 }
 
-/* ── Main export ─────────────────────────────────────────────── */
+/* ─── Main export ─────────────────────────────────────────────────── */
 export default function SplashScreen() {
+  const s = useRef<S>(freshState());
+
   const [visible,  setVisible]  = useState(false);
   const [showText, setShowText] = useState(false);
   const [white,    setWhite]    = useState(false);
@@ -314,41 +401,65 @@ export default function SplashScreen() {
     if (sessionStorage.getItem("jnanik-intro")) return;
     sessionStorage.setItem("jnanik-intro", "1");
 
-    resetA();
+    Object.assign(s.current, freshState());
     setVisible(true);
 
+    const S = s.current;
     const tl = gsap.timeline();
 
-    /* Phase 1: 0–1.2 s — void, single origin light */
-    tl.to(A, { webAlpha: 0.78, duration: 1.6, ease: "power2.out" }, 0.35);
+    /* ── Phase 1: Void → origin (0 – 1.2 s) ─────────────────── */
+    tl.to(S, { coreI: 15, duration: 0.4, ease: "power2.out" },          0.1);
+    /* Ring 1 — white */
+    tl.to(S, { r1: 7,  duration: 0.75, ease: "power1.out" },             0.2);
+    tl.to(S, { a1: 0,  duration: 0.7, ease: "power1.in"  },             0.25);
+    tl.set(S, { a1: 0.8 },                                                0.2);
+    /* Ring 2 — cyan */
+    tl.to(S, { r2: 7,  duration: 0.8, ease: "power1.out" },             0.42);
+    tl.to(S, { a2: 0,  duration: 0.7, ease: "power1.in"  },             0.45);
+    tl.set(S, { a2: 0.65 },                                               0.42);
+    /* Ring 3 — violet */
+    tl.to(S, { r3: 7,  duration: 0.85, ease: "power1.out" },            0.64);
+    tl.to(S, { a3: 0,  duration: 0.7,  ease: "power1.in" },             0.68);
+    tl.set(S, { a3: 0.45 },                                               0.64);
 
-    /* Phase 2: 1.2–3.8 s — neural genesis, slow rotation */
-    tl.to(A, { rotY: Math.PI * 0.7, duration: 9.5, ease: "none" }, 0);
-    tl.to(A, { nodeAlpha: 1,  duration: 1.3, ease: "power2.out" }, 1.9);
-    tl.to(A, { ptAlpha:  0.9, duration: 1.6, ease: "power1.out" }, 2.4);
+    /* ── Phase 2: Neural genesis (1.2 – 4.0 s) ──────────────── */
+    tl.to(S, { tubeProgress: 1, tubeAlpha: 1,
+               duration: 2.4, ease: "power2.out" },                      1.1);
+    /* Slow rotation throughout entire animation */
+    tl.to(S, { rotY: Math.PI * 0.85, duration: 9, ease: "none" },        0);
 
-    /* Phase 3–4: 3.8–6.8 s — data rivers, cinematic dolly-back */
-    tl.to(A, { cameraZ: 13.5, duration: 3.2, ease: "power1.inOut" }, 3.6);
+    /* ── Phase 3: Nodes & particles (3.0 – 5.5 s) ───────────── */
+    tl.set(S, { nodeScale: 0 },                                           3.0);
+    tl.to(S, { nodeAlpha: 1, duration: 1.1, ease: "power2.out" },        3.0);
+    tl.to(S, { nodeScale: 1, duration: 0.7, ease: "back.out(2.2)" },     3.05);
+    tl.to(S, { cloudAlpha: 0.85, duration: 1.5, ease: "power1.out" },   3.3);
+    /* Camera pulls back */
+    tl.to(S, { camZ: 13, duration: 3.5, ease: "power1.inOut" },         3.0);
 
-    /* Phase 5a: 6.8–7.2 s — collapse inward */
-    tl.to(A, {
-      collapse: 0.01, webAlpha: 0, nodeAlpha: 0, ptAlpha: 0,
-      duration: 0.5, ease: "power3.in",
+    /* ── Phase 4: Intelligence peak pulse (5.5 – 6.8 s) ─────── */
+    tl.to(S, { pulse: 1, duration: 0.35, ease: "power2.in"  },          5.6);
+    tl.to(S, { pulse: 0, duration: 0.4,  ease: "power2.out" },          5.95);
+
+    /* ── Phase 5: Collapse & burst (6.8 – 7.8 s) ────────────── */
+    tl.to(S, {
+      collapse: 0.01, tubeAlpha: 0, nodeAlpha: 0,
+      cloudAlpha: 0, coreI: 0,
+      duration: 0.52, ease: "power3.in",
     }, 6.8);
+    /* Burst flash */
+    tl.to(S, {
+      burstR: 22, burstA: 0,
+      duration: 0.55, ease: "expo.out",
+      onStart() { S.burstA = 1; S.bloomI = 4.5; },
+      onComplete() { S.bloomI = 1.8; },
+    }, 7.3);
 
-    /* Phase 5b: 7.2–8.0 s — explosive burst */
-    tl.to(A, {
-      burstR: 24, burstAlpha: 0,
-      duration: 0.9, ease: "power2.out",
-      onStart() { A.burstAlpha = 1; },
-    }, 7.2);
+    /* ── Phase 6: Wordmark (7.8 s) ───────────────────────────── */
+    tl.call(() => setShowText(true), [], 7.75);
 
-    /* Phase 6: 7.6 s — wordmark reveal */
-    tl.call(() => setShowText(true), [], 7.6);
-
-    /* Phase 7: 9.3 s — white flood */
+    /* ── Phase 7: White exit (9.3 s) ─────────────────────────── */
     tl.call(() => setWhite(true),   [], 9.25);
-    tl.call(() => setExiting(true), [], 9.95);
+    tl.call(() => setExiting(true), [], 10.0);
 
     return () => { tl.kill(); };
   }, []);
@@ -359,33 +470,31 @@ export default function SplashScreen() {
     <AnimatePresence onExitComplete={() => setGone(true)}>
       {!exiting && (
         <motion.div
-          key="jnanik-splash"
+          key="splash"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.65 }}
-          style={{
-            position: "fixed", inset: 0, zIndex: 9999,
-            background: "#020617", overflow: "hidden",
-          }}
+          transition={{ duration: 0.6 }}
+          style={{ position: "fixed", inset: 0, zIndex: 9999,
+                   background: "#020617", overflow: "hidden" }}
         >
-          {/* ── 3-D canvas ─────────────────────────────────────── */}
+          {/* 3-D scene */}
           <Canvas
-            camera={{ fov: 60, position: [0, 0, 9], near: 0.1, far: 200 }}
+            camera={{ fov: 55, position: [0, 0, 8], near: 0.1, far: 200 }}
             gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
             dpr={[1, 2]}
             style={{ position: "absolute", inset: 0 }}
           >
-            <Scene />
+            <Scene s={s} />
           </Canvas>
 
-          {/* ── Wordmark (z:1, below white) ─────────────────────── */}
+          {/* Wordmark — z:1, sits above canvas, below white flood */}
           <AnimatePresence>
             {showText && !white && (
               <motion.div
-                key="wordmark"
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
+                key="wm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5 }}
                 style={{
                   position: "absolute", inset: 0, zIndex: 1,
                   display: "flex", flexDirection: "column",
@@ -393,79 +502,90 @@ export default function SplashScreen() {
                   pointerEvents: "none",
                 }}
               >
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, position: "relative" }}>
-                  {/* Ambient glow halo */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center",
+                              gap: 14, position: "relative" }}>
+
+                  {/* Ambient glow behind text */}
                   <div style={{
-                    position: "absolute", inset: "-90px -140px",
-                    background: "radial-gradient(ellipse at center, rgba(0,212,255,0.22) 0%, rgba(124,58,237,0.13) 42%, transparent 68%)",
-                    filter: "blur(38px)",
+                    position: "absolute", inset: "-100px -150px",
+                    background: "radial-gradient(ellipse at center, rgba(0,212,255,0.18) 0%, rgba(124,58,237,0.10) 44%, transparent 68%)",
+                    filter: "blur(40px)",
                   }} />
 
-                  {/* JNANIK · AI — per-letter stagger */}
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 2, position: "relative" }}>
+                  {/* JNANIK — per-letter stagger */}
+                  <div style={{ display: "flex", alignItems: "baseline",
+                                gap: 1, position: "relative" }}>
                     {["J","N","A","N","I","K"].map((ch, i) => (
                       <motion.span
                         key={i}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 22 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: i * 0.065, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{
+                          duration: 0.55,
+                          delay: i * 0.08,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
                         style={{
                           fontFamily: "var(--font-playfair)",
                           fontWeight: 700,
-                          fontSize: "clamp(2.8rem, 6.5vw, 5.2rem)",
+                          fontSize: "clamp(3rem, 7vw, 5.5rem)",
                           color: "#F0F9FF",
                           letterSpacing: "0.01em",
-                          textShadow: "0 0 30px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2)",
+                          textShadow:
+                            "0 0 30px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2)",
                         }}
                       >
                         {ch}
                       </motion.span>
                     ))}
 
+                    {/* AI — elastic pop after last letter */}
                     <motion.span
-                      initial={{ opacity: 0, scale: 0.65 }}
+                      initial={{ opacity: 0, scale: 0.4 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{
+                        duration: 0.65,
+                        delay: 0.95, // after K finishes (0.40s delay + 0.55s duration ≈ 0.95s)
+                        ease: [0.34, 1.56, 0.64, 1],  // spring overshoot
+                      }}
                       style={{
                         fontFamily: "var(--font-playfair)",
                         fontWeight: 700,
-                        fontSize: "clamp(2.8rem, 6.5vw, 5.2rem)",
+                        fontSize: "clamp(3rem, 7vw, 5.5rem)",
                         color: "#00D4FF",
                         letterSpacing: "0.01em",
-                        marginLeft: 18,
-                        textShadow: "0 0 20px #00D4FF, 0 0 55px rgba(0,212,255,0.7), 0 0 110px rgba(0,212,255,0.3)",
+                        marginLeft: 20,
+                        textShadow:
+                          "0 0 20px #00D4FF, 0 0 55px rgba(0,212,255,0.7), 0 0 110px rgba(0,212,255,0.3)",
                       }}
                     >
                       AI
                     </motion.span>
                   </div>
 
-                  {/* Gradient separator line */}
+                  {/* Separator — sweeps from centre */}
                   <motion.div
                     initial={{ scaleX: 0, opacity: 0 }}
                     animate={{ scaleX: 1, opacity: 1 }}
-                    transition={{ duration: 0.65, delay: 0.62, ease: [0.4, 0, 0.2, 1] }}
+                    transition={{ duration: 0.65, delay: 0.65, ease: [0.4, 0, 0.2, 1] }}
                     style={{
-                      height: 1, width: 230,
-                      background: "linear-gradient(90deg, transparent, #00D4FF 32%, #818CF8 68%, transparent)",
+                      height: 1, width: 234,
+                      background: "linear-gradient(90deg, transparent, #00D4FF 30%, #818CF8 70%, transparent)",
                       transformOrigin: "center",
                     }}
                   />
 
-                  {/* Tagline */}
+                  {/* Tagline — letter-spacing animation */}
                   <motion.p
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 0.82, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 0, letterSpacing: "0.5em" }}
+                    animate={{ opacity: 0.82, letterSpacing: "0.38em" }}
+                    transition={{ duration: 0.7, delay: 0.82, ease: [0.22, 1, 0.36, 1] }}
                     style={{
-                      margin: 0,
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.38em",
-                      color: "#7DD3FC",
-                      fontWeight: 600,
+                      margin: 0, fontSize: "0.6rem",
+                      color: "#7DD3FC", fontWeight: 600,
                       textTransform: "uppercase",
                       fontFamily: "var(--font-inter)",
-                      textShadow: "0 0 12px rgba(0,212,255,0.55)",
+                      textShadow: "0 0 14px rgba(0,212,255,0.55)",
                     }}
                   >
                     Intelligence · Production
@@ -475,17 +595,23 @@ export default function SplashScreen() {
             )}
           </AnimatePresence>
 
-          {/* ── White exit flood (z:2, covers everything) ────────── */}
+          {/* White flood — z:2, covers everything at the end */}
           <AnimatePresence>
             {white && (
               <motion.div
-                key="white-flood"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.75, ease: "easeIn" }}
+                key="flood"
+                initial={{ opacity: 0, scale: 0.01 }}
+                animate={{ opacity: 1, scale: 6 }}
+                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
                 style={{
-                  position: "absolute", inset: 0, zIndex: 2,
+                  position: "absolute",
+                  top: "50%", left: "50%",
+                  width: "100vmax", height: "100vmax",
+                  marginLeft: "-50vmax", marginTop: "-50vmax",
+                  borderRadius: "50%",
+                  zIndex: 2,
                   background: "#FFFFFF",
+                  transformOrigin: "center center",
                 }}
               />
             )}
