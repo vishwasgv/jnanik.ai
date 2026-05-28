@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AboutSection from "@/components/sections/AboutSection";
+import CTASection   from "@/components/home/CTASection";
 
 export const metadata: Metadata = {
   title: "About Jnanik AI — Enterprise AI Engineering Team, Bengaluru",
@@ -60,6 +61,7 @@ export default function AboutPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }} />
       <AboutSection />
+      <CTASection />
     </>
   );
 }

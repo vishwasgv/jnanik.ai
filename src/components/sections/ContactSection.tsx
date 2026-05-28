@@ -79,7 +79,7 @@ function DarkTextarea({ id, value, onChange, placeholder }: { id: string; value:
 }
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: "", company: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [status, setStatus] = useState<FormStatus>("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -254,9 +254,13 @@ export default function ContactSection() {
                   <DarkInput id="name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Your name" required />
                 </div>
                 <div>
-                  <FieldLabel htmlFor="company">Company / Organisation</FieldLabel>
-                  <DarkInput id="company" value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company name" />
+                  <FieldLabel htmlFor="email">Work email *</FieldLabel>
+                  <DarkInput id="email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@company.com" required />
                 </div>
+              </div>
+              <div>
+                <FieldLabel htmlFor="company">Company / Organisation</FieldLabel>
+                <DarkInput id="company" value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company name" />
               </div>
               <div>
                 <FieldLabel htmlFor="message">Your message *</FieldLabel>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CareersSection from "@/components/sections/CareersSection";
+import CTASection     from "@/components/home/CTASection";
 
 export const metadata: Metadata = {
   title: "Careers at Jnanik AI — AI Engineering Jobs in Bengaluru",
@@ -48,6 +49,7 @@ export default function CareersPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(careersSchema) }} />
       <CareersSection />
+      <CTASection />
     </>
   );
 }
