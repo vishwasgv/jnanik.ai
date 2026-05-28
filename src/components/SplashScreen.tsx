@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -349,21 +349,11 @@ function CameraRig({ s }: { s: SR }) {
   return null;
 }
 
-/* ─── Post-processing ─────────────────────────────────────────────── */
-function FX({ s }: { s: SR }) {
-  const bloomRef = useRef<any>(null);
-  useFrame(() => {
-    if (bloomRef.current) bloomRef.current.intensity = s.current.bloomI;
-  });
+/* ─── Post-processing — static intensity, no ref mutation ────────── */
+function FX() {
   return (
     <EffectComposer>
-      <Bloom
-        ref={bloomRef}
-        intensity={1.8}
-        luminanceThreshold={0.05}
-        luminanceSmoothing={0.3}
-        mipmapBlur
-      />
+      <Bloom intensity={2.2} luminanceThreshold={0.05} luminanceSmoothing={0.3} mipmapBlur />
     </EffectComposer>
   );
 }
@@ -380,9 +370,22 @@ function Scene({ s }: { s: SR }) {
       <AmbientCloud s={s} />
       <OriginCore s={s} />
       <BurstFlash s={s} />
-      <FX s={s} />
+      <FX />
     </>
   );
+}
+
+/* ─── Error boundary — catches any WebGL / R3F crash silently ─────── */
+class SplashBoundary extends React.Component<
+  { children: React.ReactNode },
+  { crashed: boolean }
+> {
+  state = { crashed: false };
+  static getDerivedStateFromError() { return { crashed: true }; }
+  componentDidCatch(err: Error) {
+    console.warn("[SplashScreen] WebGL init failed (non-fatal):", err.message);
+  }
+  render() { return this.state.crashed ? null : this.props.children; }
 }
 
 /* ─── Main export ─────────────────────────────────────────────────── */
@@ -394,11 +397,23 @@ export default function SplashScreen() {
   const [white,    setWhite]    = useState(false);
   const [exiting,  setExiting]  = useState(false);
   const [gone,     setGone]     = useState(false);
+  const [webglOk,  setWebglOk]  = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (sessionStorage.getItem("jnanik-intro")) return;
+
+    // Detect WebGL support before committing to the animation
+    try {
+      const probe = document.createElement("canvas");
+      const gl = probe.getContext("webgl2") || probe.getContext("webgl");
+      if (!gl) return;
+      setWebglOk(true);
+    } catch {
+      return;
+    }
+
     sessionStorage.setItem("jnanik-intro", "1");
 
     Object.assign(s.current, freshState());
@@ -450,8 +465,7 @@ export default function SplashScreen() {
     tl.to(S, {
       burstR: 22, burstA: 0,
       duration: 0.55, ease: "expo.out",
-      onStart() { S.burstA = 1; S.bloomI = 4.5; },
-      onComplete() { S.bloomI = 1.8; },
+      onStart() { S.burstA = 1; },
     }, 7.3);
 
     /* ── Phase 6: Wordmark (7.8 s) ───────────────────────────── */
@@ -476,15 +490,19 @@ export default function SplashScreen() {
           style={{ position: "fixed", inset: 0, zIndex: 9999,
                    background: "#020617", overflow: "hidden" }}
         >
-          {/* 3-D scene */}
-          <Canvas
-            camera={{ fov: 55, position: [0, 0, 8], near: 0.1, far: 200 }}
-            gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
-            dpr={[1, 2]}
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <Scene s={s} />
-          </Canvas>
+          {/* 3-D scene — guarded by WebGL check + error boundary */}
+          {webglOk && (
+            <SplashBoundary>
+              <Canvas
+                camera={{ fov: 55, position: [0, 0, 8], near: 0.1, far: 200 }}
+                gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+                dpr={[1, 1.5]}
+                style={{ position: "absolute", inset: 0 }}
+              >
+                <Scene s={s} />
+              </Canvas>
+            </SplashBoundary>
+          )}
 
           {/* Wordmark — z:1, sits above canvas, below white flood */}
           <AnimatePresence>
