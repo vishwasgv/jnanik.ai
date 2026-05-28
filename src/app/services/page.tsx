@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import ServicesSection  from "@/components/sections/ServicesSection";
-import WhyJnanik        from "@/components/home/WhyJnanik";
-import IndustryUseCases from "@/components/home/IndustryUseCases";
 import CTASection       from "@/components/home/CTASection";
 
 export const metadata: Metadata = {
@@ -194,8 +192,6 @@ export default function ServicesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <ServicesSection />
-      <WhyJnanik />
-      <IndustryUseCases />
       <CTASection />
     </>
   );

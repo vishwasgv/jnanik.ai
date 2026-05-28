@@ -21,7 +21,7 @@ const services = [
     icon: BookOpen,
     image: IMAGES.knowledgeHub,
     title: "AI Knowledge Hub",
-    desc: "All your company knowledge — instantly searchable, instantly answerable.",
+    desc: "Every SOP, manual, and email your organisation has — searchable in natural language, answered with citations.",
     href: "/services",
     gradient: "linear-gradient(145deg, #0F172A 0%, #0C2340 100%)",
     accent: "#3B82F6",

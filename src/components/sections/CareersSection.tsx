@@ -26,7 +26,7 @@ const cultureValues = [
 
 export default function CareersSection() {
   return (
-    <div style={{ background: "var(--bg)" }}>
+    <div className="pt-20 sm:pt-24" style={{ background: "var(--bg)" }}>
 
       {/* ── Hero banner ───────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: "420px" }}>
@@ -159,10 +159,10 @@ export default function CareersSection() {
             </div>
 
             <h3 className="font-serif font-bold text-2xl sm:text-3xl mb-4" style={{ color: "#0F172A" }}>
-              Open positions — we will notify shortly.
+              No open roles right now.
             </h3>
             <p className="text-base leading-relaxed mb-8" style={{ color: "#64748B" }}>
-              We&apos;re building the team thoughtfully. Open positions will be announced here and on our LinkedIn page when we&apos;re ready to hire. In the meantime, if you&apos;re exceptional at what you do and believe in our mission — we&apos;d love to hear from you.
+              We hire slowly and deliberately. When we&apos;re ready, roles will be posted here and on LinkedIn first. If you&apos;re exceptional at what you do and believe in production-grade AI — send us a note anyway. The right person is worth making room for.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
