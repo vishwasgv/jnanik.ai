@@ -37,8 +37,8 @@ const STEPS = [
 
 // SVG layout — viewBox "0 0 1000 524"
 // SX/OX are the x positions of the left/right path endpoints, matching ~22% column edges
-const SX = 200, OX = 800, HX = 500, HY = 262, HR = 58;
-const DASH = 450; // stroke-dasharray length (≥ max bezier path length in viewBox units)
+const SX = 155, OX = 845, HX = 500, HY = 262, HR = 55;
+const DASH = 800; // stroke-dasharray length (≥ max bezier path length in viewBox units)
 
 function vy(i: number) {
   // 5 card centers evenly distributed in y range [160..364]
@@ -59,19 +59,19 @@ function Hub({ step }: { step: number }) {
     <div className="relative flex items-center justify-center" style={{ width: 144, height: 144 }}>
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
         className="absolute inset-0 rounded-full"
         style={{ border: "1px solid rgba(0,212,255,0.2)" }}
       />
       <motion.div
         animate={{ rotate: -360 }}
-        transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
         className="absolute rounded-full"
         style={{ inset: 16, border: "1px dashed rgba(124,58,237,0.35)" }}
       />
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         className="absolute rounded-full"
         style={{ inset: 30, border: "1px solid rgba(0,255,156,0.25)" }}
       />
