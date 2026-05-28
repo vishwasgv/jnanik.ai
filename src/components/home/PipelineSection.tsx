@@ -147,8 +147,81 @@ export default function PipelineSection() {
         </div>
       </div>
 
-      {/* Three-column layout + SVG */}
-      <div className="relative flex-1 px-6 sm:px-10 pb-10 pt-2" style={{ minHeight: 480 }}>
+      {/* ── Mobile layout (below lg) ───────────────────────── */}
+      <div className="lg:hidden relative z-10 flex flex-col items-center gap-5 px-5 pb-6 pt-2">
+
+        {/* Hub */}
+        <div style={{ transform: "scale(0.82)", transformOrigin: "center" }}>
+          <Hub step={step} />
+        </div>
+
+        {/* Deploy badges at step 5 */}
+        <AnimatePresence>
+          {step === 5 && (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }} className="flex gap-2.5 -mt-2">
+              {[{ icon: Cloud, label: "Cloud", color: "#3B82F6" }, { icon: Server, label: "On-Prem", color: "#00D4FF" }].map((d, i) => (
+                <div key={i} className="flex items-center gap-1.5 rounded-xl px-3 py-2"
+                  style={{ background: `rgba(${toRgb(d.color)},0.1)`, border: `1px solid rgba(${toRgb(d.color)},0.35)` }}>
+                  <d.icon size={12} style={{ color: d.color }} />
+                  <span style={{ fontSize: 11, fontWeight: 600, color: d.color }}>{d.label}</span>
+                </div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Sources grid */}
+        <div className="w-full">
+          <p className="text-[9px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: "rgba(0,212,255,0.5)" }}>Data Sources</p>
+          <div className="grid grid-cols-2 gap-2">
+            {SOURCES.map((s, i) => {
+              const on = srcOn(i);
+              return (
+                <motion.div key={i}
+                  animate={{ opacity: on ? 1 : 0.25 }}
+                  transition={{ duration: 0.4, delay: on ? i * 0.05 : 0 }}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5"
+                  style={{ background: on ? `rgba(${toRgb(s.color)},0.1)` : "rgba(255,255,255,0.025)",
+                    border: `1px solid ${on ? `rgba(${toRgb(s.color)},0.3)` : "rgba(255,255,255,0.06)"}` }}>
+                  <div className="shrink-0 w-6 h-6 rounded-lg flex items-center justify-center"
+                    style={{ background: on ? `rgba(${toRgb(s.color)},0.2)` : "rgba(255,255,255,0.04)" }}>
+                    <s.icon size={12} style={{ color: on ? s.color : "#384A60" }} />
+                  </div>
+                  <p className="text-[11px] font-semibold leading-tight" style={{ color: on ? "#DDE8F4" : "#384A60" }}>{s.label}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Outputs grid — visible from step 4 */}
+        <div className="w-full">
+          <p className="text-[9px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: outOn() ? "rgba(0,212,255,0.5)" : "rgba(255,255,255,0.15)" }}>AI Outputs</p>
+          <div className="grid grid-cols-2 gap-2">
+            {OUTPUTS.map((o, i) => {
+              const on = outOn();
+              return (
+                <motion.div key={i}
+                  animate={{ opacity: on ? 1 : 0.2 }}
+                  transition={{ duration: 0.4, delay: on ? i * 0.05 : 0 }}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5"
+                  style={{ background: on ? `rgba(${toRgb(o.color)},0.1)` : "rgba(255,255,255,0.025)",
+                    border: `1px solid ${on ? `rgba(${toRgb(o.color)},0.3)` : "rgba(255,255,255,0.06)"}` }}>
+                  <div className="shrink-0 w-6 h-6 rounded-lg flex items-center justify-center"
+                    style={{ background: on ? `rgba(${toRgb(o.color)},0.2)` : "rgba(255,255,255,0.04)" }}>
+                    <o.icon size={12} style={{ color: on ? o.color : "#384A60" }} />
+                  </div>
+                  <p className="text-[11px] font-semibold leading-tight" style={{ color: on ? "#DDE8F4" : "#384A60" }}>{o.label}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Desktop layout (lg and above) ─────────────────── */}
+      <div className="hidden lg:block relative flex-1 px-6 sm:px-10 pb-10 pt-2" style={{ minHeight: 480 }}>
         <div className="relative flex items-center w-full h-full" style={{ minHeight: 480 }}>
 
           {/* SVG — full width */}
