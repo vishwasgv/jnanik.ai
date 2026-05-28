@@ -1,6 +1,7 @@
 import HeroSection       from "@/components/home/HeroSection";
 import TrustedExpertise  from "@/components/home/TrustedExpertise";
 import ServicesPreview   from "@/components/home/ServicesPreview";
+import PipelineSection   from "@/components/home/PipelineSection";
 import WhyJnanik         from "@/components/home/WhyJnanik";
 import ArchitectureSection from "@/components/home/ArchitectureSection";
 import IndustryUseCases  from "@/components/home/IndustryUseCases";
@@ -19,6 +20,7 @@ export default function HomePage() {
         <HeroSection />
         <TrustedExpertise />
         <ServicesPreview />
+        <PipelineSection />
         <WhyJnanik />
         <ArchitectureSection />
         <IndustryUseCases />
