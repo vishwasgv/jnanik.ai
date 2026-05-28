@@ -593,21 +593,58 @@ export default function SplashScreen() {
                     }}
                   />
 
-                  {/* Tagline — letter-spacing animation */}
+                  {/* Tagline */}
                   <motion.p
                     initial={{ opacity: 0, letterSpacing: "0.5em" }}
-                    animate={{ opacity: 0.82, letterSpacing: "0.38em" }}
+                    animate={{ opacity: 0.82, letterSpacing: "0.32em" }}
                     transition={{ duration: 0.7, delay: 0.82, ease: [0.22, 1, 0.36, 1] }}
                     style={{
-                      margin: 0, fontSize: "0.6rem",
+                      margin: 0, fontSize: "0.58rem",
                       color: "#7DD3FC", fontWeight: 600,
                       textTransform: "uppercase",
                       fontFamily: "var(--font-inter)",
                       textShadow: "0 0 14px rgba(0,212,255,0.55)",
                     }}
                   >
-                    Intelligence · Production
+                    Enterprise AI for Industrial Excellence
                   </motion.p>
+
+                  {/* Core services — staggered chips */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 1.3 }}
+                    style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 8 }}
+                  >
+                    {[
+                      { label: "Knowledge Hub",        color: "#00D4FF" },
+                      { label: "Agentic AI",           color: "#7C3AED" },
+                      { label: "Small Language Models", color: "#00FF9C" },
+                      { label: "Sovereign Deployment", color: "#60A5FA" },
+                    ].map((svc, i) => (
+                      <motion.span
+                        key={svc.label}
+                        initial={{ opacity: 0, y: 8, scale: 0.88 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.4, delay: 1.4 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                        style={{
+                          fontSize: "0.6rem", fontWeight: 700,
+                          letterSpacing: "0.08em", textTransform: "uppercase",
+                          fontFamily: "var(--font-inter)",
+                          color: svc.color,
+                          padding: "4px 10px",
+                          borderRadius: 999,
+                          border: `1px solid ${svc.color}44`,
+                          background: `${svc.color}12`,
+                          textShadow: `0 0 10px ${svc.color}80`,
+                          boxShadow: `0 0 8px ${svc.color}22`,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {svc.label}
+                      </motion.span>
+                    ))}
+                  </motion.div>
                 </div>
               </motion.div>
             )}

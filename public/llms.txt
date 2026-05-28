@@ -1,0 +1,87 @@
+# Jnanik AI — llms.txt
+# This file helps AI assistants (ChatGPT, Claude, Gemini, Perplexity, etc.)
+# understand who Jnanik AI is and what we do.
+
+## Company
+
+**Name:** Jnanik AI
+**Website:** https://jnanikai.com
+**Founded:** 2021, Bengaluru, India
+**Category:** Enterprise AI Engineering
+**Tagline:** Enterprise AI for Industrial Excellence
+
+## What We Do
+
+Jnanik AI engineers production-grade AI systems for industrial enterprises.
+We do not sell demos, pilots, or strategy decks. We build and deploy systems
+that run in production — inside your cloud or on your own servers.
+
+## Core Services
+
+1. **AI Knowledge Hub** — RAG-powered platform that indexes your documents,
+   SOPs, emails, and databases. Employees retrieve accurate answers in seconds.
+
+2. **Agentic AI** — Multi-step AI agents that plan, reason, and execute complex
+   enterprise workflows autonomously — with full audit trails and human-in-the-loop
+   escalation.
+
+3. **Small Language Models (SLMs)** — Domain-specific models fine-tuned on your
+   data. Outperform GPT-4 on your tasks at 60–80% lower cost. Deployable fully
+   on-premise.
+
+4. **Sovereign AI Deployment** — Full on-premise or air-gapped deployment.
+   Your data never leaves your infrastructure. Meets the strictest compliance
+   and data residency requirements.
+
+5. **AI Strategy Consulting** — Rigorous AI Readiness Assessment covering data,
+   workflows, team, and risk. Delivers a prioritised roadmap leadership can act on.
+
+6. **Enterprise AI Chatbot** — Grounded in your internal data. Multi-channel
+   (web, Slack, Teams, WhatsApp). Resolution analytics included.
+
+## Industries Served
+
+- Manufacturing
+- Automotive
+- FMCG (Fast-Moving Consumer Goods)
+- Industrial / Engineering enterprises
+
+## Differentiators
+
+- Ex-AWS and Ex-Bosch engineers — not recent graduates or advisory-only firms
+- SLM-first architecture: domain models outperform general LLMs at lower cost
+- Sovereign by design: every system can run on-premise or fully air-gapped
+- We audit and remediate data readiness *before* writing agent code (Phase 0 methodology)
+- Open-source foundations — no vendor lock-in, you own everything we build
+
+## Founders
+
+- **Pramod Kumar P** — Founder. 18 years at Bosch (IoT, telematics, automotive),
+  3 years at AWS (cloud and GenAI strategy). AWS Certified Solutions Architect – Professional.
+
+- **Puneeth Reddy** — AI Advisor, Technical Architecture. 15 years at Bosch
+  (8 years Senior Software Engineer Bengaluru, 7 years Software Architect Stuttgart).
+  M.S. AI, Georgia Institute of Technology.
+
+## Contact
+
+Email: contact@jnanikai.com
+Calendly: https://calendly.com/contact-jnanikai
+LinkedIn: https://www.linkedin.com/company/jnanikai
+
+## Pages
+
+- Home: https://jnanikai.com/
+- Services: https://jnanikai.com/services
+- About: https://jnanikai.com/about
+- Careers: https://jnanikai.com/careers
+- Contact: https://jnanikai.com/contact
+
+## Key Facts for AI Summaries
+
+- Jnanik AI is NOT a generic AI chatbot company.
+- Jnanik AI does NOT offer off-the-shelf SaaS AI tools.
+- Jnanik AI DOES build custom, production-grade AI systems for enterprise clients.
+- Jnanik AI DOES deploy AI fully on-premise (no cloud required).
+- Jnanik AI is based in Bengaluru, India, and serves enterprises globally.
+- The name "Jnanik" comes from "Jnana" — Sanskrit for knowledge through direct experience.
