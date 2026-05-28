@@ -1,324 +1,495 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import gsap from "gsap";
 
-const EP: [number, number, number, number] = [0.22, 1, 0.36, 1];
-const ES: [number, number, number, number] = [0.4, 0, 0.2, 1];
+/* ─────────────────────────────────────────────────────────────────
+   Module-level mutable state — GSAP writes, useFrame reads.
+   Singleton pattern is fine: splash shows once per session.
+───────────────────────────────────────────────────────────────── */
+const A = {
+  webAlpha:   0,
+  nodeAlpha:  0,
+  ptAlpha:    0,
+  cameraZ:    9,
+  rotY:       0,
+  collapse:   1,
+  burstR:     0.01,
+  burstAlpha: 0,
+};
 
-const PALETTE = [
-  "#00D4FF", // electric cyan
-  "#818CF8", // indigo
-  "#A78BFA", // violet
-  "#38BDF8", // sky blue
-  "#22D3EE", // cyan
-  "#C084FC", // purple
-  "#F0ABFC", // pink
-  "#67E8F9", // light cyan
-] as const;
+const resetA = () =>
+  Object.assign(A, {
+    webAlpha: 0, nodeAlpha: 0, ptAlpha: 0,
+    cameraZ: 9, rotY: 0, collapse: 1,
+    burstR: 0.01, burstAlpha: 0,
+  });
 
-interface Node {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  r: number;
-  color: string;
-  alpha: number;
-  delay: number;
+/* ── Service node definitions ─────────────────────────────────── */
+const NODES: { color: string; pos: [number, number, number] }[] = [
+  { color: "#00D4FF", pos: [-2.2,  1.3,  0.5] },
+  { color: "#7C3AED", pos: [ 2.2,  1.3, -0.5] },
+  { color: "#00FF9C", pos: [ 0,    2.8,  0  ] },
+  { color: "#F59E0B", pos: [-2.2, -1.3, -0.5] },
+  { color: "#FF006E", pos: [ 2.2, -1.3,  0.5] },
+  { color: "#60A5FA", pos: [ 0,   -2.8,  0  ] },
+];
+
+const PALETTE_HEX = ["#00D4FF","#7C3AED","#00FF9C","#F59E0B","#FF006E","#60A5FA","#FFFFFF"];
+
+/* ── Neural web of fiber-optic CatmullRom lines ───────────────── */
+function NeuralWeb() {
+  const groupRef = useRef<THREE.Group>(null!);
+  const matRef   = useRef<THREE.LineBasicMaterial>(null!);
+
+  const geo = useMemo(() => {
+    const pos: number[] = [];
+    const col: number[] = [];
+    const cols = PALETTE_HEX.map(h => {
+      const c = new THREE.Color(h);
+      c.multiplyScalar(1.9);
+      return c;
+    });
+
+    for (let i = 0; i < 240; i++) {
+      const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3((Math.random()-.5)*12,(Math.random()-.5)*9,(Math.random()-.5)*6),
+        new THREE.Vector3((Math.random()-.5)*10,(Math.random()-.5)*8,(Math.random()-.5)*5),
+        new THREE.Vector3((Math.random()-.5)*11,(Math.random()-.5)*9,(Math.random()-.5)*6),
+        new THREE.Vector3((Math.random()-.5)*12,(Math.random()-.5)*9,(Math.random()-.5)*6),
+      ]);
+      const pts = curve.getPoints(20);
+      const c   = cols[i % cols.length];
+      for (let j = 0; j < pts.length - 1; j++) {
+        pos.push(pts[j].x,   pts[j].y,   pts[j].z);
+        pos.push(pts[j+1].x, pts[j+1].y, pts[j+1].z);
+        col.push(c.r, c.g, c.b, c.r, c.g, c.b);
+      }
+    }
+
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute("color",    new THREE.Float32BufferAttribute(col, 3));
+    return g;
+  }, []);
+
+  useFrame(() => {
+    if (!groupRef.current || !matRef.current) return;
+    groupRef.current.rotation.y = A.rotY;
+    groupRef.current.scale.setScalar(A.collapse);
+    matRef.current.opacity = A.webAlpha;
+  });
+
+  return (
+    <group ref={groupRef}>
+      <lineSegments geometry={geo}>
+        <lineBasicMaterial
+          ref={matRef}
+          vertexColors
+          blending={THREE.AdditiveBlending}
+          transparent
+          opacity={0}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </lineSegments>
+    </group>
+  );
 }
 
-export default function SplashScreen() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef    = useRef<number>(0);
+/* ── Six pulsing service-node orbs ───────────────────────────── */
+function ServiceNodes() {
+  const groupRef = useRef<THREE.Group>(null!);
+  const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
 
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return;
+    const t   = clock.getElapsedTime();
+    const opa = Math.max(0, Math.min(1, A.nodeAlpha));
+    groupRef.current.scale.setScalar(A.collapse);
+    groupRef.current.rotation.y = A.rotY * 0.5;
+
+    meshRefs.current.forEach((m, i) => {
+      if (!m) return;
+      const mat = m.material as THREE.MeshStandardMaterial;
+      mat.emissiveIntensity = (2.8 + Math.sin(t * 2 + i * 1.1) * 0.9) * opa;
+      mat.opacity           = opa;
+      m.scale.setScalar(1 + Math.sin(t * 1.8 + i * 0.9) * 0.07);
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {NODES.map((n, i) => (
+        <mesh
+          key={i}
+          position={n.pos}
+          ref={el => { meshRefs.current[i] = el; }}
+        >
+          <sphereGeometry args={[0.18, 32, 32]} />
+          <meshStandardMaterial
+            color={n.color}
+            emissive={n.color}
+            emissiveIntensity={0}
+            transparent
+            opacity={0}
+            toneMapped={false}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+/* ── Floating ambient particles ──────────────────────────────── */
+function Particles() {
+  const ptRef  = useRef<THREE.Points>(null!);
+  const matRef = useRef<THREE.PointsMaterial>(null!);
+
+  const geo = useMemo(() => {
+    const N   = 900;
+    const pos = new Float32Array(N * 3);
+    const col = new Float32Array(N * 3);
+    const pal = [
+      [0,0.83,1],[0.49,0.23,0.93],[0,1,0.61],
+      [0.96,0.62,0.04],[1,0,0.43],[0.38,0.64,0.98],
+    ];
+    for (let i = 0; i < N; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 1.5 + Math.random() * 5.5;
+      pos[i*3]   = Math.cos(a) * r;
+      pos[i*3+1] = (Math.random() - 0.5) * 9;
+      pos[i*3+2] = Math.sin(a) * r;
+      const c = pal[Math.floor(Math.random() * pal.length)];
+      col[i*3] = c[0]; col[i*3+1] = c[1]; col[i*3+2] = c[2];
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    g.setAttribute("color",    new THREE.BufferAttribute(col, 3));
+    return g;
+  }, []);
+
+  useFrame(({ clock }) => {
+    if (!ptRef.current || !matRef.current) return;
+    ptRef.current.rotation.y = clock.getElapsedTime() * 0.07;
+    ptRef.current.scale.setScalar(A.collapse);
+    matRef.current.opacity = A.ptAlpha;
+  });
+
+  return (
+    <points ref={ptRef} geometry={geo}>
+      <pointsMaterial
+        ref={matRef}
+        vertexColors
+        size={0.055}
+        blending={THREE.AdditiveBlending}
+        transparent
+        opacity={0}
+        depthWrite={false}
+        toneMapped={false}
+        sizeAttenuation
+      />
+    </points>
+  );
+}
+
+/* ── Bright origin point — flickers during Phase 1 ───────────── */
+function OriginLight() {
+  const ref = useRef<THREE.Mesh>(null!);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const mat = ref.current.material as THREE.MeshStandardMaterial;
+    const p   = 0.5 + Math.sin(clock.getElapsedTime() * 14) * 0.5;
+    mat.emissiveIntensity = A.webAlpha < 0.35 ? p * 12 : Math.max(1.5, p * 3);
+  });
+  return (
+    <mesh ref={ref}>
+      <sphereGeometry args={[0.04, 16, 16]} />
+      <meshStandardMaterial
+        color="#FFFFFF"
+        emissive="#FFFFFF"
+        emissiveIntensity={12}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
+
+/* ── Expanding burst shockwave ───────────────────────────────── */
+function BurstRing() {
+  const r1 = useRef<THREE.Mesh>(null!);
+  const r2 = useRef<THREE.Mesh>(null!);
+
+  useFrame(() => {
+    if (!r1.current || !r2.current) return;
+    const s = Math.max(0.01, A.burstR);
+    r1.current.scale.setScalar(s);
+    r2.current.scale.setScalar(s * 0.72);
+    (r1.current.material as THREE.MeshBasicMaterial).opacity = A.burstAlpha;
+    (r2.current.material as THREE.MeshBasicMaterial).opacity = A.burstAlpha * 0.55;
+  });
+
+  return (
+    <>
+      <mesh ref={r1} scale={0.01}>
+        <sphereGeometry args={[1, 48, 24]} />
+        <meshBasicMaterial
+          color="#FFFFFF"
+          transparent
+          opacity={0}
+          wireframe
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh ref={r2} scale={0.01}>
+        <sphereGeometry args={[1, 32, 16]} />
+        <meshBasicMaterial
+          color="#00D4FF"
+          transparent
+          opacity={0}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+          side={THREE.BackSide}
+        />
+      </mesh>
+    </>
+  );
+}
+
+/* ── Camera rig — GSAP drives cameraZ ────────────────────────── */
+function CameraRig() {
+  const { camera } = useThree();
+  useFrame(() => { camera.position.z = A.cameraZ; });
+  return null;
+}
+
+/* ── Post-processing ─────────────────────────────────────────── */
+function FX() {
+  return (
+    <EffectComposer>
+      <Bloom
+        intensity={1.6}
+        luminanceThreshold={0.06}
+        luminanceSmoothing={0.35}
+        mipmapBlur
+      />
+    </EffectComposer>
+  );
+}
+
+/* ── Full 3-D scene ──────────────────────────────────────────── */
+function Scene() {
+  return (
+    <>
+      <ambientLight intensity={0.04} />
+      <CameraRig />
+      <NeuralWeb />
+      <ServiceNodes />
+      <Particles />
+      <OriginLight />
+      <BurstRing />
+      <FX />
+    </>
+  );
+}
+
+/* ── Main export ─────────────────────────────────────────────── */
+export default function SplashScreen() {
   const [visible,  setVisible]  = useState(false);
   const [showText, setShowText] = useState(false);
+  const [white,    setWhite]    = useState(false);
   const [exiting,  setExiting]  = useState(false);
   const [gone,     setGone]     = useState(false);
 
-  /* ─── Init — once per session ────────────────────────────── */
   useEffect(() => {
+    if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (sessionStorage.getItem("jnanik-intro")) return;
     sessionStorage.setItem("jnanik-intro", "1");
 
+    resetA();
     setVisible(true);
-    const t1 = setTimeout(() => setShowText(true), 2600);
-    const t2 = setTimeout(() => setExiting(true),  4400);
-    return () => [t1, t2].forEach(clearTimeout);
+
+    const tl = gsap.timeline();
+
+    /* Phase 1: 0–1.2 s — void, single origin light */
+    tl.to(A, { webAlpha: 0.78, duration: 1.6, ease: "power2.out" }, 0.35);
+
+    /* Phase 2: 1.2–3.8 s — neural genesis, slow rotation */
+    tl.to(A, { rotY: Math.PI * 0.7, duration: 9.5, ease: "none" }, 0);
+    tl.to(A, { nodeAlpha: 1,  duration: 1.3, ease: "power2.out" }, 1.9);
+    tl.to(A, { ptAlpha:  0.9, duration: 1.6, ease: "power1.out" }, 2.4);
+
+    /* Phase 3–4: 3.8–6.8 s — data rivers, cinematic dolly-back */
+    tl.to(A, { cameraZ: 13.5, duration: 3.2, ease: "power1.inOut" }, 3.6);
+
+    /* Phase 5a: 6.8–7.2 s — collapse inward */
+    tl.to(A, {
+      collapse: 0.01, webAlpha: 0, nodeAlpha: 0, ptAlpha: 0,
+      duration: 0.5, ease: "power3.in",
+    }, 6.8);
+
+    /* Phase 5b: 7.2–8.0 s — explosive burst */
+    tl.to(A, {
+      burstR: 24, burstAlpha: 0,
+      duration: 0.9, ease: "power2.out",
+      onStart() { A.burstAlpha = 1; },
+    }, 7.2);
+
+    /* Phase 6: 7.6 s — wordmark reveal */
+    tl.call(() => setShowText(true), [], 7.6);
+
+    /* Phase 7: 9.3 s — white flood */
+    tl.call(() => setWhite(true),   [], 9.25);
+    tl.call(() => setExiting(true), [], 9.95);
+
+    return () => { tl.kill(); };
   }, []);
-
-  /* ─── Canvas animation ───────────────────────────────────── */
-  useEffect(() => {
-    if (!visible || gone) {
-      cancelAnimationFrame(rafRef.current);
-      return;
-    }
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const W = window.innerWidth;
-    const H = window.innerHeight;
-    canvas.width  = W;
-    canvas.height = H;
-    const cx = W / 2, cy = H / 2;
-    const dim = Math.min(W, H);
-
-    /* ── Build particle nodes ── */
-    const count = Math.min(70, Math.floor((W * H) / 12000));
-    const nodes: Node[] = Array.from({ length: count }, () => {
-      const angle = Math.random() * Math.PI * 2;
-      const dist  = (0.3 + Math.random() * 0.55) * dim * 0.5;
-      return {
-        x:     cx + Math.cos(angle) * dist * (W / dim),
-        y:     cy + Math.sin(angle) * dist,
-        vx:    (Math.random() - 0.5) * 0.2,
-        vy:    (Math.random() - 0.5) * 0.2,
-        r:     1.2 + Math.random() * 2.4,
-        color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-        alpha: 0,
-        delay: 100 + Math.random() * 950,
-      };
-    });
-
-    let t0: number | null = null;
-
-    /* ── Helpers ── */
-    const hex = (a: number) =>
-      Math.round(Math.max(0, Math.min(1, a)) * 255).toString(16).padStart(2, "0");
-
-    const glowDot = (x: number, y: number, r: number, color: string, a: number) => {
-      // Layered soft glow halos
-      for (let i = 3; i >= 0; i--) {
-        const gr = r * (1 + i * 4.5);
-        const ga = a * (0.08 / (i + 1));
-        const g  = ctx.createRadialGradient(x, y, 0, x, y, gr);
-        g.addColorStop(0, color + hex(ga));
-        g.addColorStop(1, `${color}00`);
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(x, y, gr, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      // Bright core
-      ctx.fillStyle = color + hex(a);
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fill();
-    };
-
-    const pulseRing = (t: number, t0r: number, color: string, alpha0: number, speed = 0.65) => {
-      const age = t - t0r;
-      if (age < 0) return;
-      const maxR  = Math.sqrt(W * W + H * H) * 0.6;
-      const ringR = Math.min(maxR, (age / 1000) * dim * speed);
-      const a     = Math.max(0, alpha0 - age / 1700);
-      if (a <= 0) return;
-      ctx.save();
-      ctx.globalCompositeOperation = "screen";
-      ctx.strokeStyle = color + hex(a);
-      ctx.lineWidth   = 1.5;
-      ctx.beginPath();
-      ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-    };
-
-    /* ── Render loop ── */
-    const frame = (now: number) => {
-      if (!t0) t0 = now;
-      const t = now - t0;
-
-      ctx.clearRect(0, 0, W, H);
-
-      /* Background — deep space navy */
-      ctx.fillStyle = "#020617";
-      ctx.fillRect(0, 0, W, H);
-
-      /* Ambient radial background */
-      const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, dim * 0.7);
-      bg.addColorStop(0,   "rgba(30,58,138,0.30)");
-      bg.addColorStop(0.45,"rgba(76,29,149,0.16)");
-      bg.addColorStop(1,   "rgba(2,6,23,0)");
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, W, H);
-
-      ctx.save();
-      ctx.globalCompositeOperation = "screen";
-
-      /* Nodes */
-      for (const n of nodes) {
-        const age = t - n.delay;
-        n.alpha = age < 0 ? 0 : Math.min(1, age / 500);
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.alpha > 0.02) glowDot(n.x, n.y, n.r, n.color, n.alpha);
-      }
-
-      /* Neural connections */
-      const maxDist = dim * 0.21;
-      for (let i = 0; i < nodes.length; i++) {
-        const na = nodes[i];
-        if (na.alpha < 0.1) continue;
-        for (let j = i + 1; j < nodes.length; j++) {
-          const nb = nodes[j];
-          if (nb.alpha < 0.1) continue;
-          const dx = na.x - nb.x, dy = na.y - nb.y;
-          const d  = Math.sqrt(dx * dx + dy * dy);
-          if (d > maxDist) continue;
-          const la = (1 - d / maxDist) * 0.35 * Math.min(na.alpha, nb.alpha);
-          const gl = ctx.createLinearGradient(na.x, na.y, nb.x, nb.y);
-          gl.addColorStop(0, na.color + hex(la));
-          gl.addColorStop(1, nb.color + hex(la));
-          ctx.strokeStyle = gl;
-          ctx.lineWidth   = 0.6;
-          ctx.beginPath();
-          ctx.moveTo(na.x, na.y);
-          ctx.lineTo(nb.x, nb.y);
-          ctx.stroke();
-        }
-      }
-
-      ctx.restore();
-
-      /* Expanding pulse rings — staggered, multi-color */
-      pulseRing(t,  350,  "#06B6D4", 0.55, 0.68);
-      pulseRing(t,  850,  "#7C3AED", 0.45, 0.60);
-      pulseRing(t,  1400, "#00D4FF", 0.38, 0.55);
-      pulseRing(t,  1950, "#EC4899", 0.30, 0.50);
-      pulseRing(t,  2500, "#A78BFA", 0.22, 0.45);
-
-      /* Centre cluster glow — builds as scene matures */
-      const cga = Math.min(0.28, t / 7000);
-      if (cga > 0.01) {
-        const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 150);
-        cg.addColorStop(0, `rgba(6,182,212,${cga})`);
-        cg.addColorStop(0.5, `rgba(124,58,237,${cga * 0.5})`);
-        cg.addColorStop(1, "transparent");
-        ctx.save();
-        ctx.globalCompositeOperation = "screen";
-        ctx.fillStyle = cg;
-        ctx.beginPath();
-        ctx.arc(cx, cy, 150, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      rafRef.current = requestAnimationFrame(frame);
-    };
-
-    rafRef.current = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [visible, gone]);
 
   if (!visible || gone) return null;
 
   return (
-    <AnimatePresence initial={false} onExitComplete={() => setGone(true)}>
+    <AnimatePresence onExitComplete={() => setGone(true)}>
       {!exiting && (
         <motion.div
           key="jnanik-splash"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: EP }}
-          style={{ position: "fixed", inset: 0, zIndex: 9999 }}
+          transition={{ duration: 0.65 }}
+          style={{
+            position: "fixed", inset: 0, zIndex: 9999,
+            background: "#020617", overflow: "hidden",
+          }}
         >
-          {/* Neural canvas */}
-          <canvas
-            ref={canvasRef}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
-          />
-
-          {/* Wordmark overlay */}
-          <div
-            style={{
-              position: "absolute", inset: 0,
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center",
-              pointerEvents: "none",
-            }}
+          {/* ── 3-D canvas ─────────────────────────────────────── */}
+          <Canvas
+            camera={{ fov: 60, position: [0, 0, 9], near: 0.1, far: 200 }}
+            gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+            dpr={[1, 2]}
+            style={{ position: "absolute", inset: 0 }}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.86 }}
-              animate={showText ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.7, ease: EP }}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, position: "relative" }}
-            >
-              {/* Behind-text radial glow */}
-              <div style={{
-                position: "absolute",
-                inset: "-70px -100px",
-                background: "radial-gradient(ellipse at center, rgba(6,182,212,0.22) 0%, rgba(124,58,237,0.14) 40%, transparent 68%)",
-                filter: "blur(28px)",
-                zIndex: -1,
-                pointerEvents: "none",
-              }} />
+            <Scene />
+          </Canvas>
 
-              {/* JNANIK + AI */}
-              <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-playfair)",
-                    fontWeight: 700,
-                    fontSize: "clamp(2.8rem, 6.5vw, 5rem)",
-                    color: "#F0F9FF",
-                    letterSpacing: "-0.02em",
-                    textShadow: "0 0 28px rgba(0,212,255,0.45), 0 0 70px rgba(0,212,255,0.18)",
-                  }}
-                >
-                  JNANIK
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-playfair)",
-                    fontWeight: 700,
-                    fontSize: "clamp(2.8rem, 6.5vw, 5rem)",
-                    color: "#00D4FF",
-                    letterSpacing: "-0.02em",
-                    textShadow:
-                      "0 0 16px rgba(0,212,255,1), 0 0 40px rgba(0,212,255,0.7), 0 0 85px rgba(0,212,255,0.35)",
-                  }}
-                >
-                  AI
-                </span>
-              </div>
-
-              {/* Separator — sweeps from center */}
+          {/* ── Wordmark (z:1, below white) ─────────────────────── */}
+          <AnimatePresence>
+            {showText && !white && (
               <motion.div
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={showText ? { scaleX: 1, opacity: 1 } : {}}
-                transition={{ duration: 0.55, ease: ES, delay: 0.32 }}
+                key="wordmark"
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
                 style={{
-                  height: 1,
-                  width: 200,
-                  background: "linear-gradient(90deg, transparent, #00D4FF 30%, #818CF8 70%, transparent)",
-                  transformOrigin: "center",
-                }}
-              />
-
-              {/* Tagline */}
-              <motion.p
-                initial={{ opacity: 0, y: 8 }}
-                animate={showText ? { opacity: 0.78, y: 0 } : {}}
-                transition={{ duration: 0.5, ease: EP, delay: 0.52 }}
-                style={{
-                  margin: 0,
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.3em",
-                  color: "#7DD3FC",
-                  fontWeight: 500,
-                  textTransform: "uppercase",
-                  fontFamily: "var(--font-inter)",
-                  textShadow: "0 0 10px rgba(0,212,255,0.45)",
+                  position: "absolute", inset: 0, zIndex: 1,
+                  display: "flex", flexDirection: "column",
+                  alignItems: "center", justifyContent: "center",
+                  pointerEvents: "none",
                 }}
               >
-                Intelligence · Production
-              </motion.p>
-            </motion.div>
-          </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, position: "relative" }}>
+                  {/* Ambient glow halo */}
+                  <div style={{
+                    position: "absolute", inset: "-90px -140px",
+                    background: "radial-gradient(ellipse at center, rgba(0,212,255,0.22) 0%, rgba(124,58,237,0.13) 42%, transparent 68%)",
+                    filter: "blur(38px)",
+                  }} />
+
+                  {/* JNANIK · AI — per-letter stagger */}
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 2, position: "relative" }}>
+                    {["J","N","A","N","I","K"].map((ch, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: i * 0.065, ease: [0.22, 1, 0.36, 1] }}
+                        style={{
+                          fontFamily: "var(--font-playfair)",
+                          fontWeight: 700,
+                          fontSize: "clamp(2.8rem, 6.5vw, 5.2rem)",
+                          color: "#F0F9FF",
+                          letterSpacing: "0.01em",
+                          textShadow: "0 0 30px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2)",
+                        }}
+                      >
+                        {ch}
+                      </motion.span>
+                    ))}
+
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.65 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+                      style={{
+                        fontFamily: "var(--font-playfair)",
+                        fontWeight: 700,
+                        fontSize: "clamp(2.8rem, 6.5vw, 5.2rem)",
+                        color: "#00D4FF",
+                        letterSpacing: "0.01em",
+                        marginLeft: 18,
+                        textShadow: "0 0 20px #00D4FF, 0 0 55px rgba(0,212,255,0.7), 0 0 110px rgba(0,212,255,0.3)",
+                      }}
+                    >
+                      AI
+                    </motion.span>
+                  </div>
+
+                  {/* Gradient separator line */}
+                  <motion.div
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={{ duration: 0.65, delay: 0.62, ease: [0.4, 0, 0.2, 1] }}
+                    style={{
+                      height: 1, width: 230,
+                      background: "linear-gradient(90deg, transparent, #00D4FF 32%, #818CF8 68%, transparent)",
+                      transformOrigin: "center",
+                    }}
+                  />
+
+                  {/* Tagline */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 0.82, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    style={{
+                      margin: 0,
+                      fontSize: "0.6rem",
+                      letterSpacing: "0.38em",
+                      color: "#7DD3FC",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      fontFamily: "var(--font-inter)",
+                      textShadow: "0 0 12px rgba(0,212,255,0.55)",
+                    }}
+                  >
+                    Intelligence · Production
+                  </motion.p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* ── White exit flood (z:2, covers everything) ────────── */}
+          <AnimatePresence>
+            {white && (
+              <motion.div
+                key="white-flood"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.75, ease: "easeIn" }}
+                style={{
+                  position: "absolute", inset: 0, zIndex: 2,
+                  background: "#FFFFFF",
+                }}
+              />
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
