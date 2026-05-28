@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2 } from "lucide-react";
+import Image from "next/image";
+import { Target, Eye, Cpu, Shield, Zap, Users, Globe2, Server, Factory, Clock, Code2, ArrowUpRight } from "lucide-react";
 
 const timeline = [
   { year: "2021", title: "Founded in Bengaluru", desc: "Started with one conviction: enterprise AI should be private, practical, and built to last — not a flashy demo that never ships." },
@@ -24,18 +25,40 @@ const founders = [
   {
     name: "Pramod Kumar P",
     initials: "PK",
-    role: "Co-founder",
-    bio: "Pramod brings deep expertise in industrial technology and operations management. Having spent years understanding how manufacturing floors actually work — not from a conference room, but from the ground up — he leads our industrial AI practice. His conviction: AI systems for manufacturing must be held to the same zero-tolerance standards as the operations they serve.",
-    background: ["Industrial Engineering", "Manufacturing Operations", "Production AI"],
-    gradient: "linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%)",
+    role: "Founder",
+    flag: "Business & Strategy",
+    quote: "Most enterprise AI pilots fail before a single line of agent code is written. The root cause is almost always the same — the data was never ready to be reasoned over.",
+    bio: "I spent 18 years at Bosch designing IoT and telematics architectures for automotive platforms — not from a conference room, but deep in the software stack. Then 3 years at AWS, partnering with enterprises on cloud and GenAI strategy. Both gave me the same view: the gap between a working demo and a system that actually runs in production is an engineering discipline problem, not a model intelligence problem. That diagnosis is what Jnanik AI is built around. I founded Jnanik in 2025 to stop watching enterprises get stuck in Pilot Purgatory.",
+    brings: [
+      { label: "Enterprise domain fluency", detail: "Two decades across Bosch and AWS means I understand how enterprise procurement, stakeholder buy-in, and technical decision-making actually work — not from a deck, from the room." },
+      { label: "Industrial operations depth", detail: "I've reviewed factory SOPs, debugged IoT pipelines in production, and designed telematics architectures under automotive-grade constraints. I understand the environment our AI must operate inside." },
+      { label: "Phase 0 data readiness methodology", detail: "I developed our pre-build audit framework after watching the same failure pattern repeat across multiple customer environments. We audit and remediate the data before we write a single line of agent code. Weeks added upfront — quarters saved downstream." },
+      { label: "Commercial architecture", detail: "Pilot design, pricing, anchor customer strategy, and go-to-market execution — I own the path from first conversation to a signed engagement and a system in production." },
+    ],
+    background: ["Ex-Amazon Web Services · 3 yrs", "Ex-Bosch · 18 yrs", "AWS Certified Solutions Architect – Professional"],
+    gradient: "linear-gradient(145deg, #0C1E40 0%, #1A3A6B 60%, #1D4ED8 100%)",
+    accentColor: "#93C5FD",
+    photo: "/images/founder-pramod.jpg",
+    linkedin: "https://www.linkedin.com/in/pramodkumarp",
   },
   {
-    name: "Puneeth Shetty",
-    initials: "PS",
-    role: "Co-founder",
-    bio: "Puneeth is the architect behind Jnanik's platform and engineering organisation. With experience building large-scale enterprise data systems and cloud platforms, he ensures every Jnanik system is built to last, scale, and evolve. His focus: the gap between an AI demo and an AI system in production is an engineering problem — and engineering problems have solutions.",
-    background: ["Cloud Architecture", "Distributed Systems", "Enterprise Platforms"],
-    gradient: "linear-gradient(135deg, #1A3A4A 0%, #0891B2 100%)",
+    name: "Puneeth Reddy",
+    initials: "PR",
+    role: "AI Advisor — Technical Architecture",
+    flag: "Technology & Execution",
+    quote: "A great AI system is defined by what it does when the edge case arrives at 2 AM — not by how smoothly the demo ran in the boardroom.",
+    bio: "Fifteen years building production software systems at Bosch — 8 years as a Senior Software Engineer in Bengaluru, then 7 as a Software Architect in Stuttgart — taught me what survives contact with the real world. My Master's in AI from Georgia Tech gave me the formal foundation to understand why systems work, not just how to configure them. I joined Jnanik as AI Advisor because industrial AI is one of the few domains where the engineering rigour I've spent my career developing genuinely matters. This isn't another chatbot project. It's intelligence embedded into the operational fabric of enterprises that can't afford to get it wrong.",
+    brings: [
+      { label: "Full-stack AI architecture", detail: "I design from the data ingestion layer up — retrieval pipelines, embedding strategies, agent orchestration, model serving, and the API surface that makes all of it usable inside an enterprise's existing systems." },
+      { label: "Production-grade defaults", detail: "15 years at Bosch means reliability, graceful degradation, and zero tolerance for systems that pass QA but fail in field conditions. AI systems that work in demos but break at scale don't ship under my oversight." },
+      { label: "Georgia Tech AI depth", detail: "Formal ML and AI systems training — on top of architectural experience most AI graduates haven't had time to develop yet. The combination lets me make architectural decisions that hold up both theoretically and in production." },
+      { label: "Scalability and sovereignty design", detail: "I take Jnanik's architectures from startup-grade to enterprise-ready: multi-tenant deployments, on-prem constraints, data residency requirements, compliance audit trails, and the performance envelopes enterprises actually operate within." },
+    ],
+    background: ["Software Architect — Bosch Stuttgart · 7 yrs", "M.S. AI — Georgia Institute of Technology", "15+ Years Production Systems Engineering"],
+    gradient: "linear-gradient(145deg, #071E2D 0%, #0F3A52 60%, #0369A1 100%)",
+    accentColor: "#7DD3FC",
+    photo: "/images/founder-puneeth.jpg",
+    linkedin: "https://www.linkedin.com/in/puneeth-reddy",
   },
 ];
 
@@ -207,72 +230,121 @@ export default function AboutSection() {
               className="font-serif font-bold leading-tight"
               style={{ fontSize: "clamp(1.8rem,4vw,3rem)", color: "#0C1A2E" }}
             >
-              The people behind<br />the conviction.
+              In our own words.
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+          <div className="space-y-6 sm:space-y-8">
             {founders.map((founder, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
+                transition={{ duration: 0.65, delay: i * 0.1 }}
                 className="card-base overflow-hidden"
               >
-                {/* Founder portrait placeholder */}
+                {/* Dark gradient header — quote + identity */}
                 <div
-                  className="w-full relative flex items-end"
-                  style={{
-                    height: "240px",
-                    background: founder.gradient,
-                    borderBottom: "1px solid rgba(255,255,255,0.08)",
-                  }}
+                  className="relative overflow-hidden"
+                  style={{ background: founder.gradient, minHeight: "148px" }}
                 >
-                  {/* Subtle grid lines */}
-                  <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-                  {/* Glow */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-40 h-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)", filter: "blur(20px)" }} />
+                  {/* Grid texture */}
+                  <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+                  {/* Watermark initials */}
+                  <div
+                    className="absolute right-6 top-1/2 -translate-y-1/2 font-serif font-bold select-none pointer-events-none leading-none"
+                    style={{ fontSize: "clamp(5rem,10vw,7.5rem)", color: "rgba(255,255,255,0.05)", letterSpacing: "-0.04em" }}
+                  >
+                    {founder.initials}
                   </div>
-                  {/* Large initials */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span
-                      className="font-serif font-bold select-none"
-                      style={{ fontSize: "clamp(5rem,12vw,7rem)", color: "rgba(255,255,255,0.15)", letterSpacing: "-0.04em", lineHeight: 1 }}
-                    >
-                      {founder.initials}
-                    </span>
-                  </div>
-                  {/* Foreground initials badge */}
-                  <div className="relative z-10 m-5">
+                  {/* Identity row + quote */}
+                  <div className="relative z-10 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-5">
+                    {/* Photo avatar */}
                     <div
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center"
-                      style={{ background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.22)", backdropFilter: "blur(8px)" }}
+                      className="shrink-0 w-20 h-20 rounded-2xl overflow-hidden relative"
+                      style={{ border: "2px solid rgba(255,255,255,0.25)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}
                     >
-                      <span className="font-bold text-xl" style={{ color: "#FFFFFF", fontFamily: "var(--font-playfair)" }}>{founder.initials}</span>
+                      <Image
+                        src={founder.photo}
+                        alt={founder.name}
+                        fill
+                        className="object-cover object-top"
+                        sizes="80px"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      {/* Name + role flag */}
+                      <div className="flex flex-wrap items-center gap-2.5 mb-2.5">
+                        <h3 className="font-serif font-bold text-xl" style={{ color: "#F0F5FB" }}>{founder.name}</h3>
+                        <span
+                          className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shrink-0"
+                          style={{ background: "rgba(255,255,255,0.08)", border: `1px solid rgba(255,255,255,0.15)`, color: founder.accentColor }}
+                        >
+                          {founder.flag}
+                        </span>
+                      </div>
+                      {/* Pull quote */}
+                      <p className="text-sm italic leading-relaxed" style={{ color: "rgba(240,245,251,0.78)" }}>
+                        &ldquo;{founder.quote}&rdquo;
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 sm:p-8">
-                  <div className="mb-4">
-                    <h3 className="font-serif font-bold text-xl" style={{ color: "#0C1A2E" }}>{founder.name}</h3>
-                    <p className="text-sm font-semibold mt-0.5" style={{ color: "#2563EB" }}>{founder.role}</p>
+                {/* Body — two-column on desktop */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x" style={{ borderColor: "rgba(10,20,50,0.07)" }}>
+
+                  {/* Left: bio + credentials */}
+                  <div className="p-6 sm:p-8 flex flex-col gap-5">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] mb-2" style={{ color: "#1A56DB" }}>{founder.role}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: "#3D5472" }}>{founder.bio}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-3" style={{ color: "#8DAABF" }}>Background</p>
+                      <div className="flex flex-wrap gap-2">
+                        {founder.background.map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
+                            style={{ background: "rgba(26,86,219,0.06)", border: "1px solid rgba(26,86,219,0.13)", color: "#1A56DB" }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <a
+                      href={founder.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold w-fit"
+                      style={{ color: "#2563EB" }}
+                    >
+                      View LinkedIn profile <ArrowUpRight size={11} />
+                    </a>
                   </div>
-                  <p className="text-sm leading-relaxed mb-5" style={{ color: "#3D5472" }}>{founder.bio}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {founder.background.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
-                        style={{ background: "rgba(37,99,235,0.07)", border: "1px solid rgba(37,99,235,0.14)", color: "#2563EB" }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+
+                  {/* Right: what I bring */}
+                  <div className="p-6 sm:p-8">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-5" style={{ color: "#8DAABF" }}>What I bring</p>
+                    <div className="space-y-5">
+                      {founder.brings.map((item, bi) => (
+                        <div key={bi} className="flex gap-3.5">
+                          <div
+                            className="shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center"
+                            style={{ background: "rgba(26,86,219,0.07)", border: "1px solid rgba(26,86,219,0.16)" }}
+                          >
+                            <span className="text-[9px] font-extrabold" style={{ color: "#1A56DB" }}>{bi + 1}</span>
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold mb-1" style={{ color: "#0C1A2E" }}>{item.label}</p>
+                            <p className="text-xs leading-relaxed" style={{ color: "#5C7A96" }}>{item.detail}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>

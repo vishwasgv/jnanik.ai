@@ -9,7 +9,7 @@ import { dur, ease } from "@/lib/motionConfig";
 const HERO_IMAGE: string | null = "/images/hero-industry.png";
 
 const badges = [
-  { icon: ShieldCheck, text: "On-prem deployable" },
+  { icon: ShieldCheck, text: "Sovereign AI" },
   { icon: Factory,     text: "Manufacturing-first" },
   { icon: TrendingUp,  text: "60–80% cost saving" },
 ];

@@ -58,26 +58,6 @@ function DarkInput({
   );
 }
 
-function DarkSelect({ id, value, onChange, children }: { id: string; value: string; onChange: (v: string) => void; children: React.ReactNode }) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <select
-      id={id}
-      name={id}
-      required
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      className="w-full px-4 py-3 rounded-xl text-sm transition-all"
-      style={focused ? { ...inputFocused, color: value ? "#0F172A" : "#94A3B8" } : { ...inputBase, color: value ? "#0F172A" : "#94A3B8" }}
-      aria-required
-    >
-      {children}
-    </select>
-  );
-}
-
 function DarkTextarea({ id, value, onChange, placeholder }: { id: string; value: string; onChange: (v: string) => void; placeholder: string }) {
   const [focused, setFocused] = useState(false);
   return (
@@ -99,7 +79,7 @@ function DarkTextarea({ id, value, onChange, placeholder }: { id: string; value:
 }
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", company: "", message: "" });
   const [status, setStatus] = useState<FormStatus>("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -274,26 +254,9 @@ export default function ContactSection() {
                   <DarkInput id="name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Your name" required />
                 </div>
                 <div>
-                  <FieldLabel htmlFor="email">Work email *</FieldLabel>
-                  <DarkInput id="email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@company.com" required />
+                  <FieldLabel htmlFor="company">Company / Organisation</FieldLabel>
+                  <DarkInput id="company" value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company name" />
                 </div>
-              </div>
-              <div>
-                <FieldLabel htmlFor="company">Company / Organisation</FieldLabel>
-                <DarkInput id="company" value={form.company} onChange={(v) => setForm({ ...form, company: v })} placeholder="Company name" />
-              </div>
-              <div>
-                <FieldLabel htmlFor="subject">What can we help with? *</FieldLabel>
-                <DarkSelect id="subject" value={form.subject} onChange={(v) => setForm({ ...form, subject: v })}>
-                  <option value="" style={{ background: "var(--bg-alt)" }}>Select a service…</option>
-                  <option value="AI Knowledge Hub" style={{ background: "var(--bg-alt)" }}>AI Knowledge Hub</option>
-                  <option value="AI Strategy" style={{ background: "var(--bg-alt)" }}>AI Strategy &amp; Consulting</option>
-                  <option value="Agentic AI" style={{ background: "var(--bg-alt)" }}>Agentic AI</option>
-                  <option value="Small Language Models" style={{ background: "var(--bg-alt)" }}>Small Language Models</option>
-                  <option value="AI Chatbot" style={{ background: "var(--bg-alt)" }}>AI Chatbot</option>
-                  <option value="Custom AI" style={{ background: "var(--bg-alt)" }}>Custom AI Solution</option>
-                  <option value="Other" style={{ background: "var(--bg-alt)" }}>Something else</option>
-                </DarkSelect>
               </div>
               <div>
                 <FieldLabel htmlFor="message">Your message *</FieldLabel>

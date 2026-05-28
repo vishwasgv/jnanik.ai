@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "Small Language Models", "SLM", "On-Premise AI", "AI Consulting India",
     "Manufacturing AI", "Industrial AI", "AI Strategy Consulting",
     "Enterprise AI deployment Bengaluru", "Custom AI solutions",
-    "AI for BFSI", "AI for manufacturing", "production AI systems",
+    "AI for manufacturing", "production AI systems",
     "private AI deployment", "air-gapped AI", "enterprise chatbot",
   ],
   authors: [{ name: "Jnanik AI", url: BASE_URL }],
@@ -117,7 +117,7 @@ const jsonLd = [
       "On-Premise AI Deployment",
       "AI Strategy Consulting",
       "Manufacturing AI",
-      "BFSI AI",
+      "Sovereign AI",
     ],
     sameAs: [
       "https://www.linkedin.com/company/jnanikai",

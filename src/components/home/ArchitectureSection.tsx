@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Cloud, Server, Check, ArrowRight } from "lucide-react";
 import { vp, fadeUp, fadeUpBlur, fadeOnly, staggerGrid } from "@/lib/motionConfig";
 
@@ -38,6 +39,7 @@ const modes = [
     bg: "rgba(14,165,233,0.05)",
     bd: "rgba(14,165,233,0.15)",
     gradientBg: "linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 60%, #F0F9FF 100%)",
+    imageSrc: "/images/sovereign-ai.png",
     featured: true,
   },
 ];
@@ -59,18 +61,18 @@ export default function ArchitectureSection() {
           <div>
             <motion.div variants={fadeOnly} className="section-label mb-5 sm:mb-6 inline-flex">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              Deployment
+              Sovereign AI
             </motion.div>
             <motion.h2
               variants={fadeUpBlur}
               className="font-serif font-bold leading-tight max-w-xl"
               style={{ fontSize: "clamp(1.8rem,4vw,3.25rem)", color: "var(--text-1)" }}
             >
-              Works the way<br />your business works.
+              Your data. Your building.<br />Your rules.
             </motion.h2>
           </div>
           <motion.p variants={fadeUp} className="text-base sm:text-lg max-w-md" style={{ color: "var(--text-3)" }}>
-            Whether your data lives in the cloud or can never leave the building — we deploy around your constraints.
+            We come to where you are — cloud or on-premises — and deploy AI that your data never has to leave the building for.
           </motion.p>
         </motion.div>
 
@@ -95,25 +97,40 @@ export default function ArchitectureSection() {
                 <div className="absolute top-0 left-0 right-0 h-0.5" style={{ background: `linear-gradient(90deg, transparent, ${mode.accent}, transparent)` }} />
               )}
 
-              {/* Gradient header */}
-              <div className="p-7 pb-6" style={{ background: mode.gradientBg }}>
-                <div className="flex items-start justify-between mb-5">
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                    style={{ background: "rgba(255,255,255,0.85)", border: `1px solid ${mode.bd}`, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
-                  >
-                    <mode.icon size={22} style={{ color: mode.accent }} />
+              {/* Card header — image or gradient */}
+              {mode.imageSrc ? (
+                <div className="relative overflow-hidden" style={{ minHeight: "196px" }}>
+                  <Image src={mode.imageSrc} alt={mode.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(5,12,28,0.52) 0%, rgba(5,12,28,0.74) 100%)" }} />
+                  <div className="relative z-10 p-7 pb-6 h-full flex flex-col justify-between" style={{ minHeight: "196px" }}>
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(147,197,253,0.35)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}>
+                        <mode.icon size={22} style={{ color: "#93C5FD" }} />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(147,197,253,0.3)", color: "#93C5FD" }}>
+                        {mode.badge}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-xl mb-1.5" style={{ color: "#F0F5FB" }}>{mode.title}</h3>
+                      <p className="text-sm font-medium leading-snug" style={{ color: "#C5D4E6" }}>{mode.headline}</p>
+                    </div>
                   </div>
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
-                    style={{ background: "rgba(255,255,255,0.7)", border: `1px solid ${mode.bd}`, color: mode.accent }}
-                  >
-                    {mode.badge}
-                  </span>
                 </div>
-                <h3 className="font-bold text-xl mb-1.5" style={{ color: "#0C1A2E" }}>{mode.title}</h3>
-                <p className="text-sm font-medium leading-snug" style={{ color: "#2A3E58" }}>{mode.headline}</p>
-              </div>
+              ) : (
+                <div className="p-7 pb-6" style={{ background: mode.gradientBg }}>
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.85)", border: `1px solid ${mode.bd}`, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+                      <mode.icon size={22} style={{ color: mode.accent }} />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.7)", border: `1px solid ${mode.bd}`, color: mode.accent }}>
+                      {mode.badge}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-xl mb-1.5" style={{ color: "#0C1A2E" }}>{mode.title}</h3>
+                  <p className="text-sm font-medium leading-snug" style={{ color: "#2A3E58" }}>{mode.headline}</p>
+                </div>
+              )}
 
               {/* Body */}
               <div className="p-7 pt-5 flex-1 flex flex-col gap-5">
