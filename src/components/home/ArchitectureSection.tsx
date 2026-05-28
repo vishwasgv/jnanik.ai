@@ -22,6 +22,7 @@ const modes = [
     bg: "rgba(37,99,235,0.05)",
     bd: "rgba(37,99,235,0.15)",
     gradientBg: "linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 60%, #EEF4FF 100%)",
+    imageSrc: "/images/cloud-deployment.png",
   },
   {
     icon: Server,
