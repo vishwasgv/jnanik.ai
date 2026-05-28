@@ -102,7 +102,6 @@ export default function ArchitectureSection() {
               {mode.imageSrc ? (
                 <div className="relative overflow-hidden" style={{ minHeight: "196px" }}>
                   <Image src={mode.imageSrc} alt={mode.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(5,12,28,0.52) 0%, rgba(5,12,28,0.74) 100%)" }} />
                   <div className="relative z-10 p-7 pb-6 h-full flex flex-col justify-between" style={{ minHeight: "196px" }}>
                     <div className="flex items-start justify-between">
                       <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(147,197,253,0.35)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}>
