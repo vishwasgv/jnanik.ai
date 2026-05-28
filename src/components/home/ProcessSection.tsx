@@ -94,7 +94,9 @@ export default function ProcessSection() {
             <motion.div
               key={i}
               variants={fadeUp}
-              className="group relative p-7 sm:p-8 transition-colors duration-300 hover:bg-blue-50/60"
+              className="group relative p-7 sm:p-8 transition-all duration-300"
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = "rgba(239,246,255,0.7)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = "transparent"; }}
               style={{
                 borderRight: i < steps.length - 1 ? `1px solid var(--bd-light)` : "none",
                 borderBottom: `1px solid var(--bd-light)`,

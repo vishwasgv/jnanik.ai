@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Factory, TrendingUp, ShieldCheck } from "lucide-react";
+import { ArrowRight, Factory, TrendingUp, ShieldCheck, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { dur, ease } from "@/lib/motionConfig";
 
@@ -51,7 +51,7 @@ export default function HeroSection() {
       {/* Ambient glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 65%)", filter: "blur(60px)", transform: "translate(15%, -20%)" }} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-28 sm:py-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-28 sm:py-40 pb-40 sm:pb-52">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left: Text */}
@@ -107,9 +107,10 @@ export default function HeroSection() {
                 whileTap={{ scale: 0.97 }}
                 href="#contact"
                 className="btn-shimmer flex items-center gap-2.5 px-7 py-4 rounded-xl font-bold text-sm"
-                style={{ background: "linear-gradient(135deg, #2563EB, #4F46E5)", color: "#fff", boxShadow: "0 6px 24px rgba(37,99,235,0.3)" }}
+                style={{ background: "linear-gradient(135deg, #1A56DB, #4338CA)", color: "#fff", boxShadow: "0 6px 24px rgba(26,86,219,0.32)" }}
               >
                 Talk to Our Team
+                <ArrowRight size={15} />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.02 }}
@@ -149,6 +150,26 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.8 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 pointer-events-none"
+      >
+        <span
+          className="text-[10px] font-semibold uppercase tracking-[0.2em]"
+          style={{ color: "#8DAABF" }}
+        >
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 7, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={15} style={{ color: "#8DAABF" }} />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

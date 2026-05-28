@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SplashScreen from "@/components/SplashScreen";
+import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -152,6 +153,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
         <SplashScreen />
+        <BackToTop />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

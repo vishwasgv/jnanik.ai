@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -93,14 +93,14 @@ export default function Navbar() {
                   "relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
                   isActive(link.id) ? "font-semibold" : "hover:bg-slate-50"
                 )}
-                style={{ color: isActive(link.id) ? "#2563EB" : "#475569" }}
+                style={{ color: isActive(link.id) ? "#1A56DB" : "#5C7A96" }}
               >
                 {link.label}
                 {isActive(link.id) && (
                   <motion.span
                     layoutId="nav-pill"
                     className="absolute inset-0 rounded-lg"
-                    style={{ background: "rgba(37,99,235,0.07)", border: "1px solid rgba(37,99,235,0.18)" }}
+                    style={{ background: "rgba(26,86,219,0.07)", border: "1px solid rgba(26,86,219,0.18)" }}
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -108,15 +108,19 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop — subtle contact link instead of prominent button */}
+          {/* Desktop CTA */}
           <div className="hidden md:flex items-center">
-            <a
+            <motion.a
               href={href("contact")}
-              className="text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
-              style={{ color: "#2563EB" }}
+              whileHover={{ scale: 1.04, boxShadow: "0 8px 28px rgba(26,86,219,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              className="btn-shimmer flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl"
+              style={{ background: "linear-gradient(135deg, #1A56DB, #4338CA)", color: "#fff", boxShadow: "0 2px 12px rgba(26,86,219,0.24)" }}
             >
-              Get in Touch →
-            </a>
+              Get in Touch
+              <ArrowRight size={13} />
+            </motion.a>
           </div>
 
           {/* Mobile hamburger */}
@@ -158,13 +162,30 @@ export default function Navbar() {
                     transition={{ delay: 0.04 + idx * 0.045, duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
                     className="px-4 py-3.5 rounded-xl text-sm font-medium transition-colors"
                     style={{
-                      color: isActive(link.id) ? "#2563EB" : "#475569",
-                      background: isActive(link.id) ? "rgba(37,99,235,0.06)" : "transparent",
+                      color: isActive(link.id) ? "#1A56DB" : "#5C7A96",
+                      background: isActive(link.id) ? "rgba(26,86,219,0.06)" : "transparent",
                     }}
                   >
                     {link.label}
                   </motion.a>
                 ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.28, duration: 0.22 }}
+                  className="pt-3 mt-1 border-t"
+                  style={{ borderColor: "rgba(10,20,50,0.08)" }}
+                >
+                  <a
+                    href={href("contact")}
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm"
+                    style={{ background: "linear-gradient(135deg, #1A56DB, #4338CA)", color: "#fff" }}
+                  >
+                    Get in Touch
+                    <ArrowRight size={14} />
+                  </a>
+                </motion.div>
               </div>
             </motion.div>
           </>

@@ -76,11 +76,13 @@ body {
   transition: border-color 0.35s, box-shadow 0.35s, transform 0.3s;
 }
 .card-base:hover {
-  border-color: rgba(26,86,219,0.18);
+  border-color: rgba(26,86,219,0.22);
   box-shadow:
     0 1px 2px  rgba(0,0,0,0.03),
-    0 8px 24px rgba(26,86,219,0.08),
-    0 24px 48px rgba(0,0,0,0.05);
+    0 8px 28px rgba(26,86,219,0.11),
+    0 24px 52px rgba(0,0,0,0.06),
+    0 0 0 1px rgba(26,86,219,0.06);
+  transform: translateY(-2px);
 }
 
 .card-glow {
@@ -208,16 +210,20 @@ body {
 
 /* ── Accent headline gradients ───────────────────────────── */
 .shimmer-text {
-  background: linear-gradient(135deg, #2563EB 0%, #4F46E5 50%, #0EA5E9 100%);
+  background: linear-gradient(135deg, #1A56DB 0%, #6366F1 45%, #0EA5E9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer-pan 4s linear infinite;
 }
 .shimmer-text-dark {
-  background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 50%, #6366F1 100%);
+  background: linear-gradient(135deg, #1A56DB 0%, #4F46E5 50%, #0EA5E9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer-pan 4s linear infinite;
 }
 /* For use inside dark-bg sections */
 .shimmer-text-on-dark {
@@ -235,13 +241,13 @@ body {
 .btn-shimmer::after {
   content: '';
   position: absolute;
-  top: -50%; left: -75%;
-  width: 50%; height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
-  transform: skewX(-20deg);
-  transition: left 0.6s ease;
+  top: -50%; left: -80%;
+  width: 45%; height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.btn-shimmer:hover::after { left: 125%; }
+.btn-shimmer:hover::after { left: 130%; }
 
 /* ── Animation keyframes ─────────────────────────────────── */
 @keyframes orb-drift-a {
@@ -296,6 +302,11 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes shimmer-pan {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
 .animate-orb-a        { animation: orb-drift-a 20s ease-in-out infinite; }
 .animate-orb-b        { animation: orb-drift-b 26s ease-in-out infinite; }
 .animate-orb-c        { animation: orb-drift-c 32s ease-in-out infinite; }
@@ -324,17 +335,18 @@ body {
   .shimmer-text, .shimmer-text-dark, .shimmer-text-on-dark {
     background: none !important;
     -webkit-text-fill-color: currentColor !important;
+    animation: none !important;
   }
-  .shimmer-text       { color: #2563EB !important; }
-  .shimmer-text-dark  { color: #2563EB !important; }
+  .shimmer-text       { color: #1A56DB !important; }
+  .shimmer-text-dark  { color: #1A56DB !important; }
   .shimmer-text-on-dark { color: #93C5FD !important; }
 }
 
 /* ── Scrollbar ─────────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #F8FAFD; }
-::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.3); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(37,99,235,0.5); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-warm); }
+::-webkit-scrollbar-thumb { background: rgba(26,86,219,0.28); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(26,86,219,0.5); }
 
 /* ── Scroll margin for fixed nav ─────────────────────── */
 [data-section] { scroll-margin-top: 96px; }

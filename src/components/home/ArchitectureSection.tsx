@@ -111,17 +111,17 @@ export default function ArchitectureSection() {
                     {mode.badge}
                   </span>
                 </div>
-                <h3 className="font-bold text-xl mb-1.5" style={{ color: "#0F172A" }}>{mode.title}</h3>
-                <p className="text-sm font-medium leading-snug" style={{ color: "#334155" }}>{mode.headline}</p>
+                <h3 className="font-bold text-xl mb-1.5" style={{ color: "#0C1A2E" }}>{mode.title}</h3>
+                <p className="text-sm font-medium leading-snug" style={{ color: "#2A3E58" }}>{mode.headline}</p>
               </div>
 
               {/* Body */}
               <div className="p-7 pt-5 flex-1 flex flex-col gap-5">
-                <p className="text-sm leading-relaxed" style={{ color: "#475569" }}>{mode.story}</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#5C7A96" }}>{mode.story}</p>
 
                 <ul className="space-y-3">
                   {mode.benefits.map((b, bi) => (
-                    <li key={bi} className="flex items-center gap-3 text-sm" style={{ color: "#334155" }}>
+                    <li key={bi} className="flex items-center gap-3 text-sm" style={{ color: "#2A3E58" }}>
                       <div
                         className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
                         style={{ background: mode.bg, border: `1px solid ${mode.bd}` }}
@@ -146,7 +146,7 @@ export default function ArchitectureSection() {
           className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 rounded-2xl"
           style={{ background: "var(--bg-cool)", border: "1px solid rgba(10,20,50,0.07)" }}
         >
-          <p className="text-sm text-center sm:text-left" style={{ color: "#64748B" }}>
+          <p className="text-sm text-center sm:text-left" style={{ color: "var(--text-3)" }}>
             Not sure which is right for you? We help you choose based on your data, compliance, and team constraints — in the first conversation.
           </p>
           <a
