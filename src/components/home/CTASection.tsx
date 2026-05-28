@@ -69,7 +69,7 @@ export default function CTASection() {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                href="#contact"
+                href="/contact"
                 className="flex items-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl font-bold text-sm group transition-colors"
                 style={{ background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.12)", color: "#E2E8F0" }}
               >

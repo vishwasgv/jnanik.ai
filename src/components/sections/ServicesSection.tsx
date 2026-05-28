@@ -179,7 +179,7 @@ export default function ServicesSection() {
 
                     <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: "rgba(15,23,42,0.06)" }}>
                       <p className="text-sm font-semibold" style={{ color: "#0C1A2E" }}>{svc.outcome}</p>
-                      <a href="#contact" className="flex items-center gap-1.5 text-sm font-semibold group/link shrink-0 ml-4" style={{ color: svc.accent }}>
+                      <a href="/contact" className="flex items-center gap-1.5 text-sm font-semibold group/link shrink-0 ml-4" style={{ color: svc.accent }}>
                         Learn more <ArrowRight size={13} className="group-hover/link:translate-x-0.5 transition-transform" />
                       </a>
                     </div>

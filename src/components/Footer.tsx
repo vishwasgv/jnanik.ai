@@ -65,7 +65,7 @@ export default function Footer() {
         >
           {/* Brand */}
           <motion.div variants={colVariants} className="col-span-2 sm:col-span-1 lg:col-span-1">
-            <a href="#home" className="flex items-center gap-2 mb-5">
+            <a href="/" className="flex items-center gap-2 mb-5">
               <Image src="/logo.avif" alt="Jnanik AI" width={100} height={67} className="object-contain" />
             </a>
             <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: "#8DAABF" }}>

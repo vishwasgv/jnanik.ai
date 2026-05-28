@@ -105,7 +105,7 @@ export default function HeroSection() {
               <motion.a
                 whileHover={{ scale: 1.03, boxShadow: "0 12px 36px rgba(37,99,235,0.4)" }}
                 whileTap={{ scale: 0.97 }}
-                href="#contact"
+                href="/contact"
                 className="btn-shimmer flex items-center gap-2.5 px-7 py-4 rounded-xl font-bold text-sm"
                 style={{ background: "linear-gradient(135deg, #1A56DB, #4338CA)", color: "#fff", boxShadow: "0 6px 24px rgba(26,86,219,0.32)" }}
               >
@@ -115,7 +115,7 @@ export default function HeroSection() {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                href="#services"
+                href="/services"
                 className="flex items-center gap-2 px-7 py-4 rounded-xl font-bold text-sm group"
                 style={{ background: "transparent", border: "1.5px solid rgba(15,23,42,0.12)", color: "#0F172A" }}
               >

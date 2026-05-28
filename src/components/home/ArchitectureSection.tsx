@@ -167,7 +167,7 @@ export default function ArchitectureSection() {
             Not sure which is right for you? We help you choose based on your data, compliance, and team constraints — in the first conversation.
           </p>
           <a
-            href="#contact"
+            href="/contact"
             className="shrink-0 flex items-center gap-1.5 text-sm font-semibold group"
             style={{ color: "#2563EB" }}
           >
